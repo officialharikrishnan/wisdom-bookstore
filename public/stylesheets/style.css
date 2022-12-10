@@ -1,0 +1,57 @@
+body{
+  margin: 0;
+}
+.header-login{
+  width: 100%;
+  height: 100px;
+  background-color: black;
+  padding-top: 2%;
+  
+  
+}
+.header-login h1{
+  color: #fff;
+}
+.header-login h4{ 
+  color: #fff;
+}
+.header-login p{
+  color: white;
+  margin-left: 5%;
+}
+
+.login_wrapper{
+  margin-top: 100px;
+}
+.reg{
+  text-align: right;
+}
+.error{
+  color: red;
+}
+.page-align{
+  position: relative;
+  margin-left: 25%;
+  margin-top: 10%;
+}
+.book-image{
+  width: 100px;
+  height: auto;
+}
+#get-book:hover{
+  cursor: pointer;
+}
+.nav-category{
+  margin-left: 10%;
+}
+.card-body img{
+  width: 200px;
+}
+.btns{
+  float: right;
+}
+.return-add-category{
+  text-decoration: none;
+  color: rgb(115, 115, 115);
+  font-size: smaller;
+}

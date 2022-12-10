@@ -1,0 +1,47 @@
+<div class="header-login">
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-6 ">
+                <a href="/"><h1>WISDOM <br> <p>Admin</p></h1></a>
+
+            </div>
+            <div class="reg col-md-6">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+
+
+        <div class="col-xl-6 col-md-12 col-12 offset-xl-3">
+            <h3 class="title-7">Login</h3>
+            <div class="login_wrapper">
+            <span class="error">{{error}}</span>
+
+                <form action="/admin/admin-login-submit" method="post">
+                    <div class="input_wrap">
+                        <label>Email address<span>*</span></label>
+                        <input type="email" name="email">
+                    </div>
+                    <div class="input_wrap">
+                        <label>Password<span>*</span></label>
+                        <input type="password" name="password">
+                        <span class="show-pass"><i class="far fa-eye-slash"></i></span>
+                    </div>
+                    <div class="input_wrapp-2">
+                        <input type="checkbox" name="check">
+                        <span>Remember me </span>
+                    </div>
+                    <div class="input_wrap">
+                        <button type="submit">log in</button>
+                    </div>
+                    <div class="input_wrap">
+                        <a href="#">Lost your password?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

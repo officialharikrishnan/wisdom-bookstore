@@ -1,0 +1,41 @@
+<div class="header-login">
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-6 ">
+                <a href="/"><h1>WISDOM</h1></a>
+            </div>
+            <div class="reg col-md-6">
+
+                <a href="/login">
+                    <h4>Login</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="container">
+    <div class="row">
+
+
+        <div class="col-xl-6 col-md-12 col-12 offset-xl-3">
+            <h3 class=".text-secondary title-7 ">Login with Number</h3>
+            <div class="login_wrapper">
+            <span class="error">{{error}}</span>
+
+                <form action="/number-submit" method="post">
+                    <div class="input_wrap">
+                        <label>Enter Number</label>
+                        <input type="tel" name="number">
+                    </div>
+  
+                    <div class="input_wrap">
+                        <button type="submit">Sent otp</button>
+                    </div>
+
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

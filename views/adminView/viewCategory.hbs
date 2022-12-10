@@ -1,0 +1,40 @@
+<div class="page-align">
+    <form action="/admin/{{btnstatus.route}}" method="post">
+        <div class="row mb-3">
+            <label for="inputEmail" class="col-sm-2 col-form-label">{{btnstatus.text}}</label>
+            <div class="col-sm-5">
+                <input type="text" name="name" class="form-control">
+
+            </div>
+            <div class="col-sm-5">
+                <button class="btn btn-secondary" type="submit">{{btnstatus.btn}}</button><br>
+                {{#if btnstatus.link}}
+                <a class="return-add-category" href="/admin/category">Return to add form</a>
+                {{/if}}
+
+            </div>
+        </div>
+        <p class="error">{{error}}</p>
+    </form>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th scope="col">Categories</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each categorydata}}
+            <tr>
+                <td>{{this.name}}</td> 
+                <td>
+                    <a href="/admin/edit-category/{{this._id}}"><button class="btn btn-secondary">Edit</button></a>
+                    <a href="/admin/delete-category/{{this._id}}"><button class="btn btn-secondary" onclick="return confirm(`Are you sure want to delete {{this.name}} 
+                    if you delete this category, all the books related to this will be deleted` )">Remove</button></a>
+                </td>
+            </tr>
+            {{/each}}
+
+        </tbody>
+    </table>
+</div>

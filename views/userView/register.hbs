@@ -1,0 +1,124 @@
+<div class="header-login">
+    <div class="container">
+        <div class="row">
+            <div class=" col-md-6 ">
+                <a href="/"><h1>WISDOM</h1></a>
+            </div>
+            <div class="reg col-md-6">
+
+                <a href="/login">
+                    <h4>Login</h4>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="row">
+
+
+        <div class="col-xl-6 col-md-12 col-12 offset-xl-3">
+            <h3 class="title-7">Register</h3>
+            <div class="login_wrapper login_wrapper_2">
+                <span class="error">{{error}}</span>
+                <form action="/signup-submit" method="post">
+                    <div class="input_wrap">
+                        <label>Username<span>*</span></label>
+                        <input type="text" id="contact-name" name="username" oninput="validateName()">
+                        <span class="error" id="name-error"></span>
+                    </div>
+                    <div class="input_wrap">
+                        <label>Email<span>*</span></label>
+                        <input type="email" id="contact-email" name="email" oninput="validateEmail()">
+                        <span id="email-error" class="error"></span>
+                    </div>
+                    <div class="input_wrap">
+                        <label>Phone number<span>*</span></label>
+                        <input type="tel" name="phone" id="contact-phone" oninput="validatePhone()">
+                        <span id="phone-error" class="error"></span>
+                    </div>
+                    <div class="input_wrap">
+                        <label>Password<span>*</span></label>
+                        <input type="password" name="password" id="password-1">
+                        {{!-- <span class="show-pass"><i class="far fa-eye-slash"></i></span> --}}
+                    </div>
+                    <div class="input_wrap">
+                        <label>Confirm Password<span>*</span></label>
+                        <input type="password" id="password-2" oninput="passwordConfirmation()">
+                        <span id="password-error" class="error"></span>
+                        {{!-- <span class="show-pass"><i class="far fa-eye-slash"></i></span> --}}
+                    </div>
+
+                    <div class="input_wrap">
+                        <button type="submit" onclick="validateForm()">Register</button>
+                    </div>
+                    <div class="input_wrap">
+                        <a href="#">Lost your password?</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+
+var nameError = document.getElementById('name-error');
+var emailError = document.getElementById('email-error');
+var phoneError = document.getElementById('phone-error');
+var passwordError = document.getElementById('password-error');
+var submitError = document.getElementById('submit-error');
+
+const validateName=()=>{
+    var name=document.getElementById('contact-name').value;
+    if(name.length == 0){
+        nameError.innerHTML='write name';
+        return false
+    }
+    if(!name.match(/^[A-Za-z]/)){
+        nameError.innerHTML='entername';
+        return false
+    }
+    nameError.innerHTML=''
+    return true
+}
+const validateEmail = () => {
+    
+    var email=document.getElementById('contact-email').value;
+    if(email.length == 0){
+        emailError.innerHTML='Email is rquired'
+        return false
+    }
+    if(!email.match(/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)+$/)){
+        emailError.innerHTML='enter valied email address'
+        return false
+    }
+    emailError.innerHTML=''
+    return true
+
+}
+const validatePhone = () => {
+    
+    var phone=document.getElementById('contact-phone').value
+    if(phone.length == 0){
+        phoneError.innerHTML='Phone number is required'
+        return false
+    }
+    if(!phone.match(/^\d{10}$/)){
+        phoneError.innerHTML='Enter valied Phone number'
+        return false
+    }
+    phoneError.innerHTML=''
+    return true
+}
+const passwordConfirmation = () => {
+    var password1=document.getElementById('password-1').value
+    var password2=document.getElementById('password-2').value
+    if(password1 != password2){
+        passwordError.innerHTML='Passwords do not match'
+        return false
+    }
+    passwordError.innerHTML=''
+}
+
+</script>

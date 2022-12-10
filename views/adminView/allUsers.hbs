@@ -1,0 +1,51 @@
+<section class="page-align">
+    <h1>All Users</h1>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Username</th>
+                <th scope="col">Email</th>
+                <th scope="col">Phone</th>
+                <th scope="col">Join Date</th>
+                <th scope="col">Status</th>
+                <th scope="col">Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each users}}
+            <tr>
+                <th scope="row">1</th>
+                <td>{{this.username}}</td>
+                <td>{{this.email}}</td>
+                <td>{{this.phone}}</td>
+                <td>{{this.createdAt}}</td>
+
+                <td>
+                    {{#if this.isBlocked}}
+                    Blocked
+                    {{else}}
+                    Active
+                    {{/if}}
+
+                </td>
+                <td>
+                    <a href="">
+                        <form action="/admin/blockmanager/{{this.isBlocked}}" method="post">
+                            <input type="text" name="id" value="{{this._id}}" hidden>
+                            <button type="submit" class="btn btn-secondary">
+                                {{#if this.isBlocked}}
+                                Unblock
+                                {{else}}
+                                Block
+                                {{/if}}
+                        </form>
+
+                        </button>
+                    </a>
+                </td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+</section>
