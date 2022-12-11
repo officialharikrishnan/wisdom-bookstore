@@ -65,3 +65,9 @@ body{
 #cart{
   z-index: -1;
 }
+.middle-title{
+  color: white;
+  max-width: 750px;
+  margin-left: 19%;
+  margin-top: 15%;
+}

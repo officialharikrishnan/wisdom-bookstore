@@ -68,13 +68,22 @@ module.exports = {
     },
     getAllBooks:()=>{
         return new Promise(async(resolve,reject)=>{
-            var books = await db.get().collection(collections.PRODUCT_COLLECTION).find().toArray()
+            var all = await db.get().collection(collections.PRODUCT_COLLECTION).find().toArray()
+            var history = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'history'}).toArray()
+            var romance = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'romance'}).toArray()
+            var fantasy = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'fantasy'}).toArray()
+            var kids = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'kids'}).toArray()
             var banner = await db.get().collection(collections.BANNER_COLLECTION).find().toArray()
-            if(books.length !=0 && banner.length != 0){
+            console.log(banner);
+            if(all.length != 0 && banner.length != 0){
                 let data={
-                    books:books,
+                    all:all,
+                    history:history,
+                    romance:romance,
+                    fantasy:fantasy,
+                    kids:kids,
                     banner:banner[0]
-                }
+                } 
                 resolve(data)
             }else{
                 reject()

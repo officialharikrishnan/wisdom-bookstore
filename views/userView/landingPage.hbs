@@ -20,7 +20,7 @@
                 <div class="row align-items-center pb-10">
                     <div class="col-xl-1 col-lg-2 col-md-2 col-sm-6">
                         <div class="logo_3">
-                            <a href="index.html">
+                            <a href="/home">
                                 <h1>WISDOM</h1>
                             </a>
                         </div>
@@ -41,12 +41,11 @@
                     <div class="col-xl-4 col-lg-6 col-md-8 col-sm-6 d-flex justify-content-center">
                         <div class="gota_top pl-40 gota_top_bg">
                             <div class="gota_lang gota_lang_3 d-flex align-items-center justify-content-end">
-                                <ul class="d-none d-lg-block">
-
-
-                                </ul>
-                                <div class="gota_cart gota_cart_3 gota_cart_4">
-                                    <a href="/login"><i class="fa fa-user"></i>Login</a>
+                                <div class="dropdown">
+                                   <a href="/login"><button class="btn btn-secondary" >
+                                        Login
+                                    </button>
+                                    </a> 
                                 </div>
                             </div>
                         </div>
@@ -59,17 +58,22 @@
                 </div>
                 <div class="c-border">
                     <div class="row align-items-center">
+
                         <div class="nav-category col-xl-8 col-lg-8 col-md-4 col-sm-4">
                             <div class="main-menu main-menu-3">
                                 <nav id="mobile-menu">
                                     <ul>
                                         <li class=""><a href="index.html">New books </a>
+
                                         </li>
                                         <li class="position-static"><a href="shop.html">Special offers</a>
+
                                         </li>
                                         <li class="position-static"><a href="about.html">Top selling</a>
+
                                         </li>
                                         <li class=""><a href="blog.html">Kids</a>
+
                                         <li class=""><a href="about.html">Top 10</a>
                                         </li>
                                     </ul>
@@ -99,6 +103,7 @@
                     <p>+0989 7876 9865 9</p>
                     <p>+(090) 8765 86543 85</p>
                 </div>
+
             </div>
         </div>
     </div>
@@ -110,14 +115,11 @@
     <div class="container">
         <div class="row">
             <div class="col-xl-12 col-lg-12 colmd-12">
-                <!-- <div class="slider-text">
-                            <h2>faster <br> stronger</h2>
-                        </div> -->
+
             </div>
         </div>
     </div>
 </div>
-<!-- slider area end -->
 <!-- slider area end -->
 <div class="box-layout" data-background="assets/img/slider/body-bg-home4.jpg">
     <div class="container">
@@ -135,7 +137,7 @@
 
                             </div>
                         </div>
-                        
+
                         <div class="col-xl-6 col-lg-6 col-md-4 col-sm-12 d-md-none d-lg-block">
                             <div class="fetures_3">
                                 <img src="/banners/{{data.banner.middle}}.jpg" alt="">
@@ -150,7 +152,7 @@
                     </div>
                 </div>
             </div>
-            
+
             <!-- fetures-3 area end -->
 
             <!-- categories area start -->
@@ -159,8 +161,7 @@
                     <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
                         <div class="section-wrapper text-center mb-35 d-none d-sm-block">
                             <h2 class="section-title">Explore Our Bestsellers</h2>
-                            <p>Commodo sociosqu venenatis cras dolor sagittis integer luctus sem primis<br> eget
-                                maecenas sed urna malesuada.</p>
+                           
                         </div>
                     </div>
                     <div class="row">
@@ -174,17 +175,17 @@
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="profile-tab" data-bs-toggle="tab"
-                                            data-bs-target="#profile" type="button" role="tab" aria-controls="profile"
+                                            data-bs-target="#history" type="button" role="tab" aria-controls="profile"
                                             aria-selected="false">History</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="contact-tab" data-bs-toggle="tab"
-                                            data-bs-target="#contact" type="button" role="tab" aria-controls="contact"
-                                            aria-selected="false">Kids</button>
+                                            data-bs-target="#romance" type="button" role="tab" aria-controls="contact"
+                                            aria-selected="false">Romance</button>
                                     </li>
                                     <li class="nav-item" role="presentation">
                                         <button class="nav-link" id="contact2-tab" data-bs-toggle="tab"
-                                            data-bs-target="#contact2" type="button" role="tab" aria-controls="contact2"
+                                            data-bs-target="#fantasy" type="button" role="tab" aria-controls="contact2"
                                             aria-selected="false">Fantasy</button>
                                     </li>
                                 </ul>
@@ -194,16 +195,18 @@
                                         <div class="container">
                                             <div class="product-active swiper-container">
                                                 <div class="swiper-wrapper">
-                                                    {{#each data.books}}
+                                                    {{#each data.all}}
                                                     <div class="product-item swiper-slide wow fadeInUp"
                                                         data-wow-duration="1s" data-wow-delay="0.2s">
                                                         <div class="product product-4">
                                                             <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary" src="/book-image/{{this._id}}.jpg"
+                                                                <a href="/view-product/{{this._id}}">
+                                                                    <img class="product-primary"
+                                                                        src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                     <img class="product-secondary"
-                                                                        src="/book-image/{{this._id}}.jpg" alt="product_image">
+                                                                        src="/book-image/{{this._id}}.jpg"
+                                                                        alt="product_image">
                                                                 </a>
                                                                 <div class="product__update">
                                                                     <a class="#">new</a>
@@ -246,34 +249,32 @@
                                                             </div>
                                                         </div>
                                                     </div>
-
                                                     {{/each}}
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="profile" role="tabpanel"
+                                    <div class="tab-pane fade" id="history" role="tabpanel"
                                         aria-labelledby="profile-tab">
                                         <div class="container">
                                             <div class="product-active swiper-container">
                                                 <div class="swiper-wrapper">
+                                                    {{#each data.history}}
                                                     <div class="product-item swiper-slide">
                                                         <div class="product">
                                                             <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary" src="/images/war.jpg"
+                                                                <a href="/view-product/{{this._id}}">
+                                                                    <img class="product-primary" src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                     <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
+                                                                        src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                 </a>
                                                                 <div class="product__update">
                                                                     <a class="#">new</a>
                                                                 </div>
                                                                 <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
+                                                                
                                                                     <div class="product_rating">
                                                                         <a href="#"><i
                                                                                 class="fal fa-star start-color"></i></a>
@@ -286,11 +287,10 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="product__name">
-                                                                    <h4><a href="shop.html">Men's casual Official</a>
+                                                                    <h4><a href="shop.html">{{this.bookname}}</a>
                                                                     </h4>
                                                                     <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
+                                                                        <p class="p-absoulute pr-1">₹{{this.price}}</p>
                                                                         <a class="p-absoulute pr-2" href="#">add to
                                                                             cart</a>
                                                                     </div>
@@ -313,315 +313,35 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary" src="/images/war.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <!-- <div class="product__update">
-                                                                <a class="#">new</a>
-                                                            </div> -->
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Men's Shoes</a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary" src="/images/war.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Gent's Casual Luxury
-                                                                            shoe</a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/cat1.png"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <!-- <div class="product__update">
-                                                                <a class="#">new</a>
-                                                            </div> -->
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Loafer shoes</a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/cat1.png"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Gent's Casual Luxury</a>
-                                                                    </h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/cat1.png"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Loafer shoes for men</a>
-                                                                    </h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
+                                                    {{/each}}
+                                                    
 
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="contact" role="tabpanel"
+                                    <div class="tab-pane fade" id="romance" role="tabpanel"
                                         aria-labelledby="contact-tab">
                                         <div class="container">
                                             <div class="product-active swiper-container">
                                                 <div class="swiper-wrapper">
+                                                    {{#each data.romance}}
                                                     <div class="product-item swiper-slide">
                                                         <div class="product product-4">
                                                             <div class="product__thumb">
-                                                                <a href="single.html">
+                                                                <a href="/view-product/{{this._id}}">
                                                                     <img class="product-primary"
-                                                                        src="assets/img/product/9.jpg"
+                                                                        src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                     <img class="product-secondary"
-                                                                        src="assets/img/product/9-2.jpg"
+                                                                        src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                 </a>
                                                                 <div class="product__update">
                                                                     <a class="#">new</a>
                                                                 </div>
                                                                 <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
+                                                                  
                                                                     <div class="product_rating">
                                                                         <a href="#"><i
                                                                                 class="fal fa-star start-color"></i></a>
@@ -634,11 +354,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="product__name">
-                                                                    <h4><a href="shop.html">Chirbena Men's Formal
-                                                                            Shoe</a></h4>
+                                                                    <h4><a href="shop.html">{{this.bookname}}</a></h4>
                                                                     <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
+                                                                        <p class="p-absoulute pr-1">{{this.price}}</p>
                                                                         <a class="p-absoulute pr-2" href="#">add to
                                                                             cart</a>
                                                                     </div>
@@ -662,317 +380,34 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/3.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/3-2.jpg"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <!-- <div class="product__update">
-                                                                <a class="#">new</a>
-                                                            </div> -->
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Casual Loafer Shoes</a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/11.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/11-2.jpg"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Men Fomal Loafer shoes </a>
-                                                                    </h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/4.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/10-2.jpg"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <!-- <div class="product__update">
-                                                                <a class="#">new</a>
-                                                            </div> -->
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Apex Leather Flat Shoe</a>
-                                                                    </h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/cat1.png"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Fashionable Sneaker</a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/cat1.png"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">APEX Chirbena Men's Lace</a>
-                                                                    </h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
+                                                    {{/each}}
+                                                   
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="tab-pane fade" id="contact2" role="tabpanel"
+                                    <div class="tab-pane fade" id="fantasy" role="tabpanel"
                                         aria-labelledby="contact2-tab">
                                         <div class="container">
                                             <div class="product-active swiper-container">
                                                 <div class="swiper-wrapper">
+                                                    {{#each data.fantasy}}
                                                     <div class="product-item swiper-slide">
                                                         <div class="product product-4">
                                                             <div class="product__thumb">
-                                                                <a href="single.html">
+                                                                <a href="/view-product/{{this._id}}">
                                                                     <img class="product-primary"
-                                                                        src="assets/img/product/9.jpg"
+                                                                        src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                     <img class="product-secondary"
-                                                                        src="assets/img/product/9-2.jpg"
+                                                                        src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                 </a>
                                                                 <div class="product__update">
                                                                     <a class="#">new</a>
                                                                 </div>
                                                                 <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
+                                                                    
                                                                     <div class="product_rating">
                                                                         <a href="#"><i
                                                                                 class="fal fa-star start-color"></i></a>
@@ -985,10 +420,9 @@
                                                                     </div>
                                                                 </div>
                                                                 <div class="product__name">
-                                                                    <h4><a href="shop.html">Brown Leather Shoe</a></h4>
+                                                                    <h4><a href="shop.html">{{this.bookname}}</a></h4>
                                                                     <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
+                                                                        <p class="p-absoulute pr-1">{{this.price}}</p>
                                                                         <a class="p-absoulute pr-2" href="#">add to
                                                                             cart</a>
                                                                     </div>
@@ -1012,291 +446,8 @@
                                                             </div>
                                                         </div>
                                                     </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/3.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/3-2.jpg"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <!-- <div class="product__update">
-                                                                <a class="#">new</a>
-                                                            </div> -->
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">VENTURINI Slip On Formal
-                                                                        </a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/11.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/11-2.jpg"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Shoes For Men Premium</a>
-                                                                    </h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/4.jpg"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/10-2.jpg"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <!-- <div class="product__update">
-                                                                <a class="#">new</a>
-                                                            </div> -->
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Leather Shoe Premium High
-                                                                        </a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/cat1.png"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Shoes for Men</a></h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="product-item swiper-slide">
-                                                        <div class="product">
-                                                            <div class="product__thumb">
-                                                                <a href="single.html">
-                                                                    <img class="product-primary"
-                                                                        src="assets/img/product/cat1.png"
-                                                                        alt="product_image">
-                                                                    <img class="product-secondary"
-                                                                        src="assets/img/product/cat2.png"
-                                                                        alt="product_image">
-                                                                </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
-                                                                </div>
-                                                                <div class="product-info mb-10">
-                                                                    <div class="product_category">
-                                                                        <span>Shoes, Clothing</span>
-                                                                    </div>
-                                                                    <div class="product_rating">
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i
-                                                                                class="fal fa-star start-color"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                        <a href="#"><i class="fal fa-star"></i></a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__name">
-                                                                    <h4><a href="shop.html">Leather Party Formal </a>
-                                                                    </h4>
-                                                                    <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1"><span>$</span>680.00
-                                                                            - <span>$</span>680.00</p>
-                                                                        <a class="p-absoulute pr-2" href="#">add to
-                                                                            cart</a>
-                                                                    </div>
-                                                                </div>
-                                                                <div class="product__action">
-                                                                    <div class="inner__action">
-                                                                        <div class="wishlist">
-                                                                            <a href="#"><i class="fal fa-heart"></i></a>
-                                                                        </div>
-                                                                        <div class="view">
-                                                                            <a href="javascript:void(0)"><i
-                                                                                    class="fal fa-eye"></i></a>
-                                                                        </div>
-                                                                        <div class="layer">
-                                                                            <a href="#"><i
-                                                                                    class="fal fa-layer-group"></i></a>
-                                                                        </div>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-
+                                                    {{/each}}
+                                                    
                                                 </div>
                                             </div>
                                         </div>
@@ -1311,3 +462,84 @@
         </div>
     </div>
 </div>
+
+      <!-- categories area start -->
+        <div class="categories_area_4 pt-90 mb-150 pb-150 d-none d-sm-block" data-background="../images/book-wallpaper-hd-wallpapers.jpg">
+            <h3 class="middle-title">“Books Are My Favourite Friends, And I Consider My Home Library, With Many Thousand Books, To Be My Greatest Wealth.” <br> -APJ</h3>
+        </div>
+        <!-- categories area end -->
+                <div class="box-layout box-layout-2 pb-100" >
+        <div class="container">
+        <div class="background-white mt-top">
+
+            <div class="categories_area pt-50 mb-75">
+            <div class="container-fluid">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="section-wrapper text-center mb-35">
+                            <h2 class="section-title">Explore Our Kids Collection</h2>
+                           
+                        </div>
+                    </div>
+                <div class="row">
+                    <div class="col-xl-12 col-lg-12 col-md-12 col-sm-12">
+                        <div class="categories__tab">
+                            <div class="tab-content" id="myTabContent11">
+                                <div class="tab-pane fade show active" id="home12" role="tabpanel" aria-labelledby="home-tab">
+                                    <div class="container">
+                                        <div class="product-active swiper-container">
+                                            <div class="swiper-wrapper">
+                                                {{#each data.kids}}
+                                                <div class="product-item swiper-slide wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s">
+                                                    <div class="product">
+                                                        <div class="product__thumb">
+                                                            <a href="/view-product/{{this._id}}">
+                                                                <img class="product-primary" src="/book-image/{{this._id}}.jpg" alt="product_image">
+                                                                <img class="product-secondary" src="/book-image/{{this._id}}.jpg" alt="product_image">
+                                                            </a>
+                                                            <div class="product-info mb-10">
+                                                                <div class="product_rating">
+                                                                    <a href="#"><i class="fal fa-star start-color"></i></a>
+                                                                    <a href="#"><i class="fal fa-star start-color"></i></a>
+                                                                    <a href="#"><i class="fal fa-star start-color"></i></a>
+                                                                    <a href="#"><i class="fal fa-star"></i></a>
+                                                                    <a href="#"><i class="fal fa-star"></i></a>
+                                                                </div>
+                                                            </div>
+                                                               <div class="product__name">
+                                                                <h4><a href="shop.html">{{this.bookname}}</a></h4>
+                                                                <div class="pro-price">
+                                                                    <p class="p-absoulute pr-1"><span>{{this.price}}</p>
+                                                                    <a class="p-absoulute pr-2" href="#">add to cart</a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="product__action">
+                                                                <div class="inner__action">
+                                                                    <div class="wishlist">
+                                                                        <a href="#"><i class="fal fa-heart"></i></a>
+                                                                    </div>
+                                                                    <div class="view">
+                                                                        <a href="javascript:void(0)"><i class="fal fa-eye"></i></a>
+                                                                    </div>
+                                                                    <div class="layer">
+                                                                        <a href="#"><i
+                                                                                class="fal fa-layer-group"></i></a>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                    
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                {{/each}}
+                                                
+                                                
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
