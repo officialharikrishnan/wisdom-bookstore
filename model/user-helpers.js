@@ -7,25 +7,35 @@ module.exports = {
     userSignup: (userData) => {
         userData.createdAt=new Date().toDateString()
         userData.isBlocked=false
+        userData.phone=`+91${userData.phone}`
         return new Promise(async (resolve, reject) => {
 
-            // var user = await db.get().collection(collections.USER_COLLECTION).findOne({email:userData.email})
-            // if(user){
-            //     reject(true)
-            // }else{
+            var user = await db.get().collection(collections.USER_COLLECTION).findOne({
+                $or:[
+                    {
+                        email:userData.email
+                    },
+                    {
+                        phone:userData.phone
+                    }
+                ]
+            })
+            if(user){
+                reject({error:"user already exist"})
+            }else{
 
                 userData.password = await bcrypt.hash(userData.password, 10)
                 var res =await db.get().collection(collections.USER_COLLECTION).insertOne(userData)
                 if(res.insertedId){
                     let data={
-                        name:userData.name,
+                        name:userData.username,
                         id:res.insertedId
                     }
                     resolve(data)
                 }else{
                     reject()
                 }
-            // }
+            }
 
 
         })
@@ -41,10 +51,10 @@ module.exports = {
                 bcrypt.compare(userData.password,res.password).then((result)=>{
                     if(result){
                         let data={
-                            name:res.name,
+                            name:res.username,
                             id:res._id
                         }
-                        console.log(">>>",res);
+                        console.log(">>>",data);
                         resolve(data)
                     }else{
                         reject({error:"Wrong password"})

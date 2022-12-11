@@ -1,9 +1,27 @@
 const { getAllBooks, userLogin, userSignup, findByNumber } = require("../model/user-helpers");
+var jwt = require('jsonwebtoken');
 require('dotenv').config()
-const client = require("twilio")(process.env.ACCOUNT_SID,process.env.AUTH_TOKEN);
+const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 var number;
 module.exports = {
 
+    authorization: (req, res, next) => {
+        const token = req.cookies.wisdom;
+        if (!token) {
+            return res.render('userView/login');
+        } else {
+            try {
+                const data = jwt.verify(token, process.env.JWT_KEY);
+                if (data) {
+                    next()
+                } else {
+                    res.render('userView/login')
+                }
+            } catch {
+                return res.render('userView/login')
+            }
+        }
+    },
 
     landingPage: (req, res) => {
         getAllBooks().then((data) => {
@@ -26,7 +44,12 @@ module.exports = {
         } else {
             userSignup(req.body)
                 .then((response) => {
-                    res.redirect('/home')
+                    var token = jwt.sign({ user: response }, process.env.JWT_KEY, { expiresIn: '5min' })
+                     res.cookie("wisdom", token, {
+                        httpOnly: true
+                    }).redirect('/home')
+                }).catch((err)=>{
+                    res.render('userView/register',{error:err.error})
                 })
         }
     },
@@ -36,16 +59,21 @@ module.exports = {
     loginSubmit: (req, res) => {
         userLogin(req.body)
             .then((response) => {
-                res.redirect('/')
+                var token = jwt.sign({ user: response }, process.env.JWT_KEY, { expiresIn: '5min' })
+                 res.cookie("wisdom", token, {
+                    httpOnly: true
+                }).redirect('/home')
             })
             .catch((err) => {
                 res.render('userView/login', { error: err.error })
             })
     },
     homePage: (req, res) => {
+        var decode = jwt.verify(req.cookies.wisdom, process.env.JWT_KEY)
+        console.log(">>>>>", decode);
         getAllBooks().then((data) => {
             console.log(data);
-            res.render('userView/userHome', { data });
+            res.render('userView/userHome', { user: decode.user.name, data });
         })
             .catch(() => {
                 console.log("failed to load books");
@@ -55,24 +83,24 @@ module.exports = {
         console.log(req.body.number);
         number = req.body.number
         //accound finding
-        findByNumber(number).then((user)=>{
+        findByNumber(number).then((user) => {
             console.log(user);
             client.verify
-            .services(process.env.SERVICE_ID)
-            .verifications.create({
-                to: `+${number}`,
-                channel: "sms"
-            })
-            .then((resp) => {
+                .services(process.env.SERVICE_ID)
+                .verifications.create({
+                    to: `+${number}`,
+                    channel: "sms"
+                })
+                .then((resp) => {
 
-                res.render('userView/verifyPage')
-            }).catch((err)=>{
-                console.log(err);
-            })
-        }).catch(()=>{
-             res.render('userView/otpPage',{error:"account not found"})
+                    res.render('userView/verifyPage')
+                }).catch((err) => {
+                    console.log(err);
+                })
+        }).catch(() => {
+            res.render('userView/otpPage', { error: "account not found" })
         })
-        
+
     },
     veryfyOtp: (req, res) => {
         console.log(req.body.otp);
@@ -86,10 +114,14 @@ module.exports = {
                     console.log(">>>>>> success");
                     res.render('userView/userHome')
                 } else {
-                    console.log("?????sorry");
+                    console.log("sorry");
                     res.render('userView/verifyPage', { error: 'invalied OTP' })
                 }
             })
     }
+    // logout: (req, res) => {
+    //      req.cookies.wisdom = undefined
+    //         res.redirect('/')
+    // }
 
 }
