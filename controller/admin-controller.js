@@ -41,7 +41,9 @@ module.exports={
         })
     },
     addStockPage:(req,res)=>{
-        res.render('adminView/add-stock',{admin:true})
+        category().then((data)=>{
+            res.render('adminView/add-stock',{admin:true,data})
+        })
     },
     addStockSubmit:(req,res)=>{
         var image=req.files.Image
@@ -62,9 +64,12 @@ module.exports={
 
     },
     editBook:(req,res)=>{
+        var categdata;
+        category().then((data)=>{
+            categdata=data
+        })
         getBook(req.params.id).then((book)=>{
-            console.log("/////",book);
-            res.render('adminView/editBook',{book,admin:true})
+            res.render('adminView/editBook',{book,admin:true,categdata})
         })
         .catch(()=>{
             console.log("no book found");

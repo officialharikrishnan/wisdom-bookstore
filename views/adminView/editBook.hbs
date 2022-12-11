@@ -36,11 +36,9 @@
                         {{else}}
                         <option value="{{book.category}}">Select category</option>
                         {{/if}}
-                        <option  value="history">History</option>
-                        <option value="fantasy">Fantasy</option>
-                        <option value="horror">Horror</option>
-                        <option value="romance">Romance</option>
-                        <option value="biography">Biography</option>
+                        {{#each categdata}}
+                        <option  value="{{this.name}}">{{this.name}}</option>
+                        {{/each}}
                     </select>
                 </div>
             </div>
