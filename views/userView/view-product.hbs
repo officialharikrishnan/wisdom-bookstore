@@ -8,7 +8,7 @@
 
                                 <div class="tab-content" id="myTabefContent">
                                     <div class="tab-pane fade show active" id="homde" role="tabpanel" >
-                                       <div class="full-view">
+                                       <div class="full-view" id="img-container">
                                             <img src="/book-image/{{book._id}}.jpg" alt="">
                                        </div>
                                     </div>
@@ -36,7 +36,7 @@
                         </div>
                         <div class="viewcontent__action single_action pt-30">
                             <span><input type="number" placeholder="1"></span>
-                            <span><a href="cart.html">+ add to cart</a></span>
+                            <span ><a href="cart.html" id="cart">+ add to cart</a></span>
                             <span><i class="fal fa-heart"></i></span>
                             <span><i class="fas fa-compress"></i></span>
                         </div>
@@ -54,3 +54,16 @@
                 </div>
             </div>
 </section>
+<!-- Or from a CDN -->
+<script src="https://unpkg.com/js-image-zoom/js-image-zoom.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/js-image-zoom/js-image-zoom.min.js"></script>
+<script>
+    var options = {
+    width: 400,
+    scale: 1,
+    zoomPosition: 'right' // required
+    // more options here
+};
+new ImageZoom(document.getElementById("img-container"), options);
+
+</script>

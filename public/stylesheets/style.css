@@ -58,7 +58,10 @@ body{
 .user-page-align{
   margin-top: 20%;
 }
-.full-view img{
+.full-view{
   margin-left: 25%;
   width: 400px;
+}
+#cart{
+  z-index: -1;
 }
