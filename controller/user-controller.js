@@ -22,6 +22,23 @@ module.exports = {
             }
         }
     },
+    landingAuthorization: (req, res, next) => {
+        const token = req.cookies.wisdom;
+        if (!token) {
+            next()
+        } else {
+            try {
+                const data = jwt.verify(token, process.env.JWT_KEY);
+                if (data) {
+                    res.redirect('/home')
+                } else {
+                    next()
+                }
+            } catch {
+                next()
+            }
+        }
+    },
 
     landingPage: (req, res) => {
         getAllBooks().then((data) => {

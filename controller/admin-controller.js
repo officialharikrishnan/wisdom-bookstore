@@ -1,16 +1,38 @@
 const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory } = require("../model/admin-helpers")
-var uniqid = require('uniqid'); 
+var jwt = require('jsonwebtoken');
+require('dotenv').config()
 var error;
 var btnstatus={};
 var categorydata;
 module.exports={
+    adminAuthorization: (req, res, next) => {
+        const token = req.cookies.auth;
+        if (!token) {
+            return res.redirect('/admin');
+        } else {
+            try {
+                const data = jwt.verify(token, process.env.JWT_KEY);
+                if (data) {
+                    next()
+                } else {
+                    res.redirect('/admin')
+                }
+            } catch {
+                return res.redirect('/admin')
+            }
+        }
+    },
 
     adminLoginPage:(req,res)=>{
         res.render('adminView/login')
     },
     adminLogin:(req,res)=>{
-        adminDoLogin(req.body).then(()=>{
-            res.redirect('/admin/dashboard')
+        adminDoLogin(req.body).then((data)=>{
+            console.log(data);
+                var token = jwt.sign({ admin: data.name }, process.env.JWT_KEY, { expiresIn: '5min' })
+                res.cookie("auth", token, {
+                    httpOnly: true
+                }).redirect('/admin/dashboard')
         }).catch((err)=>{
             res.render('adminView/login',{error:err.error})
         })

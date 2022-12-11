@@ -1,9 +1,9 @@
 var express = require('express');
-const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, authorization, logout, viewProduct } = require('../controller/user-controller');
+const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, authorization, logout, viewProduct, landingAuthorization } = require('../controller/user-controller');
 var router = express.Router();
 
 
-router.get('/', landingPage);
+router.get('/',landingAuthorization, landingPage);
 router.get('/login', loginPage);
 router.get('/register', signUpPage);
 router.post('/signup-submit',signUpSubmit)

@@ -11,8 +11,7 @@ module.exports={
                 bcrypt.compare(data.password,res.password).then((result)=>{
                     if(result){
                         let data={
-                            name:res.name,
-                            id:res._id
+                            name:res.adminId,
                         }
                         resolve(data)
                     }else{
