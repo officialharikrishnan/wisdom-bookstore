@@ -3,6 +3,7 @@ var jwt = require('jsonwebtoken');
 require('dotenv').config()
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 var number;
+var jwtotpuser={user:{}}
 module.exports = {
 
     authorization: (req, res, next) => {
@@ -99,13 +100,17 @@ module.exports = {
     sendOtp: (req, res) => {
         console.log(req.body.number);
         number = req.body.number
+        if(number.substring(0,3) != '+91'){
+            number='+91'+number
+        }
         //accound finding
         findByNumber(number).then((user) => {
             console.log(user);
+            jwtotpuser.user.name=user.username
             client.verify
                 .services(process.env.SERVICE_ID)
                 .verifications.create({
-                    to: `+${number}`,
+                    to: number,
                     channel: "sms"
                 })
                 .then((resp) => {
@@ -129,7 +134,10 @@ module.exports = {
             }).then((data) => {
                 if (data.status == "approved") {
                     console.log(">>>>>> success");
-                    res.render('userView/userHome')
+                    var token = jwt.sign({ user: jwtotpuser.user }, process.env.JWT_KEY, { expiresIn: '5min' })
+                    res.cookie("wisdom", token, {
+                       httpOnly: true
+                   }).redirect('/home')
                 } else {
                     console.log("sorry");
                     res.render('userView/verifyPage', { error: 'invalied OTP' })
@@ -143,10 +151,10 @@ module.exports = {
         }).catch(()=>{
             console.log('failed to load book');
         })
+    },
+    logout: (req, res) => {
+         res.cookie('wisdom','',{ expiresIn: '0.1s' })
+         .redirect('/')
     }
-    // logout: (req, res) => {
-    //      req.cookies.wisdom = undefined
-    //         res.redirect('/')
-    // }
 
 }

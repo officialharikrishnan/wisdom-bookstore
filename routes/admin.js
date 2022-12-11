@@ -1,5 +1,5 @@
 var express = require('express');
-const { adminLoginPage, adminLogin, adminDashboard, allUsersPage, userBlock, stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook, bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory, addNewCategory, editCategory, editcategorySubmit, adminAuthorization } = require('../controller/admin-controller');
+const { adminLoginPage, adminLogin, adminDashboard, allUsersPage, userBlock, stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook, bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory, addNewCategory, editCategory, editcategorySubmit, adminAuthorization, adminLogout } = require('../controller/admin-controller');
 var router = express.Router();
 
 router.get('/',adminLoginPage)
@@ -21,4 +21,5 @@ router.post('/add-category',adminAuthorization,addNewCategory)
 router.get('/edit-category/:id',adminAuthorization,editCategory)
 router.post('/edit-category-submit/:id',adminAuthorization,editcategorySubmit)
 router.get('/delete-category/:id',adminAuthorization,deleteCategory)
+router.get('/logout',adminLogout)
 module.exports = router;

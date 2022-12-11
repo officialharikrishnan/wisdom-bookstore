@@ -176,5 +176,9 @@ module.exports={
             deleteByCategory(data)
             res.redirect('/admin/category')
         })
-    } 
+    },
+    adminLogout:(req,res)=>{
+        res.cookie('auth','',{ expiresIn: '0.1s' })
+        .redirect('/admin')
+    }
 }

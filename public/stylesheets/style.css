@@ -71,3 +71,7 @@ body{
   margin-left: 19%;
   margin-top: 15%;
 }
+.btn-dpn{
+  background-color: transparent;
+  border: none;
+}

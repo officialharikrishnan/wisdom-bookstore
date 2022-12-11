@@ -13,5 +13,5 @@ router.get('/home',authorization,homePage)
 router.post('/number-submit',sendOtp)
 router.post('/verify',veryfyOtp)
 router.get('/view-product/:id',authorization,viewProduct)
-// router.get('/logout',logout)
+router.get('/logout',logout)
 module.exports = router;
