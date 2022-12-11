@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook } = require("../model/user-helpers");
 var jwt = require('jsonwebtoken');
 require('dotenv').config()
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
@@ -118,6 +118,14 @@ module.exports = {
                     res.render('userView/verifyPage', { error: 'invalied OTP' })
                 }
             })
+    },
+    viewProduct:(req,res)=>{
+        var decode = jwt.verify(req.cookies.wisdom, process.env.JWT_KEY)
+        viewBook(req.params.id).then((book)=>{
+            res.render('userView/view-product',{isUser:decode.user.name,book})
+        }).catch(()=>{
+            console.log('failed to load book');
+        })
     }
     // logout: (req, res) => {
     //      req.cookies.wisdom = undefined

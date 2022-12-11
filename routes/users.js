@@ -1,5 +1,5 @@
 var express = require('express');
-const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, authorization, logout } = require('../controller/user-controller');
+const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, authorization, logout, viewProduct } = require('../controller/user-controller');
 var router = express.Router();
 
 
@@ -12,5 +12,6 @@ router.post('/login-submit',loginSubmit)
 router.get('/home',authorization,homePage)
 router.post('/number-submit',sendOtp)
 router.post('/verify',veryfyOtp)
+router.get('/view-product/:id',authorization,viewProduct)
 // router.get('/logout',logout)
 module.exports = router;

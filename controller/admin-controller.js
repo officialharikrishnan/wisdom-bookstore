@@ -45,6 +45,7 @@ module.exports={
     },
     addStockSubmit:(req,res)=>{
         var image=req.files.Image
+        console.log(req.body);
          addStock(req.body).then((data)=>{
             addCategory(data.category)
              console.log(req.files);
@@ -55,12 +56,14 @@ module.exports={
                      res.redirect('/admin/add-stock-page')
                  }
              })
+        }).catch((err)=>{
+            console.log(err);
         })
 
     },
     editBook:(req,res)=>{
         getBook(req.params.id).then((book)=>{
-            console.log(book);
+            console.log("/////",book);
             res.render('adminView/editBook',{book,admin:true})
         })
         .catch(()=>{
@@ -69,14 +72,15 @@ module.exports={
     },
     editBookSubmit:(req,res)=>{
         let id=req.params.id
-        console.log(req.body,">>>>>>>>>>>");
         doEditBook(req.body,req.params.id).then((category)=>{
             addCategory(category)
-            if(req.files.Image != null){ 
+            if(req.files?.Image){ 
                 let image = req.files.Image
                 image.mv('./public/book-image/'+id+'.jpg')
             }
             res.redirect('/admin/stocks')
+        }).catch((err)=>{
+            console.log(err);
         })
     },
     deleteBook:(req,res)=>{
@@ -120,7 +124,7 @@ module.exports={
         addCategory(req.body.name).then(()=>{
             error=''
             res.redirect('/admin/category')
-        }).catch(()=>{
+        }).catch((err)=>{
             error='Category already exists'
             res.redirect('/admin/category')
         })

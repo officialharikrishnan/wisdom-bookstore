@@ -35,7 +35,6 @@ module.exports={
         })
     },
     userBlockManage:(userId,status)=>{
-        console.log(">>>>>",typeof status);
         var update
         if(status=='true'){
             update=false
@@ -51,6 +50,8 @@ module.exports={
                 resolve()
             })
 
+        }).catch((err)=>{
+            console.log(err);
         })
     },
     addStock:(product)=>{
@@ -62,7 +63,13 @@ module.exports={
             id:book.insertedId,
             category:product.category
            }
+           if(book){
            resolve(data)
+           }else{
+            reject()
+           }
+        }).catch((err)=>{
+            console.log(err);
         })
     },
     getAllStocks:()=>{
@@ -99,6 +106,8 @@ module.exports={
                 }
             })
             resolve(bookdata.category)
+        }).catch((err)=>{
+            console.log(err);
         })
     },
     removeBook:(bookId)=>{
@@ -137,11 +146,13 @@ module.exports={
         return new Promise(async(resolve,reject)=>{
             let exist=await db.get().collection(collections.CATEGORY_COLLECTION).findOne({name:data})
             if(exist){
-                reject()
+                reject({err:"edit category error find"})
             }else{
             db.get().collection(collections.CATEGORY_COLLECTION).insertOne({name:data})
             resolve()
             }
+        }).catch((err)=>{
+            console.log(err);
         })
     },
     removeCategory:(id)=>{

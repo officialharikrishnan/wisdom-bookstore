@@ -39,8 +39,9 @@
 <body>
   {{#if admin}}
   {{>adminHeader}}
-  {{else}}
-  {{!-- {{>userHeader}} --}}
+  {{/if}}
+  {{#if isUser}}
+  {{>userHeader}}
   {{/if}}
   {{{body}}}
 

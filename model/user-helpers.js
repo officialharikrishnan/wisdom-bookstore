@@ -90,6 +90,16 @@ module.exports = {
                 reject()
             }
         })
+    },
+    viewBook:(bookId)=>{
+        return new Promise((resolve,reject)=>{
+            let book = db.get().collection(collections.PRODUCT_COLLECTION).findOne({_id:ObjectId(bookId)})
+            if(book){
+                resolve(book)
+            }else{
+                reject()
+            }
+        })
     }
 
 

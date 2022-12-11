@@ -1,0 +1,56 @@
+<section class="container user-page-align">
+     <div class="row">
+                <div class="col-xl-6 col-lg-6 col-md-12">
+                    <div class="row">
+
+                        <div class="col-xl-10 col-lg-10 col-md-10">
+                            <div class="single_preview_product">
+
+                                <div class="tab-content" id="myTabefContent">
+                                    <div class="tab-pane fade show active" id="homde" role="tabpanel" >
+                                       <div class="full-view">
+                                            <img src="/book-image/{{book._id}}.jpg" alt="">
+                                       </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-6 col-lg-6 col-md-12">
+                    <div class="single_preview_content pl-30">
+                        <h2 class="title-5 edit-title border-bottom-0">{{book.bookname}}</h2>
+                        <div class="s-product-review">
+                            <span><i class="far fa-star start-color"></i></span>
+                            <span><i class="far fa-star start-color"></i></span>
+                            <span><i class="far fa-star start-color"></i></span>
+                            <span><i class="far fa-star start-color"></i></span>
+                            <span><i class="far fa-star"></i></span>
+                            <span class="pl-left">(1 customer review)</span>
+                        </div>
+                        <div class="s-price pt-30 mb-30">
+                            <span>₹{{book.price}}</span>
+                        </div>
+                        <div class="s-des">
+                            <p>{{book.aboutbook}}</p>
+                        </div>
+                        <div class="viewcontent__action single_action pt-30">
+                            <span><input type="number" placeholder="1"></span>
+                            <span><a href="cart.html">+ add to cart</a></span>
+                            <span><i class="fal fa-heart"></i></span>
+                            <span><i class="fas fa-compress"></i></span>
+                        </div>
+                        <div class="viewcontent__footer border-top-0 border-bottom pb-30">
+                            <ul>
+                                <li>Category:</li>
+                                <li>Language</li>
+                            </ul>
+                            <ul>
+                                <li>{{book.category}}</li>
+                                <li>{{book.language}}</li> 
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+</section>
