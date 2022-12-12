@@ -66,8 +66,17 @@ module.exports = {
     signUpSubmit: (req, res) => {
         if (!req.body.username || !req.body.email || !req.body.password || !req.body.phone) {
             res.render('userView/register', { error: "Enter details" })
-        } else {
-            userSignup(req.body)
+        }else if(!req.body.pass){
+            res.render('userView/register', { error: "please enter confirm password" })
+        }
+         else {
+            let userData={
+                username:req.body.username,
+                email:req.body.email,
+                password:req.body.password,
+                phone:req.body.phone
+            }
+            userSignup(userData)
                 .then((response) => {
                     var token = jwt.sign({ user: response }, process.env.JWT_KEY, { expiresIn: '5min' })
                      res.cookie("wisdom", token, {
