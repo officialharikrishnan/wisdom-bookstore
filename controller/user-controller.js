@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, userBlockCheck } = require("../model/user-helpers");
 var jwt = require('jsonwebtoken');
 require('dotenv').config()
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
@@ -14,7 +14,14 @@ module.exports = {
             try {
                 const data = jwt.verify(token, process.env.JWT_KEY);
                 if (data) {
-                    next()
+                    var decode = jwt.verify(req.cookies.wisdom, process.env.JWT_KEY)
+                    console.log("decode>>>",decode.user.id);
+                    userBlockCheck(decode.user.id).then(()=>{
+                        next()
+                    })
+                    .catch(()=>{
+                    res.render('userView/login',{error:'This account is blocked'})
+                    })
                 } else {
                     res.render('userView/login')
                 }

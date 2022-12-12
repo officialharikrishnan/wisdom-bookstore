@@ -66,6 +66,16 @@ module.exports = {
             }
         })
     },
+    userBlockCheck:(userId)=>{
+        return new Promise(async(resolve,reject)=>{
+            let user = await db.get().collection(collections.USER_COLLECTION).findOne({_id:ObjectId(userId)})
+            if(user.isBlocked){
+                reject()
+            }else{
+                resolve()
+            }
+        })
+    },
     getAllBooks:()=>{
         return new Promise(async(resolve,reject)=>{
             var all = await db.get().collection(collections.PRODUCT_COLLECTION).find().toArray()

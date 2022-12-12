@@ -59,8 +59,7 @@ module.exports={
            var book =await db.get().collection(collections.PRODUCT_COLLECTION).insertOne(product)
            console.log("book",book);
            let data={
-            id:book.insertedId,
-            category:product.category
+            id:book.insertedId
            }
            if(book){
            resolve(data)
@@ -74,9 +73,6 @@ module.exports={
     getAllStocks:()=>{
         return new Promise(async(resolve,reject)=>{
             var books = await db.get().collection(collections.PRODUCT_COLLECTION).find().toArray()
-            // books._id=books._id.toString()
-
-            // console.log(books._id,">>>>>");
             resolve(books)
         })
     },
@@ -171,8 +167,6 @@ module.exports={
         })
     },
     deleteByCategory:(data)=>{
-        console.log("/////////",data);
-        // data = data.toLowerCase()
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.PRODUCT_COLLECTION).deleteMany({category:data.value.name})
             resolve()

@@ -71,7 +71,6 @@ module.exports={
         var image=req.files.Image
         console.log(req.body);
          addStock(req.body).then((data)=>{
-            addCategory(data.category)
              console.log(req.files);
              image.mv('./public/book-image/'+data.id+'.jpg',(err,done)=>{
                  if(err){
@@ -99,8 +98,7 @@ module.exports={
     },
     editBookSubmit:(req,res)=>{
         let id=req.params.id
-        doEditBook(req.body,req.params.id).then((category)=>{
-            addCategory(category)
+        doEditBook(req.body,req.params.id).then(()=>{
             if(req.files?.Image){ 
                 let image = req.files.Image
                 image.mv('./public/book-image/'+id+'.jpg')
