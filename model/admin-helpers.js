@@ -157,18 +157,28 @@ module.exports={
         })
     },
     editCategorySub:(id,data)=>{
-        return new Promise((resolve,reject)=>{
-            db.get().collection(collections.CATEGORY_COLLECTION).updateOne({_id:ObjectId(id)},{
+        return new Promise(async(resolve,reject)=>{
+            var oldCategory =await db.get().collection(collections.CATEGORY_COLLECTION).findOneAndUpdate({_id:ObjectId(id)},{
                 $set:{
                     name:data
                 }
             })
-            resolve()
+            resolve(oldCategory.value.name)
         })
     },
     deleteByCategory:(data)=>{
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.PRODUCT_COLLECTION).deleteMany({category:data.value.name})
+            resolve()
+        })
+    },
+    updateBookCategory:(old,newcategory)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.PRODUCT_COLLECTION).updateMany({category:old},{
+                $set:{
+                    category:newcategory
+                }
+            })
             resolve()
         })
     }

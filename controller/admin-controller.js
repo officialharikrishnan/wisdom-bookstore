@@ -1,4 +1,4 @@
-const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory } = require("../model/admin-helpers")
+const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory } = require("../model/admin-helpers")
 var jwt = require('jsonwebtoken');
 require('dotenv').config()
 var error;
@@ -164,7 +164,8 @@ module.exports={
 
     },
     editcategorySubmit:(req,res)=>{
-        editCategorySub(req.params.id,req.body.name).then(()=>{
+        editCategorySub(req.params.id,req.body.name).then((old)=>{
+        updateBookCategory(old,req.body.name)
         res.redirect('/admin/category')
 
         })
