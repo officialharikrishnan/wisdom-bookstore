@@ -1,35 +1,14 @@
 const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, userBlockCheck } = require("../model/user-helpers");
+const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
-require('dotenv').config()
+// require('dotenv').config()
+// const {tockenGenerator}= require('../utils')
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 var number;
 var jwtotpuser={user:{}}
 module.exports = {
 
-    authorization: (req, res, next) => {
-        const token = req.cookies.wisdom;
-        if (!token) {
-            return res.render('userView/login');
-        } else {
-            try {
-                const data = jwt.verify(token, process.env.JWT_KEY);
-                if (data) {
-                    var decode = jwt.verify(req.cookies.wisdom, process.env.JWT_KEY)
-                    console.log("decode>>>",decode.user.id);
-                    userBlockCheck(decode.user.id).then(()=>{
-                        next()
-                    })
-                    .catch(()=>{
-                    res.render('userView/login',{error:'This account is blocked'})
-                    })
-                } else {
-                    res.render('userView/login')
-                }
-            } catch {
-                return res.render('userView/login')
-            }
-        }
-    },
+   
     landingAuthorization: (req, res, next) => {
         const token = req.cookies.wisdom;
         if (!token) {
@@ -92,8 +71,9 @@ module.exports = {
     },
     loginSubmit: (req, res) => {
         userLogin(req.body)
-            .then((response) => {
-                var token = jwt.sign({ user: response }, process.env.JWT_KEY, { expiresIn: '5min' })
+            .then(async(response) => {
+
+                var token =await tockenGenerator(response)
                  res.cookie("wisdom", token, {
                     httpOnly: true
                 }).redirect('/home')
@@ -103,22 +83,20 @@ module.exports = {
             })
     },
     homePage: (req, res) => {
-        var decode = jwt.verify(req.cookies.wisdom, process.env.JWT_KEY)
-        console.log(">>>>>", decode);
+        var decode = tokenVerify(req)
         getAllBooks().then((data) => {
             console.log(data);
-            res.render('userView/userHome', { user: decode.user.name, data });
-        })
-            .catch(() => {
+            res.render('userView/userHome',{data,user:decode.value.name});
+        }).catch(() => {
                 console.log("failed to load books");
             })
-    },
+    }, 
     sendOtp: (req, res) => {
         console.log(req.body.number);
         number = req.body.number
         if(number.substring(0,3) != '+91'){
             number='+91'+number
-        }
+        } 
         //accound finding
         findByNumber(number).then((user) => {
             console.log(user);
@@ -161,9 +139,9 @@ module.exports = {
             })
     },
     viewProduct:(req,res)=>{
-        var decode = jwt.verify(req.cookies.wisdom, process.env.JWT_KEY)
+        var decode = tokenVerify(req)
         viewBook(req.params.id).then((book)=>{
-            res.render('userView/view-product',{isUser:decode.user.name,book})
+            res.render('userView/view-product',{isUser:decode.value.name,book})
         }).catch(()=>{
             console.log('failed to load book');
         })

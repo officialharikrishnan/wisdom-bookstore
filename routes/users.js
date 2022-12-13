@@ -1,5 +1,6 @@
 var express = require('express');
-const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, authorization, logout, viewProduct, landingAuthorization } = require('../controller/user-controller');
+const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, landingAuthorization } = require('../controller/user-controller');
+const { authorization } = require('../middlewares/tokenVerify');
 var router = express.Router();
 
 

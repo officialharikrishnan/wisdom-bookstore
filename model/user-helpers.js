@@ -39,7 +39,7 @@ module.exports = {
 
 
         })
-    },
+    }, 
     userLogin: (userData) => {
         return new Promise(async(resolve, reject) => {
             var res =await db.get().collection(collections.USER_COLLECTION).findOne({ email: userData.email })
@@ -78,14 +78,15 @@ module.exports = {
     },
     getAllBooks:()=>{
         return new Promise(async(resolve,reject)=>{
+            try{
             var all = await db.get().collection(collections.PRODUCT_COLLECTION).find().toArray()
             var history = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'history'}).toArray()
             var romance = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'romance'}).toArray()
             var fantasy = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'fantasy'}).toArray()
             var kids = await db.get().collection(collections.PRODUCT_COLLECTION).find({category:'kids'}).toArray()
             var banner = await db.get().collection(collections.BANNER_COLLECTION).find().toArray()
-            console.log(banner);
-            if(all.length != 0 && banner.length != 0){
+            
+            if(all.length != 0 ){
                 let data={
                     all:all,
                     history:history,
@@ -94,10 +95,15 @@ module.exports = {
                     kids:kids,
                     banner:banner[0]
                 } 
+                console.log("resolve////////");
                 resolve(data)
             }else{
+                console.log(">>>>>> catch worked");
                 reject()
             }
+        }catch(err){
+            console.log(err);
+        }
         })
     },
     findByNumber:(num)=>{
