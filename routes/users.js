@@ -1,7 +1,7 @@
-var express = require('express');
-const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, landingAuthorization } = require('../controller/user-controller');
-const { authorization } = require('../middlewares/tokenVerify');
-var router = express.Router();
+const express = require('express');
+const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct } = require('../controller/user-controller');
+const { authorization, landingAuthorization } = require('../middlewares/tokenVerify');
+const router = express.Router();
 
 
 router.get('/',landingAuthorization, landingPage);

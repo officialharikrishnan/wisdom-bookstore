@@ -5,27 +5,8 @@ var jwt = require('jsonwebtoken');
 // const {tockenGenerator}= require('../utils')
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 var number;
-var jwtotpuser={user:{}}
+var jwtotpuser={name:'',id:""}
 module.exports = {
-
-   
-    landingAuthorization: (req, res, next) => {
-        const token = req.cookies.wisdom;
-        if (!token) {
-            next()
-        } else {
-            try {
-                const data = jwt.verify(token, process.env.JWT_KEY);
-                if (data) {
-                    res.redirect('/home')
-                } else {
-                    next()
-                }
-            } catch {
-                next()
-            }
-        }
-    },
 
     landingPage: (req, res) => {
         getAllBooks().then((data) => {
@@ -72,7 +53,7 @@ module.exports = {
     loginSubmit: (req, res) => {
         userLogin(req.body)
             .then(async(response) => {
-
+                console.log(">>>>>>>>>>>>>>>>>///////////",response);
                 var token =await tockenGenerator(response)
                  res.cookie("wisdom", token, {
                     httpOnly: true
@@ -100,44 +81,53 @@ module.exports = {
         //accound finding
         findByNumber(number).then((user) => {
             console.log(user);
-            jwtotpuser.user.name=user.username
-            client.verify
-                .services(process.env.SERVICE_ID)
-                .verifications.create({
-                    to: number,
-                    channel: "sms"
-                })
-                .then((resp) => {
-
-                    res.render('userView/verifyPage')
-                }).catch((err) => {
-                    console.log(err);
-                })
-        }).catch(() => {
+            jwtotpuser.name=user.username
+            jwtotpuser.id=user._id
+            console.log('???????///////',jwtotpuser);
+            // client.verify
+            //     .services(process.env.SERVICE_ID)
+            //     .verifications.create({
+            //         to: number,
+            //         channel: "sms"
+            //     })
+            //     .then((resp) => {
+            //         res.render('userView/verifyPage')
+            //     })
+            //     .catch((err) => {
+            //         console.log(err);
+            //     })  
+        })
+        .catch(() => {
             res.render('userView/otpPage', { error: "account not found" })
         })
+        res.render('userView/verifyPage')
 
     },
-    veryfyOtp: (req, res) => {
+    veryfyOtp:async (req, res) => {
         console.log(req.body.otp);
-        client.verify
-            .services(process.env.SERVICE_ID)
-            .verificationChecks.create({
-                to: `+${number}`,
-                code: req.body.otp
-            }).then((data) => {
-                if (data.status == "approved") {
-                    console.log(">>>>>> success");
-                    var token = jwt.sign({ user: jwtotpuser.user }, process.env.JWT_KEY, { expiresIn: '5min' })
+        // client.verify
+        //     .services(process.env.SERVICE_ID)
+        //     .verificationChecks.create({
+        //         to: `+${number}`,
+        //         code: req.body.otp
+        //     }).then(async(data) => {
+        //         if (data.status == "approved") {
+        //             console.log(">>>>>> success");
+        //             const token =await tockenGenerator(jwtotpuser)
+        //             res.cookie("wisdom", token, {
+        //                httpOnly: true
+        //            }).redirect('/home')
+        //         } else {
+        //             console.log("sorry");
+        //             res.render('userView/verifyPage', { error: 'invalied OTP' })
+        //         }
+        //     })
+        const token =await tockenGenerator(jwtotpuser)
+        console.log("???????????",token);
                     res.cookie("wisdom", token, {
                        httpOnly: true
                    }).redirect('/home')
-                } else {
-                    console.log("sorry");
-                    res.render('userView/verifyPage', { error: 'invalied OTP' })
-                }
-            })
-    },
+    }, 
     viewProduct:(req,res)=>{
         var decode = tokenVerify(req)
         viewBook(req.params.id).then((book)=>{

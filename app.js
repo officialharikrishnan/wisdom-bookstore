@@ -1,15 +1,15 @@
-var createError = require('http-errors');
-var express = require('express');
-var path = require('path');
-var cookieParser = require('cookie-parser');
-var logger = require('morgan');
-var fileUpload = require('express-fileupload')
-var hbs = require('express-handlebars');
-var db=require('./model/dbConnection/connection')
-var usersRouter = require('./routes/users');
-var adminRouter = require('./routes/admin');
+const createError = require('http-errors');
+const express = require('express');
+const path = require('path');
+const cookieParser = require('cookie-parser');
+const logger = require('morgan');
+const fileUpload = require('express-fileupload')
+const hbs = require('express-handlebars');
+const db=require('./model/dbConnection/connection')
+const usersRouter = require('./routes/users');
+const adminRouter = require('./routes/admin');
 
-var app = express();
+const app = express();
 app.use(fileUpload())
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));

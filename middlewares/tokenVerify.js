@@ -5,7 +5,6 @@ const { tokenVerify } = require('../utils/token');
 
 function authorization (req, res, next){
     const token = req.cookies.wisdom;
-    console.log(">>>>>>>>>>>>>>>>>>>>>>>>>",token);
     if (!token) {
         return res.render('userView/login');
     } else {
@@ -14,6 +13,8 @@ function authorization (req, res, next){
             const data = tokenVerify(req)
             if (data) {
                 const decode = tokenVerify(req)
+                console.log(decode,"????>>>>>");
+
                 userBlockCheck(decode.value.id).then(()=>{
                     next()
                 }) 
@@ -28,7 +29,22 @@ function authorization (req, res, next){
         }
     }
 }
-
-module.exports={
-    authorization
+function landingAuthorization (req, res, next) {
+    const token = req.cookies.wisdom;
+    if (!token) {
+        next()
+    } else {
+        try {
+            const data = jwt.verify(token, process.env.JWT_KEY);
+            if (data) {
+                res.redirect('/home')
+            } else {
+                next()
+            }
+        } catch {
+            next()
+        }
+    }
 }
+
+module.exports={authorization, landingAuthorization}
