@@ -139,7 +139,6 @@ const e = require('express')
                 console.log(userCart);
                 proExist=userCart.books.findIndex(book =>{ 
                     return book.item == proId
-                    console.log(book.item==proId);
                 })
                 console.log(proExist);
                 if(proExist != -1){
@@ -170,7 +169,42 @@ const e = require('express')
             }
         })
     }
+    function getCart(userId){
+        return new Promise(async(resolve,reject)=>{
+             
+            var cartItems=await db.get().collection(collections.CART_COLLECTION).aggregate([
+                {
+                    $match:{
+                        user:ObjectId(userId)
+                    }
+                },
+                {
+                    $unwind:"$books"
+                },
+                {
+                    $project:{
+                        item:"$books.item",
+                        quantity:"$books.quantity"
+                    }
+                },
+                {
+                    $lookup:{
+                        from:"books",
+                        localField:"item",
+                        foreignField:"_id",
+                        as:"cartItem"
+                    }
+                }
+            ]).toArray()
+            // console.log(">>>",cartItems[0].cartItem);
+            if(cartItems){
+                resolve(cartItems[0])
+            }else{
+                reject()
+            }
+        })
+    }
 
+ 
 
-
-module.exports={userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}

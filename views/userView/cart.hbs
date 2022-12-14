@@ -1,3 +1,79 @@
-<div class="">
-    cart
+<div class="user-page-align">
+     <div class="f_cart_area pt-110 mb-100">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-8 col-lg-8 col-md-12">
+                    <div class="cart_table">
+                        <table>
+                            <tr> 
+                                <td>Product</td>
+                                <td>Name</td>
+                                <td>price</td>
+                                <td>Quantity</td>
+                                <td>Total</td>
+                                
+                               </tr>
+                            <tbody>
+                                {{#each cart.cartItem}}
+                                <tr class="max-width-set">
+                                    <td>
+                                        <img src="/book-image/{{this._id}}.jpg" alt="">
+                                    </td>
+                                    <td>{{this.bookname}}</td>
+                                    <td>
+                                        ₹{{this.price}} 
+                                    </td>
+                                    <td><div class="viewcontent__action single_action pt-30">
+                                        <span><input type="number" placeholder="1"></span>
+                                    </div></td>
+                                     <td>
+                                        ₹{{this.price}}
+                                    </td>
+                                    <td class="width-set">
+                                        <a href="javascript:void(0)"><i
+                                            class="fal fa-times-circle"></i></a>
+                                    </td>
+                                </tr>
+                                {{/each }}
+                            </tbody>
+                            <tfoot>
+                                <tr class="design-footer">
+                                    <td>
+                                        <input type="text" placeholder="Coupon Code">
+                                    </td>
+                                    <td><button type="submit">Apply Coupon</button></td>
+                                    <td colspan="3"><a href="#">update cart</a></td>
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-12">
+                    <div class="cart__acount">
+                        <h5>Cart totals</h5>
+                      <table>
+                          <tr class="first-child">
+                              <td>Subtotal</td>
+                              <td>$18.00</td>
+                          </tr>
+                          <tr class="first-child lastchild">
+                              <td>Shipping</td>
+                              <td>Enter your address to view shipping options <br>
+                                Calculate shipping</td>
+                          </tr>
+                          <tr class="first-child">
+                              <td>Total</td>
+                              <td>$47.00</td>
+                          </tr>
+                          <tr>   
+                              <td colspan="2">
+                                  <a href="checkout.html"><input type="submit" value="procced to checkout"></a>
+                              </td>
+                          </tr>
+                      </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

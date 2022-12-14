@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 // require('dotenv').config()
@@ -134,7 +134,10 @@ var jwtotpuser={name:'',id:""}
     }
     function cartPage(req,res){
         var decode = tokenVerify(req)
-        res.render('userView/cart',{isUser:decode.value.name})
+        getCart(decode.value.id).then((cart)=>{
+            console.log(cart);
+            res.render('userView/cart',{isUser:decode.value.name,cart})
+        })
 
     }
     function logout (req, res) {
@@ -148,5 +151,8 @@ var jwtotpuser={name:'',id:""}
             res.redirect(`/view-product/${req.params.id}`)
         })
     }
+    function getCartItems(req,res){
+        getCart('6399c50a5559a4ef410b15d7')
+    }
 
-module.exports={cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={getCartItems,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
