@@ -1,4 +1,4 @@
-<div class="user-page-align">
+<div class="">
      <div class="f_cart_area pt-110 mb-100">
         <div class="container">
             <div class="row">
@@ -10,11 +10,12 @@
                                 <td>Name</td>
                                 <td>price</td>
                                 <td>Quantity</td>
-                                <td>Total</td>
+                                {{!-- <td>Total</td> --}}
                                 
                                </tr>
                             <tbody>
-                                {{#each cart.cartItem}}
+                                {{#each cart}}
+                                {{#each cartItem}}
                                 <tr class="max-width-set">
                                     <td>
                                         <img src="/book-image/{{this._id}}.jpg" alt="">
@@ -23,16 +24,17 @@
                                     <td>
                                         ₹{{this.price}} 
                                     </td>
+                                {{/each}}
                                     <td><div class="viewcontent__action single_action pt-30">
-                                        <span><input type="number" placeholder="1"></span>
+                                        <span><input type="number" placeholder="{{this.quantity}}"></span>
                                     </div></td>
-                                     <td>
+                                     {{!-- <td>
                                         ₹{{this.price}}
                                     </td>
                                     <td class="width-set">
                                         <a href="javascript:void(0)"><i
                                             class="fal fa-times-circle"></i></a>
-                                    </td>
+                                    </td> --}}
                                 </tr>
                                 {{/each }}
                             </tbody>

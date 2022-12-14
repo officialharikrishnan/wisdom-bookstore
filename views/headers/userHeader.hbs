@@ -15,7 +15,6 @@
         </div>
     </div>
     <div class="gota_search">
-        
         <div class="container">
             <div class="background-white white-1">
                 <div class="row align-items-center pb-10">
@@ -43,26 +42,17 @@
                         <div class="gota_top pl-40 gota_top_bg">
                             <div class="gota_lang gota_lang_3 d-flex align-items-center justify-content-end">
                                 <ul class="d-none d-lg-block">
-
-
                                 </ul>
-                                {{!-- <div class="gota_cart gota_cart_3 gota_cart_4">
-                                    <a href="/"><i class="fa fa-user"></i>{{user}}</a>
-                                </div>
-                                {{#if user}}
-                                <div class="logout">
-                                    <a href="/logout"><i class="fa fa-sign-out"></i>{{user}}</a>
-                                </div>
-                                {{/if}} --}}
                                 <div class="dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
-                                        {{isUser}}
+                                        {{user}}
                                     </button>
                                     <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                                         <a class="dropdown-item" href="#">Account</a>
                                         <a class="dropdown-item" href="#">Orders</a>
+                                        <a class="dropdown-item gota_cart gota_cart_3 gota_cart_4" href="#">Cart</a>
                                         <a class="dropdown-item" href="/logout">Logout</a>
                                     </div>
                                 </div>
@@ -128,15 +118,56 @@
     </div>
 </div>
 <div class="offcanvas-overlay"></div>
-{{!-- 
+
 <!-- slider area start -->
-<div class="slider-4" data-background="/images/bookshelf-2.jpeg">
+<div class="slider-4" data-background="/images/bookshelf.jpeg">
     <div class="container">
         <div class="row">
-            <div class="cart-heading col-xl-12 col-lg-12 colmd-12">
-                <h1>CART</h1>
+            <div class="page-name col-xl-12 col-lg-12 colmd-12">
+                <h1>{{page}}</h1>
             </div>
         </div>
     </div>
 </div>
-<!-- slider area end --> --}}
+<!-- slider area end -->
+<div class="cart__sidebar">
+    <div class="container">
+        <div class="cart__content">
+            <div class="cart-text">
+                <h3 class="mb-40">Wisdom</h3>
+                <div class="add_cart_product">
+                    <div class="add_cart_product__thumb">
+                        <img src="assets/img/product/29-3.jpg" alt="">
+                    </div>
+                    <div class="add_cart_product__content">
+                        <h5><a href="shop.html">Running 3-Stripes</a></h5>
+                        <p>1 × $66.00</p>
+                        <button class="cart_close"><i class="fal fa-times"></i></button>
+                    </div>
+                </div>
+                <div class="add_cart_product">
+                    <div class="add_cart_product__thumb">
+                        <img src="assets/img/product/17.jpg" alt="">
+                    </div>
+                    <div class="add_cart_product__content">
+                        <h5><a href="shop.html">Buddy non Stripes</a></h5>
+                        <p>1 × $40.00</p>
+                        <button class="cart_close"><i class="fal fa-times"></i></button>
+                    </div>
+                </div>
+            </div>
+            <div class="cart-icon">
+                <i class="fal fa-times"></i>
+            </div>
+            <div class="cart-bottom">
+                <div class="cart-bottom__text">
+                    <span>Subtotal:</span>
+                    <span class="end">$121.00</span>
+                    <a href="/cart">view cart</a>
+                    <a href="checkout.html">checkout</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="cart-offcanvas-overlay"></div>

@@ -143,7 +143,7 @@ const e = require('express')
                 console.log(proExist);
                 if(proExist != -1){
                     console.log("calling");
-                    db.get().collection(collections.CART_COLLECTION).updateOne({"books.item":ObjectId(proId)},{
+                    db.get().collection(collections.CART_COLLECTION).updateOne({user:ObjectId(userId),"books.item":ObjectId(proId)},{
                         $inc:{"books.$.quantity":1}
                     }).then(()=>{
                         resolve()
@@ -198,7 +198,7 @@ const e = require('express')
             ]).toArray()
             // console.log(">>>",cartItems[0].cartItem);
             if(cartItems){
-                resolve(cartItems[0])
+                resolve(cartItems)
             }else{
                 reject()
             }

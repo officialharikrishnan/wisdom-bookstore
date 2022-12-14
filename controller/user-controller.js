@@ -127,7 +127,7 @@ var jwtotpuser={name:'',id:""}
     function viewProduct (req,res){
         var decode = tokenVerify(req)
         viewBook(req.params.id).then((book)=>{
-            res.render('userView/view-product',{isUser:decode.value.name,book})
+            res.render('userView/view-product',{user:decode.value.name,book})
         }).catch(()=>{
             console.log('failed to load viewbook');
         })
@@ -136,7 +136,7 @@ var jwtotpuser={name:'',id:""}
         var decode = tokenVerify(req)
         getCart(decode.value.id).then((cart)=>{
             console.log(cart);
-            res.render('userView/cart',{isUser:decode.value.name,cart})
+            res.render('userView/cart',{user:decode.value.name,cart,page:'CART'})
         })
 
     }
