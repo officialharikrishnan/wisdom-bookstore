@@ -2,9 +2,9 @@ const collections = require('./dbConnection/collection')
 var db = require('../model/dbConnection/connection')
 var bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
-module.exports = {
 
-    userSignup: (userData) => {
+
+    function userSignup (userData) {
         userData.createdAt=new Date().toDateString()
         userData.isBlocked=false
         userData.phone=`+91${userData.phone}`
@@ -39,8 +39,8 @@ module.exports = {
 
 
         })
-    }, 
-    userLogin: (userData) => {
+    }
+    function userLogin(userData){
         return new Promise(async(resolve, reject) => {
             var res =await db.get().collection(collections.USER_COLLECTION).findOne({ email: userData.email })
             if(res){
@@ -65,8 +65,8 @@ module.exports = {
                 reject({error:"Invalied User"})
             }
         })
-    },
-    userBlockCheck:(userId)=>{
+    }
+    function userBlockCheck(userId){
         return new Promise(async(resolve,reject)=>{
             let user = await db.get().collection(collections.USER_COLLECTION).findOne({_id:ObjectId(userId)})
             console.log(user,userId,">>>>>>>>>>>>>>>>>>>>>");
@@ -76,8 +76,8 @@ module.exports = {
                 resolve()
             }
         })
-    },
-    getAllBooks:()=>{
+    }
+    function getAllBooks(){
         return new Promise(async(resolve,reject)=>{
             try{
             var all = await db.get().collection(collections.PRODUCT_COLLECTION).find().toArray()
@@ -106,8 +106,8 @@ module.exports = {
             console.log(err);
         }
         })
-    },
-    findByNumber:(num)=>{
+    }
+    function findByNumber(num){
         return new Promise(async(resolve,reject)=>{
             let user = await db.get().collection(collections.USER_COLLECTION).findOne({phone:num})
             if(user){
@@ -116,8 +116,8 @@ module.exports = {
                 reject()
             }
         })
-    },
-    viewBook:(bookId)=>{
+    }
+    function viewBook(bookId){
         return new Promise((resolve,reject)=>{
             let book = db.get().collection(collections.PRODUCT_COLLECTION).findOne({_id:ObjectId(bookId)})
             if(book){
@@ -129,4 +129,5 @@ module.exports = {
     }
 
 
-}
+
+module.exports={userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook}

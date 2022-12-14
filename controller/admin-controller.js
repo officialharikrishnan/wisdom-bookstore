@@ -4,8 +4,8 @@ require('dotenv').config()
 var error;
 var btnstatus={};
 var categorydata;
-module.exports={
-    adminAuthorization: (req, res, next) => {
+
+    function adminAuthorization(req, res, next){
         const token = req.cookies.auth;
         if (!token) {
             return res.redirect('/admin');
@@ -21,12 +21,12 @@ module.exports={
                 return res.redirect('/admin')
             }
         }
-    },
+    }
 
-    adminLoginPage:(req,res)=>{
+    function adminLoginPage(req,res){
         res.render('adminView/login')
-    },
-    adminLogin:(req,res)=>{
+    }
+    function adminLogin(req,res){
         adminDoLogin(req.body).then((data)=>{
             console.log(data);
                 var token = jwt.sign({ admin: data.name }, process.env.JWT_KEY, { expiresIn: '5min' })
@@ -36,38 +36,38 @@ module.exports={
         }).catch((err)=>{
             res.render('adminView/login',{error:err.error})
         })
-    },
-    adminDashboard:(req,res)=>{
+    }
+    function adminDashboard(req,res){
         res.render('adminView/dashboard',{admin:true})
-    },
-    allUsersPage:(req,res)=>{
+    }
+    function allUsersPage(req,res){
         getAllUsers().then((users)=>{
             res.render('adminView/allUsers',{admin:true,users})
         }).catch(()=>{
             console.log("get all user error");
         })
-    },
-    userBlock:(req,res)=>{
+    }
+    function userBlock(req,res){
         console.log(req.params.id);
         console.log(req.body);
         userBlockManage(req.body.id,req.params.id).then(()=>{
             res.redirect('/admin/allusers')
         })
-    },
-    stocks:(req,res)=>{
+    }
+    function stocks(req,res){
         getAllStocks().then((books)=>{
             console.log(">>>>>>>>>>>>>",books);
          res.render('adminView/stocks',{admin:true,books})
         }).catch(()=>{
             console.log("get stock error");
         })
-    },
-    addStockPage:(req,res)=>{
+    }
+    function addStockPage(req,res){
         category().then((data)=>{
             res.render('adminView/add-stock',{admin:true,data})
         })
-    },
-    addStockSubmit:(req,res)=>{
+    }
+    function addStockSubmit(req,res){
         var image=req.files.Image
         console.log(req.body);
          addStock(req.body).then((data)=>{
@@ -83,8 +83,8 @@ module.exports={
             console.log(err);
         })
 
-    },
-    editBook:(req,res)=>{
+    }
+    function editBook(req,res){
         var categdata;
         category().then((data)=>{
             categdata=data
@@ -95,8 +95,8 @@ module.exports={
         .catch(()=>{
             console.log("no book found");
         })
-    },
-    editBookSubmit:(req,res)=>{
+    }
+    function editBookSubmit(req,res){
         let id=req.params.id
         doEditBook(req.body,req.params.id).then(()=>{
             if(req.files?.Image){ 
@@ -107,31 +107,31 @@ module.exports={
         }).catch((err)=>{
             console.log(err);
         })
-    },
-    deleteBook:(req,res)=>{
-        
+    }
+    function deleteBook(req,res){
+
         removeBook(req.params.id,req.body.id).then(()=>{
             res.redirect('/admin/stocks')
         })
-    }, 
-    bannerEditForm:(req,res)=>{;
+    }
+    function bannerEditForm(req,res){;
         res.render('adminView/edit-banner',{admin:true})
-    },
-    bannerEditPage:(req,res)=>{
+    }
+    function bannerEditPage(req,res){
         getBanner().then((response)=>{
             console.log(response);
             res.render('adminView/banners',{admin:true,response})
         })
-    },
-    editBannerImage:(req,res)=>{
+    }
+    function editBannerImage(req,res){
 
         {req.files.left && req.files.left.mv('./public/banners/w4tgc5qflbgqr3um.jpg')}
         {req.files.middle && req.files.middle.mv('./public/banners/w4tgc5qflbgqr3un.jpg')}
         {req.files.right && req.files.right.mv('./public/banners/w4tgc5qflbgqr3uo.jpg')}
         res.redirect('/admin/banner-edit-page')
         
-    },
-    viewCategory:(req,res)=>{
+    }
+    function viewCategory(req,res){
         
         category().then((data)=>{
             categorydata=data;
@@ -141,8 +141,8 @@ module.exports={
             btnstatus.route="add-category"
             res.render('adminView/viewCategory',{admin:true ,categorydata,error,btnstatus})
         })
-    },
-    addNewCategory:(req,res)=>{
+    }
+    function addNewCategory(req,res){
         if(!req.body.name){
             error='Enter category'
             res.redirect('/admin/category')
@@ -155,30 +155,30 @@ module.exports={
             res.redirect('/admin/category')
         })
     }
-    },
-    editCategory:(req,res)=>{
+    }
+    function editCategory(req,res){
         btnstatus.btn="Edit"
         btnstatus.link=true
         btnstatus.text="Edit Category"
         btnstatus.route=`edit-category-submit/${req.params.id}`
         res.render('adminView/viewCategory',{admin:true ,categorydata,error,btnstatus})
 
-    },
-    editcategorySubmit:(req,res)=>{
+    }
+    function editcategorySubmit(req,res){
         editCategorySub(req.params.id,req.body.name).then((old)=>{
         updateBookCategory(old,req.body.name)
         res.redirect('/admin/category')
 
         })
-    },
-    deleteCategory:(req,res)=>{
+    }
+    function deleteCategory(req,res){
         removeCategory(req.params.id).then((data)=>{
             deleteByCategory(data)
             res.redirect('/admin/category')
         })
-    },
-    adminLogout:(req,res)=>{
+    }
+    function adminLogout(req,res){
         res.cookie('auth','',{ expiresIn: '0.1s' })
         .redirect('/admin')
     }
-}
+module.exports={adminAuthorization,adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}

@@ -3,8 +3,8 @@ var db = require('../model/dbConnection/connection')
 var bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
 
-module.exports={
-    adminDoLogin: (data) => {
+
+    function adminDoLogin(data){
         return new Promise(async(resolve, reject) => {
             var res =await db.get().collection(collections.ADMIN_COLLECTION).findOne({ email: data.email })
             if(res){
@@ -22,8 +22,8 @@ module.exports={
                 reject({error:"Invalied email"})
             }
         })
-    },
-    getAllUsers:()=>{
+    }
+    function getAllUsers(){
         return new Promise(async(resolve,reject)=>{
             var users=await db.get().collection(collections.USER_COLLECTION).find().toArray()
             if(users.length != 0){
@@ -32,8 +32,8 @@ module.exports={
                 reject()
             }
         })
-    },
-    userBlockManage:(userId,status)=>{
+    }
+    function userBlockManage(userId,status){
         var update
         if(status=='true'){
             update=false
@@ -52,8 +52,8 @@ module.exports={
         }).catch((err)=>{
             console.log(err);
         })
-    },
-    addStock:(product)=>{
+    }
+    function addStock(product){
         console.log(product);
         return new Promise(async(resolve,reject)=>{
            var book =await db.get().collection(collections.PRODUCT_COLLECTION).insertOne(product)
@@ -69,14 +69,14 @@ module.exports={
         }).catch((err)=>{
             console.log(err);
         })
-    },
-    getAllStocks:()=>{
+    }
+    function getAllStocks (){
         return new Promise(async(resolve,reject)=>{
             var books = await db.get().collection(collections.PRODUCT_COLLECTION).find().toArray()
             resolve(books)
         })
-    },
-    getBook:(bookId)=>{
+    }
+    function getBook(bookId){
         return new Promise(async(resolve,reject)=>{
             var book = await db.get().collection(collections.PRODUCT_COLLECTION).findOne({_id:ObjectId(bookId)})
             if(book){
@@ -85,8 +85,8 @@ module.exports={
                 reject()
             }
         })
-    },
-    doEditBook:(bookdata,bookId)=>{
+    }
+    function doEditBook(bookdata,bookId){
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:ObjectId(bookId)},{
                 $set:{
@@ -104,8 +104,8 @@ module.exports={
         }).catch((err)=>{
             console.log(err);
         })
-    },
-    removeBook:(bookStatus,bookId)=>{
+    }
+    function removeBook(bookStatus,bookId){
         console.log(">>>>>",bookStatus,bookId);
         if(bookStatus=='true'){
          var status=false
@@ -121,21 +121,21 @@ module.exports={
                 resolve()
             })
         })
-    },
-    addBanner:(imageName)=>{
+    }
+    function addBanner(imageName){
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.BANNER_COLLECTION).insertOne(imageName).then(()=>{
                 resolve()
             })
         })
-    },
-    getBanner:()=>{
+    }
+    function getBanner(){
         return new Promise(async(resolve,reject)=>{
            let response =await  db.get().collection(collections.BANNER_COLLECTION).find().toArray()
            resolve(response[0])
         })
-    },
-    category:()=>{
+    }
+    function category(){
         return new Promise(async(resolve,reject)=>{
             let category = await db.get().collection(collections.CATEGORY_COLLECTION).find().toArray()
             if(category.length != 0 ){
@@ -144,8 +144,8 @@ module.exports={
                 reject()
             }
         })
-    },
-    addCategory:(data)=>{
+    }
+    function addCategory(data){
 
         data = data.toLowerCase()
         return new Promise(async(resolve,reject)=>{
@@ -159,14 +159,14 @@ module.exports={
         }).catch((err)=>{
             console.log(err);
         })
-    },
-    removeCategory:(id)=>{
+    }
+    function removeCategory(id){
         return new Promise(async(resolve,reject)=>{
             var deleted =await db.get().collection(collections.CATEGORY_COLLECTION).findOneAndDelete({_id:ObjectId(id)})
             resolve(deleted)
         })
-    },
-    editCategorySub:(id,data)=>{
+    }
+    function editCategorySub(id,data){
         return new Promise(async(resolve,reject)=>{
             var oldCategory =await db.get().collection(collections.CATEGORY_COLLECTION).findOneAndUpdate({_id:ObjectId(id)},{
                 $set:{
@@ -175,14 +175,14 @@ module.exports={
             })
             resolve(oldCategory.value.name)
         })
-    },
-    deleteByCategory:(data)=>{
+    }
+    function deleteByCategory(data){
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.PRODUCT_COLLECTION).deleteMany({category:data.value.name})
             resolve()
         })
-    },
-    updateBookCategory:(old,newcategory)=>{
+    }
+    function updateBookCategory(old,newcategory){
         return new Promise((resolve,reject)=>{
             db.get().collection(collections.PRODUCT_COLLECTION).updateMany({category:old},{
                 $set:{
@@ -192,4 +192,4 @@ module.exports={
             resolve()
         })
     }
-}
+module.exports={updateBookCategory,deleteByCategory,editCategorySub,removeCategory,addCategory,category,getBanner,addBanner,removeBook,doEditBook,getBook,getAllStocks,addStock,userBlockManage,getAllUsers,adminDoLogin}

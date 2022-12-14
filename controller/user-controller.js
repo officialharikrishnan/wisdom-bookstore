@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, userBlockCheck } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 // require('dotenv').config()
@@ -6,9 +6,9 @@ var jwt = require('jsonwebtoken');
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 var number;
 var jwtotpuser={name:'',id:""}
-module.exports = {
 
-    landingPage: (req, res) => {
+
+    function landingPage(req, res){
         getAllBooks().then((data) => {
             console.log(data);
             res.render('userView/landingPage', { data });
@@ -16,14 +16,14 @@ module.exports = {
             .catch(() => {
                 console.log("failed to load books");
             })
-    },
-    loginPage: (req, res) => {
+    }
+    function loginPage (req, res){
         res.render('userView/login');
-    },
-    signUpPage: (req, res) => {
+    }
+    function signUpPage (req, res)  {
         res.render('userView/register');
-    },
-    signUpSubmit: (req, res) => {
+    }
+    function signUpSubmit (req, res){
         if (!req.body.username || !req.body.email || !req.body.password || !req.body.phone) {
             res.render('userView/register', { error: "Enter details" })
         }else if(!req.body.pass){
@@ -46,11 +46,11 @@ module.exports = {
                     res.render('userView/register',{error:err.error})
                 })
         }
-    },
-    otpManager: (req, res) => {
+    }
+    function otpManager  (req, res){
         res.render('userView/otpPage')
-    },
-    loginSubmit: (req, res) => {
+    }
+    function loginSubmit  (req, res){
         userLogin(req.body)
             .then(async(response) => {
                 var token =await tockenGenerator(response)
@@ -61,8 +61,8 @@ module.exports = {
             .catch((err) => {
                 res.render('userView/login', { error: err.error })
             })
-    },
-    homePage: (req, res) => {
+    }
+     function homePage (req, res){
         var decode = tokenVerify(req)
         getAllBooks().then((data) => {
             console.log(data);
@@ -70,8 +70,8 @@ module.exports = {
         }).catch(() => {
                 console.log("failed to load books");
             })
-    }, 
-    sendOtp: (req, res) => {
+    } 
+    function sendOtp (req, res) {
         console.log(req.body.number);
         number = req.body.number
         if(number.substring(0,3) != '+91'){
@@ -100,8 +100,8 @@ module.exports = {
         })
         res.render('userView/verifyPage')
 
-    },
-    veryfyOtp:async (req, res) => {
+    }
+    function veryfyOtp  (req, res) {
         console.log(req.body.otp);
         client.verify
             .services(process.env.SERVICE_ID)
@@ -119,22 +119,22 @@ module.exports = {
                     res.render('userView/verifyPage', { error: 'invalied OTP' })
                 }
             })
-        const token =await tockenGenerator(jwtotpuser)
-                    res.cookie("wisdom", token, {
-                       httpOnly: true
-                   }).redirect('/home')
-    }, 
-    viewProduct:(req,res)=>{
+        // const token = tockenGenerator(jwtotpuser)
+        //             res.cookie("wisdom", token, {
+        //                httpOnly: true
+        //            }).redirect('/home')
+    }
+    function viewProduct (req,res){
         var decode = tokenVerify(req)
         viewBook(req.params.id).then((book)=>{
             res.render('userView/view-product',{isUser:decode.value.name,book})
         }).catch(()=>{
             console.log('failed to load viewbook');
         })
-    },
-    logout: (req, res) => {
+    }
+    function logout (req, res) {
          res.cookie('wisdom','',{ expiresIn: '0.1s' })
          .redirect('/')
     }
 
-}
+module.exports={landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

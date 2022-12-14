@@ -75,3 +75,7 @@ body{
   background-color: transparent;
   border: none;
 }
+.heading{
+  text-align: center;
+  margin-top: 5%;
+}
