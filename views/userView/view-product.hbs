@@ -34,11 +34,17 @@
                         <div class="s-des">
                             <p>{{book.aboutbook}}</p>
                         </div>
+                        {{#if book.availability}}
                         <div class="viewcontent__action single_action pt-30">
                             <span><input type="number" placeholder="1"></span>
                             <span ><a href="cart.html" id="cart">+ add to cart</a></span>
                             <span><i class="fal fa-heart"></i></span>
                         </div>
+                        {{else}}
+                        <div class="viewcontent__action single_action pt-30">
+                            <span>Currently not available</span>
+                        </div>
+                        {{/if}}
                         <div class="viewcontent__footer border-top-0 border-bottom pb-30">
                             <ul>
                                 <li>Category:</li>

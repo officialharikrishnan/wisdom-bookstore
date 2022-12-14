@@ -53,7 +53,6 @@ module.exports = {
     loginSubmit: (req, res) => {
         userLogin(req.body)
             .then(async(response) => {
-                console.log(">>>>>>>>>>>>>>>>>///////////",response);
                 var token =await tockenGenerator(response)
                  res.cookie("wisdom", token, {
                     httpOnly: true
@@ -83,19 +82,18 @@ module.exports = {
             console.log(user);
             jwtotpuser.name=user.username
             jwtotpuser.id=user._id
-            console.log('???????///////',jwtotpuser);
-            // client.verify
-            //     .services(process.env.SERVICE_ID)
-            //     .verifications.create({
-            //         to: number,
-            //         channel: "sms"
-            //     })
-            //     .then((resp) => {
-            //         res.render('userView/verifyPage')
-            //     })
-            //     .catch((err) => {
-            //         console.log(err);
-            //     })  
+            client.verify
+                .services(process.env.SERVICE_ID)
+                .verifications.create({
+                    to: number,
+                    channel: "sms"
+                })
+                .then((resp) => {
+                    res.render('userView/verifyPage')
+                })
+                .catch((err) => {
+                    console.log(err);
+                })  
         })
         .catch(() => {
             res.render('userView/otpPage', { error: "account not found" })
@@ -105,25 +103,23 @@ module.exports = {
     },
     veryfyOtp:async (req, res) => {
         console.log(req.body.otp);
-        // client.verify
-        //     .services(process.env.SERVICE_ID)
-        //     .verificationChecks.create({
-        //         to: `+${number}`,
-        //         code: req.body.otp
-        //     }).then(async(data) => {
-        //         if (data.status == "approved") {
-        //             console.log(">>>>>> success");
-        //             const token =await tockenGenerator(jwtotpuser)
-        //             res.cookie("wisdom", token, {
-        //                httpOnly: true
-        //            }).redirect('/home')
-        //         } else {
-        //             console.log("sorry");
-        //             res.render('userView/verifyPage', { error: 'invalied OTP' })
-        //         }
-        //     })
+        client.verify
+            .services(process.env.SERVICE_ID)
+            .verificationChecks.create({
+                to: `+${number}`,
+                code: req.body.otp
+            }).then(async(data) => {
+                if (data.status == "approved") {
+                    const token =await tockenGenerator(jwtotpuser)
+                    res.cookie("wisdom", token, {
+                       httpOnly: true
+                   }).redirect('/home')
+                } else {
+                    console.log("OTP not matched");
+                    res.render('userView/verifyPage', { error: 'invalied OTP' })
+                }
+            })
         const token =await tockenGenerator(jwtotpuser)
-        console.log("???????????",token);
                     res.cookie("wisdom", token, {
                        httpOnly: true
                    }).redirect('/home')
@@ -133,7 +129,7 @@ module.exports = {
         viewBook(req.params.id).then((book)=>{
             res.render('userView/view-product',{isUser:decode.value.name,book})
         }).catch(()=>{
-            console.log('failed to load book');
+            console.log('failed to load viewbook');
         })
     },
     logout: (req, res) => {

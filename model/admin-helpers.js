@@ -105,9 +105,19 @@ module.exports={
             console.log(err);
         })
     },
-    removeBook:(bookId)=>{
+    removeBook:(bookStatus,bookId)=>{
+        console.log(">>>>>",bookStatus,bookId);
+        if(bookStatus=='true'){
+         var status=false
+        }else{
+            status=true
+        }
         return new Promise((resolve,reject)=>{
-            db.get().collection(collections.PRODUCT_COLLECTION).deleteOne({_id:ObjectId(bookId)}).then(()=>{
+            db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:ObjectId(bookId)},{
+                $set:{
+                    availability:status
+                }
+            }).then(()=>{
                 resolve()
             })
         })

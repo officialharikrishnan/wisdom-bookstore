@@ -27,8 +27,18 @@
                     <td>{{this.dateofpublish}}</td>
                     <td>₹{{this.price}}</td>
                     <td>
-                        <a href="/admin/edit-book/{{this._id}}"><button class="btn btn-secondary">Edit</button></a>
-                        <a href="/admin/delete-book/{{this._id}}"><button class="btn btn-danger" onclick="return confirm('Are you sure want to delete {{this.bookname}} ')" >Delete</button></a>
+                        <a href="/admin/edit-book/{{this._id}}"><button class="btn btn-secondary">Edit</button></a><br>
+                        <form action="/admin/delete-book/{{this.availability}}" method="post">
+                        <input type="text" name="id" value="{{this._id}}" hidden>
+                        <button class="btn btn-danger"  >
+                          {{#if this.availability}}
+                          Delete
+                          {{else}}
+                          Add to stock
+                          {{/if}}
+                          </button>
+
+                        </form>
                     </td>
                   </tr>
                   {{/each}}

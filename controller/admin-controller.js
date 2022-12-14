@@ -109,7 +109,8 @@ module.exports={
         })
     },
     deleteBook:(req,res)=>{
-        removeBook(req.params.id).then(()=>{
+        
+        removeBook(req.params.id,req.body.id).then(()=>{
             res.redirect('/admin/stocks')
         })
     }, 
