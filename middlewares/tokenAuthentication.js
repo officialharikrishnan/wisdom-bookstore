@@ -46,5 +46,22 @@ function landingAuthorization (req, res, next) {
         }
     }
 }
+function adminAuthorization(req, res, next){
+    const token = req.cookies.auth;
+    if (!token) {
+        return res.redirect('/admin');
+    } else {
+        try {
+            const data = jwt.verify(token, process.env.JWT_KEY);
+            if (data) {
+                next()
+            } else {
+                res.redirect('/admin')
+            }
+        } catch {
+            return res.redirect('/admin')
+        }
+    }
+}
 
-module.exports={authorization, landingAuthorization}
+module.exports={authorization, landingAuthorization , adminAuthorization}

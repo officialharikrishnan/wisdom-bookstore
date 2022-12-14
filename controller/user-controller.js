@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 // require('dotenv').config()
@@ -132,9 +132,21 @@ var jwtotpuser={name:'',id:""}
             console.log('failed to load viewbook');
         })
     }
+    function cartPage(req,res){
+        var decode = tokenVerify(req)
+        res.render('userView/cart',{isUser:decode.value.name})
+
+    }
     function logout (req, res) {
          res.cookie('wisdom','',{ expiresIn: '0.1s' })
          .redirect('/')
     }
+    function cartAdd(req,res){
+        console.log(req.params.id);
+        var decode = tokenVerify(req)
+        addToCart(req.params.id,decode.value.id).then(()=>{
+            res.redirect(`/view-product/${req.params.id}`)
+        })
+    }
 
-module.exports={landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

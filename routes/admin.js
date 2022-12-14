@@ -1,5 +1,6 @@
 const express = require('express');
-const { adminLoginPage, adminLogin, adminDashboard, allUsersPage, userBlock, stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook, bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory, addNewCategory, editCategory, editcategorySubmit, adminAuthorization, adminLogout } = require('../controller/admin-controller');
+const { adminLoginPage, adminLogin, adminDashboard, allUsersPage, userBlock, stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook, bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory, addNewCategory, editCategory, editcategorySubmit, adminLogout } = require('../controller/admin-controller');
+const { adminAuthorization } = require('../middlewares/tokenAuthentication');
 const router = express.Router();
 
 router.get('/',adminLoginPage)

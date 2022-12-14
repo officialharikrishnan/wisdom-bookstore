@@ -5,24 +5,6 @@ var error;
 var btnstatus={};
 var categorydata;
 
-    function adminAuthorization(req, res, next){
-        const token = req.cookies.auth;
-        if (!token) {
-            return res.redirect('/admin');
-        } else {
-            try {
-                const data = jwt.verify(token, process.env.JWT_KEY);
-                if (data) {
-                    next()
-                } else {
-                    res.redirect('/admin')
-                }
-            } catch {
-                return res.redirect('/admin')
-            }
-        }
-    }
-
     function adminLoginPage(req,res){
         res.render('adminView/login')
     }
@@ -181,4 +163,4 @@ var categorydata;
         res.cookie('auth','',{ expiresIn: '0.1s' })
         .redirect('/admin')
     }
-module.exports={adminAuthorization,adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}
+module.exports={adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}

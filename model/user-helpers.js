@@ -2,6 +2,7 @@ const collections = require('./dbConnection/collection')
 var db = require('../model/dbConnection/connection')
 var bcrypt = require('bcrypt')
 const { ObjectId } = require('mongodb')
+const e = require('express')
 
 
     function userSignup (userData) {
@@ -127,7 +128,49 @@ const { ObjectId } = require('mongodb')
             }
         })
     }
+    function addToCart(proId,userId){
+        let proObj={
+            item:ObjectId(proId),
+            quantity:1
+        }
+        return new Promise(async(resolve,reject)=>{
+            let userCart = await db.get().collection(collections.CART_COLLECTION).findOne({user:ObjectId(userId)})
+            if(userCart){
+                console.log(userCart);
+                proExist=userCart.books.findIndex(book =>{ 
+                    return book.item == proId
+                    console.log(book.item==proId);
+                })
+                console.log(proExist);
+                if(proExist != -1){
+                    console.log("calling");
+                    db.get().collection(collections.CART_COLLECTION).updateOne({"books.item":ObjectId(proId)},{
+                        $inc:{"books.$.quantity":1}
+                    }).then(()=>{
+                        resolve()
+                    })
+                }else{
+                    db.get().collection(collections.CART_COLLECTION).updateOne({user:ObjectId(userId)},{
+                        $push:{
+                            books:proObj
+                        }
+                    }).then(()=>{
+                        resolve()
+                    })
+                }
+
+            }else{
+                let cart={
+                    user:ObjectId(userId),
+                    books:[proObj]
+                }
+                db.get().collection(collections.CART_COLLECTION).insertOne(cart).then(()=>{
+                    resolve()
+                })
+            }
+        })
+    }
 
 
 
-module.exports={userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook}
+module.exports={userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
