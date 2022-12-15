@@ -1,6 +1,7 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
+const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
 // require('dotenv').config()
 // const {tockenGenerator}= require('../utils')
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
@@ -65,12 +66,10 @@ var jwtotpuser={name:'',id:""}
      function homePage (req, res){
         var decode = tokenVerify(req)
         getAllBooks().then(async(data) => {
-            let cart;
-            await getCart(decode.value.id).then((cartItems)=>{
-                cart=cartItems
-            })
+            let cart =await cartBooks(req)
+        let totel =await getTotelPrice(req)
             console.log(data);
-            res.render('userView/userHome',{data,user:decode.value.name,cart});
+            res.render('userView/userHome',{data,user:decode.value.name,cart,totel});
         }).catch(() => {
                 console.log("failed to load books");
         })
@@ -130,18 +129,20 @@ var jwtotpuser={name:'',id:""}
     }
     function viewProduct (req,res){
         var decode = tokenVerify(req)
-        viewBook(req.params.id).then((book)=>{
-            res.render('userView/view-product',{user:decode.value.name,book})
+        viewBook(req.params.id).then(async(book)=>{
+            let cart =await cartBooks(req)
+        let totel =await getTotelPrice(req)
+            res.render('userView/view-product',{user:decode.value.name,book,cart,totel})
         }).catch(()=>{
             console.log('failed to load viewbook');
         })
     }
-    function cartPage(req,res){
+    async function cartPage(req,res){
         var decode = tokenVerify(req)
-        getCart(decode.value.id).then((cart)=>{
-            console.log(cart);
-            res.render('userView/cart',{user:decode.value.name,cart,page:'CART'})
-        })
+        let totel =await getTotelPrice(req)
+        let cart =await cartBooks(req)
+        res.render('userView/cart',{user:decode.value.name,cart,totel,page:'CART'})
+        
 
     }
     function logout (req, res) {
@@ -160,5 +161,15 @@ var jwtotpuser={name:'',id:""}
             res.redirect('/cart')
         })
     }
+    function totelPrice(req,res){
+        var decode = tokenVerify(req)
+        getTotelAmount(decode.value.id)
+    }
+    async function checkoutForm(req,res){
+        var decode = tokenVerify(req)
+        let totel =await getTotelPrice(req)
+        let cart =await cartBooks(req)
+            res.render('userView/checkout',{user:decode.value.name,cart,totel,page:'CHECKOUT'})
+    }
 
-module.exports={changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

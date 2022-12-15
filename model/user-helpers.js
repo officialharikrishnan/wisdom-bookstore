@@ -236,6 +236,50 @@ const e = require('express')
             }
     })
 }
+function getTotelAmount(userId){
+    return new Promise(async(resolve,reject)=>{
+        var totel=await db.get().collection(collections.CART_COLLECTION).aggregate([
+            {
+                $match:{
+                    user:ObjectId(userId)
+                }
+            },
+            {
+                $unwind:"$books"
+            },
+            {
+                $project:{
+                    item:"$books.item",
+                    quantity:"$books.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:"books",
+                    localField:"item",
+                    foreignField:"_id",
+                    as:"cartItem"
+                }
+            },
+            {
+                $project:{
+                    item:1,quantity:1,book:{$arrayElemAt:["$cartItem",0]}
+                }
+            },
+            {  
+                $group:{
+                    _id:null,
+                    totel:{$sum:{$multiply:["$quantity","$book.price"]}}
+                }
+            }
+        ]).toArray()
+        if(totel[0].totel){
+        resolve(totel[0].totel)
+        }else{
+            reject()
+        }
+    })
+}
         
 
-module.exports={changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}

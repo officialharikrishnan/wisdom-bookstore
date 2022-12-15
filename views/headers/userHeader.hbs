@@ -141,9 +141,9 @@
                         <img src="/book-image/{{this.book._id}}.jpg" alt="loading...">
                     </div>
                     <div class="add_cart_product__content">
-                        <h5><a href="shop.html">{{this.book.bookname}}</a></h5>
-                        <p>₹{{this.book.price}}</p>
-                        <button class="cart_close"><i class="fal fa-times"></i></button>
+                        <h5><a href="/view-product/{{this.book._id}}">{{this.book.bookname}}</a></h5>
+                        <h6>₹{{this.book.price}}</h6>
+                        <p>Qty. {{this.quantity}}</p>
                     </div>
                 </div>
                 {{/each}}
@@ -154,9 +154,9 @@
             <div class="cart-bottom">
                 <div class="cart-bottom__text">
                     <span>Subtotal:</span>
-                    <span class="end">$121.00</span>
+                    <span class="end">₹{{totel}}</span>
                     <a href="/cart">view cart</a>
-                    <a href="checkout.html">checkout</a>
+                    <a href="/checkout">checkout</a>
                 </div>
             </div>
         </div>

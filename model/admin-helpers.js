@@ -55,6 +55,8 @@ const { ObjectId } = require('mongodb')
     }
     function addStock(product){
         console.log(product);
+        product.price=parseInt(product.price)
+        product.availability=true
         return new Promise(async(resolve,reject)=>{
            var book =await db.get().collection(collections.PRODUCT_COLLECTION).insertOne(product)
            console.log("book",book);
