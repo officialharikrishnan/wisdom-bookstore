@@ -135,26 +135,18 @@
         <div class="cart__content">
             <div class="cart-text">
                 <h3 class="mb-40">Wisdom</h3>
-                <div class="add_cart_product">
+                {{#each cart}}
+                <div class="add_cart_product mt-5">
                     <div class="add_cart_product__thumb">
-                        <img src="assets/img/product/29-3.jpg" alt="">
+                        <img src="/book-image/{{this.book._id}}.jpg" alt="loading...">
                     </div>
                     <div class="add_cart_product__content">
-                        <h5><a href="shop.html">Running 3-Stripes</a></h5>
-                        <p>1 × $66.00</p>
+                        <h5><a href="shop.html">{{this.book.bookname}}</a></h5>
+                        <p>₹{{this.book.price}}</p>
                         <button class="cart_close"><i class="fal fa-times"></i></button>
                     </div>
                 </div>
-                <div class="add_cart_product">
-                    <div class="add_cart_product__thumb">
-                        <img src="assets/img/product/17.jpg" alt="">
-                    </div>
-                    <div class="add_cart_product__content">
-                        <h5><a href="shop.html">Buddy non Stripes</a></h5>
-                        <p>1 × $40.00</p>
-                        <button class="cart_close"><i class="fal fa-times"></i></button>
-                    </div>
-                </div>
+                {{/each}}
             </div>
             <div class="cart-icon">
                 <i class="fal fa-times"></i>

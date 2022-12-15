@@ -64,12 +64,16 @@ var jwtotpuser={name:'',id:""}
     }
      function homePage (req, res){
         var decode = tokenVerify(req)
-        getAllBooks().then((data) => {
+        getAllBooks().then(async(data) => {
+            let cart;
+            await getCart(decode.value.id).then((cartItems)=>{
+                cart=cartItems
+            })
             console.log(data);
-            res.render('userView/userHome',{data,user:decode.value.name});
+            res.render('userView/userHome',{data,user:decode.value.name,cart});
         }).catch(() => {
                 console.log("failed to load books");
-            })
+        })
     } 
     function sendOtp (req, res) {
         console.log(req.body.number);
