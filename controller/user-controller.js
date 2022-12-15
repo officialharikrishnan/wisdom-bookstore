@@ -169,6 +169,7 @@ var jwtotpuser={name:'',id:""}
         var decode = tokenVerify(req)
         let totel =await getTotelPrice(req)
         let cart =await cartBooks(req)
+        
             res.render('userView/checkout',{user:decode.value.name,cart,totel,page:'CHECKOUT'})
     }
 

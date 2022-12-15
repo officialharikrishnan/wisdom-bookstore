@@ -19,36 +19,28 @@
                                     </div>
                                 </div>
                             </div>
+                            
                             <div class="checkout__wrap">
-                                <label>Company name (optional) <span></span></label>
-                                <input type="text" name="cname">
-                            </div>
-                            <div class="checkout__wrap">
-                                <label>Country / Region <span>*</span></label>
-                                <select name="country">
-                                    <option value="Bangladesh">Bangladesh</option>
-                                    <option value="Bangladesh">Pakistan</option>
-                                    <option value="Bangladesh">Arab</option>
-                                    <option value="Bangladesh">America</option>
-                                    <option value="Bangladesh">Saudi Arabia</option>
-                                    <option value="Bangladesh">Israil</option>
-                                    <option value="Bangladesh">Irak</option>
-                                    <option value="Bangladesh">Netherland</option>
+                                <label>State<span>*</span></label>
+                                <select name="state">
+                                    <option value="Kerala">Kerala</option>
+                                    <option value="Tamil Nadu">Tamil Nadu</option>
+                                    <option value="Maharashtra">Maharashtra</option>
+                                    <option value="Telangana">Telangana</option>
+                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                    <option value="Goa">Goa</option>
                                 </select>
                             </div>
                             <div class="checkout__wrap">
                                 <label>Street address <span>*</span></label>
-                                <input class="mb-20" type="text" name="add1" placeholder="house number and street number">
+                                <input class="mb-20" type="text" name="street" placeholder="house number and street number">
                                 <input type="text" name="add2" placeholder="apartment,suite,unit,etc.(optional)">
                             </div>
                             <div class="checkout__wrap">
-                                <label>Town / City *<span></span></label>
+                                <label>Town / City <span>*</span></label>
                                 <input type="text" name="town">
                             </div>
-                            <div class="checkout__wrap">
-                                <label>County (optional)<span></span></label>
-                                <input type="text" name="country">
-                            </div>
+                            
                             <div class="checkout__wrap">
                                 <label>Postcode<span>*</span></label>
                                 <input type="text" name="postcode">
@@ -61,18 +53,12 @@
                                 <label>Email address <span>*</span></label>
                                 <input type="email" name="email">
                             </div>
-                            <div class="checkout__wrap-2 pt-20">
-                                <input type="checkbox" name="check1">
-                                <span>Create an account?</span>
-                            </div>
+                           
                             <div class="checkout__wrap-2 pt-20">
                                 <input type="checkbox" name="check2">
                                 <span>Ship to a different address?</span>
                             </div>
-                            <div class="checkout__wrap">
-                                <label>Order notes (optional) <span></span></label>
-                                <textarea  name="ordernote" placeholder="Note about your order, e.g special note for delivery"></textarea>
-                            </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -82,11 +68,15 @@
                       <table>
                           <tr class="first-child-2">
                               <td>product</td>
-                              <td>NikeCourts Air Zoom  <span>× 1</span></td>
+                              <td>
+                              {{#each cart}}
+                                <p>*  {{this.book.bookname}}</p>
+                              {{/each}}
+                                <span>{{this.quantity}}</span></td>
                           </tr>
                           <tr class="first-child-2">
                               <td>Subtotal</td>
-                              <td class="lightbluee">$18.00</td>
+                              <td class="lightbluee">₹{{totel}}</td>
                           </tr>
                           <tr class="first-child lastchild">
                               <td>Shipping</td>
@@ -94,7 +84,7 @@
                           </tr>
                           <tr class="first-child-2">
                               <td>Total</td>
-                              <td class="lightbluee">$47.00</td>
+                              <td class="lightbluee">₹{{totel}}</td>
                           </tr>
                       </table>
                       <div class="checkout__accordion mt-30">
