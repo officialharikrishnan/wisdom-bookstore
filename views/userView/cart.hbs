@@ -27,10 +27,10 @@
                                 
                                     <td>
                                         {{#if this.quantity}}
-                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',-1)">-</button>
+                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',-1,'{{this.quantity}}')">-</button>
                                         {{/if}}
                                         <span>{{this.quantity}}</span>
-                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',1)">+</button>
+                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',1,'{{this.quantity}}')">+</button>
                                         {{!-- <div class="viewcontent__action single_action pt-30">
                                         <span><input type="number" placeholder="{{this.quantity}}"></span>
                                     </div> --}}

@@ -213,12 +213,18 @@ const e = require('express')
         console.log(details);
         let count=parseInt(details.count)
         return new Promise(async(resolve,reject)=>{
-            let cart =await db.get().collection(collections.CART_COLLECTION).findOne({_id:ObjectId(details.cart)})
-        if(cart){
-            let proExist=cart.books.findIndex(book => {return book.item==details.product})
-            console.log(proExist);
-            if(proExist != -1){
-                
+            
+            if(count == -1 && details.quantity == 1){
+
+                db.get().collection(collections.CART_COLLECTION).updateOne({$and:[{_id:ObjectId(details.cart)},{"books.item":ObjectId(details.product)}]},{
+                    $pull:{
+                        books:{item:ObjectId(details.product)}
+                    }
+                }).then(()=>{
+                    resolve()
+                })
+
+            }else{      
                 db.get().collection(collections.CART_COLLECTION).updateOne({$and:[{_id:ObjectId(details.cart)},{"books.item":ObjectId(details.product)}]},{
                     $inc:{
                         "books.$.quantity":count
@@ -226,14 +232,10 @@ const e = require('express')
                 }).then(()=>{
                     resolve()
                 })
-            }else{
-                reject()
+                
             }
-        }else{
-            reject()
-        }
-        })
-    }
- 
+    })
+}
+        
 
 module.exports={changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
