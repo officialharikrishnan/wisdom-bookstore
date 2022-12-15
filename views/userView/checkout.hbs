@@ -1,204 +1,169 @@
- <div class="checkout_area pt-80">
-        <div class="container">
+<div class="checkout_area pt-80">
+    <div class="container">
 
-            <div class="row mt-5">
-                <div class="col-xl-7 col-lg-7 col-md-12">
-                    <div class="checkout_form mb-100">
-                        <form action="#">
-                            <div class="row mb-30">
-                                <div class="col-xl-6 col-lg-6 col-md-6">
-                                    <div class="checkout__wrap">
-                                        <label>First name <span>*</span></label>
-                                        <input type="text" name="fname">
-                                    </div>
-                                </div>
-                                <div class="col-xl-6 col-lg-6 col-md-6">
-                                    <div class="checkout__wrap">
-                                        <label>Last name <span>*</span></label>
-                                        <input type="text" name="lname">
-                                    </div>
+        <div class="row mt-5">
+            <div class="col-xl-7 col-lg-7 col-md-12">
+                <div class="checkout_form mb-100">
+                    <form action="/checkout-submit" method="post">
+                        <div class="row mb-30">
+                            <div class="col-xl-12 col-lg-12 col-md-12">
+                                <div class="checkout__wrap">
+                                    <label>Name<span>*</span></label>
+                                    <input type="text" name="name" value="{{address.name}}">
                                 </div>
                             </div>
-                            
-                            <div class="checkout__wrap">
-                                <label>State<span>*</span></label>
-                                <select name="state">
-                                    <option value="Kerala">Kerala</option>
-                                    <option value="Tamil Nadu">Tamil Nadu</option>
-                                    <option value="Maharashtra">Maharashtra</option>
-                                    <option value="Telangana">Telangana</option>
-                                    <option value="Uttar Pradesh">Uttar Pradesh</option>
-                                    <option value="Goa">Goa</option>
-                                </select>
-                            </div>
-                            <div class="checkout__wrap">
-                                <label>Street address <span>*</span></label>
-                                <input class="mb-20" type="text" name="street" placeholder="house number and street number">
-                                <input type="text" name="add2" placeholder="apartment,suite,unit,etc.(optional)">
-                            </div>
-                            <div class="checkout__wrap">
-                                <label>Town / City <span>*</span></label>
-                                <input type="text" name="town">
-                            </div>
-                            
-                            <div class="checkout__wrap">
-                                <label>Postcode<span>*</span></label>
-                                <input type="text" name="postcode">
-                            </div>
-                            <div class="checkout__wrap">
-                                <label>Phone <span>*</span></label>
-                                <input type="text" name="phone">
-                            </div>
-                            <div class="checkout__wrap">
-                                <label>Email address <span>*</span></label>
-                                <input type="email" name="email">
-                            </div>
-                           
-                            <div class="checkout__wrap-2 pt-20">
-                                <input type="checkbox" name="check2">
-                                <span>Ship to a different address?</span>
-                            </div>
-                            
-                        </form>
-                    </div>
-                </div>
-                <div class="col-xl-5 col-lg-5 col-md-12">
-                    <div class="cart__acount ml-50">
-                        <h5>Your order</h5>
-                      <table>
-                          <tr class="first-child-2">
-                              <td>product</td>
-                              <td>
-                              {{#each cart}}
-                                <p>*  {{this.book.bookname}}</p>
-                              {{/each}}
-                                <span>{{this.quantity}}</span></td>
-                          </tr>
-                          <tr class="first-child-2">
-                              <td>Subtotal</td>
-                              <td class="lightbluee">₹{{totel}}</td>
-                          </tr>
-                          <tr class="first-child lastchild">
-                              <td>Shipping</td>
-                              <td>Enter your address to view shipping options. </td>
-                          </tr>
-                          <tr class="first-child-2">
-                              <td>Total</td>
-                              <td class="lightbluee">₹{{totel}}</td>
-                          </tr>
-                      </table>
-                      <div class="checkout__accordion mt-30">
-                        <div class="accordion" id="accordionExample">
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingOne">
-                                <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                    Check payments 
-                                </button>
-                              </h2>
-                              <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Please send a check to Store Name, Store Street, Store Town, Store State / County, Store Postcode.
-                                </div>
-                              </div>
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingTwo">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                    Cash on delivery 
-                                </button>
-                              </h2>
-                              <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Pay with cash upon delivery.
-                                </div>
-                              </div>
-                            </div>
-                            <div class="accordion-item">
-                              <h2 class="accordion-header" id="headingThree">
-                                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                    PayPal
-                                </button>
-                              </h2>
-                              <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                                <div class="accordion-body">
-                                    Cash on delivery 
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                      </div>
-                    <div class="terms pt-50 pb-20">
-                        <p>Your personal data will be used to process your order, support your experience throughout this website, and for other purposes described in our privacy policy</p>
-                        <div class="check_term">
-                            <input type="checkbox">
-                            <p>I have read and agree to the website terms and conditions <span>*</span></p>
+ 
                         </div>
+
+                        <div class="checkout__wrap">
+                            <label>State<span>*</span></label>
+                            <select name="state" value="{{address.state}}">
+                                <option value="Kerala">Kerala</option>
+                                <option value="Tamil Nadu">Tamil Nadu</option>
+                                <option value="Maharashtra">Maharashtra</option>
+                                <option value="Telangana">Telangana</option>
+                                <option value="Uttar Pradesh">Uttar Pradesh</option>
+                                <option value="Goa">Goa</option>
+                            </select>
+                        </div>
+                        <div class="checkout__wrap">
+                            <label>Street address <span>*</span></label>
+                            <input class="mb-20" type="text" name="street" value="{{address.street}}" placeholder="house number and street number">
+                            <input type="text" name="street2" placeholder="apartment,suite,unit,etc.(optional)">
+                        </div>
+                        <div class="checkout__wrap">
+                            <label>Town / City <span>*</span></label>
+                            <input type="text" name="town" value="{{address.city}}">
+                        </div>
+
+                        <div class="checkout__wrap">
+                            <label>Postcode<span>*</span></label>
+                            <input type="text" name="postcode" value="{{address.postcode}}">
+                        </div>
+                        <div class="checkout__wrap">
+                            <label>Phone <span>*</span></label>
+                            <input type="text" name="phone" value="{{address.phone}}">
+                        </div>
+                        <div class="checkout__wrap">
+                            <label>Email address <span>*</span></label>
+                            <input type="email" name="email" value="{{address.email}}">
+                        </div>
+
+                        <div class="checkout__wrap-2 pt-20">
+                            <a href="/get-current-address"><button type="button"> Load current address</button></a>
+                        </div>
+
+                    
+                </div>
+            </div>
+            <div class="col-xl-5 col-lg-5 col-md-12">
+                <div class="cart__acount ml-50">
+                    <h5>Your order</h5>
+                    <table>
+                        <tr class="first-child-2">
+                            <td>product</td>
+                            <td>
+                                {{#each cart}}
+                                <p>* {{this.book.bookname}}</p>
+                                {{/each}}
+                                <span>{{this.quantity}}</span>
+                            </td>
+                        </tr>
+                        <tr class="first-child-2">
+                            <td>Subtotal</td>
+                            <td class="lightbluee">₹{{totel}}</td>
+                        </tr>
+                        <tr class="first-child lastchild">
+                            <td>Shipping</td>
+                            <td>Enter your address to view shipping options. </td>
+                        </tr>
+                        <tr class="first-child-2">
+                            <td>Total</td>
+                            <td class="lightbluee">₹{{totel}}</td>
+                        </tr>
+                    </table>
+                    <div class="checkout__accordion mt-30">
+                        <div class="accordion" id="accordionExample">
+                            
+                        <h5>Payment Method</h5>
+                        <div class="switch-field">
+                            <input type="radio" id="radio-one" name="payment" value="COD" checked />
+                            <label for="radio-one">COD</label>
+                            <input type="radio" id="radio-two" name="payment" value="Online" />
+                            <label for="radio-two">Online</label>
+                        </div>
+                    </div>
+                    <div class="terms pt-50 pb-20">
+                        <p>Your personal data will be used to process your order, support your experience throughout
+                            this website, and for other purposes described in our privacy policy</p>
+                    
                         <div class="order-button">
                             <button type="submit">place order</button>
                         </div>
                     </div>
-                    </div>    
+                    </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-     <!-- popup area start -->
-    <div class="overlay"></div>
-    <div class="product-popup">
-        <div class="view-background">
-            <div class="row">
-                <div class="col-xl-5 col-lg-5 col-md-5">
-                    <div class="quickview">
-                        <div class="quickview__thumb">
-                            <img src="assets/img/quick_view/25.jpg" alt="">
-                        </div>
+<!-- popup area start -->
+<div class="overlay"></div>
+<div class="product-popup">
+    <div class="view-background">
+        <div class="row">
+            <div class="col-xl-5 col-lg-5 col-md-5">
+                <div class="quickview">
+                    <div class="quickview__thumb">
+                        <img src="assets/img/quick_view/25.jpg" alt="">
                     </div>
                 </div>
-                <div class="col-xl-7 col-lg-7 col-md-7">
-                    <div class="viewcontent">
-                        <div class="viewcontent__header">
-                            <h2>Brown Leather Bags</h2>
-                            <a class="view_close product-p-close" href="javascript:void(0)"><i
-                                    class="fal fa-times-circle"></i></a>
-                        </div>
-                        <div class="viewcontent__rating">
-                            <i class="fal fa-star ratingcolor"></i>
-                            <i class="fal fa-star ratingcolor"></i>
-                            <i class="fal fa-star ratingcolor"></i>
-                            <i class="fal fa-star"></i>
-                        </div>
-                        <div class="viewcontent__price">
-                            <h4><span>$</span>99.00</h4>
-                        </div>
-                        <div class="viewcontent__stock">
-                            <h4>Available :<span> In stock</span></h4>
-                        </div>
-                        <div class="viewcontent__details">
-                            <p>Anlor sit amet, consectetur adipiscing elit. Fusce condimentum est lacus, non pretium
-                                risus lacinia vel. Fusce eget turpis orci.</p>
-                        </div>
-                        <div class="viewcontent__action">
-                            <span>Qty</span>
-                            <span><input type="number" placeholder="1"></span>
-                            <span><a href="#">add to cart</a></span>
-                            <span><i class="fal fa-heart"></i></span>
-                            <span><i class="fal fa-info-circle"></i></span>
-                        </div>
-                        <div class="viewcontent__footer">
-                            <ul>
-                                <li>Category:</li>
-                                <li>SKU:</li>
-                                <li>Brand:</li>
-                            </ul>
-                            <ul>
-                                <li>Watches</li>
-                                <li>2584-MK63</li>
-                                <li>Brenda</li>
-                            </ul>
-                        </div>
+            </div>
+            <div class="col-xl-7 col-lg-7 col-md-7">
+                <div class="viewcontent">
+                    <div class="viewcontent__header">
+                        <h2>Brown Leather Bags</h2>
+                        <a class="view_close product-p-close" href="javascript:void(0)"><i
+                                class="fal fa-times-circle"></i></a>
+                    </div>
+                    <div class="viewcontent__rating">
+                        <i class="fal fa-star ratingcolor"></i>
+                        <i class="fal fa-star ratingcolor"></i>
+                        <i class="fal fa-star ratingcolor"></i>
+                        <i class="fal fa-star"></i>
+                    </div>
+                    <div class="viewcontent__price">
+                        <h4><span>$</span>99.00</h4>
+                    </div>
+                    <div class="viewcontent__stock">
+                        <h4>Available :<span> In stock</span></h4>
+                    </div>
+                    <div class="viewcontent__details">
+                        <p>Anlor sit amet, consectetur adipiscing elit. Fusce condimentum est lacus, non pretium
+                            risus lacinia vel. Fusce eget turpis orci.</p>
+                    </div>
+                    <div class="viewcontent__action">
+                        <span>Qty</span>
+                        <span><input type="number" placeholder="1"></span>
+                        <span><a href="#">add to cart</a></span>
+                        <span><i class="fal fa-heart"></i></span>
+                        <span><i class="fal fa-info-circle"></i></span>
+                    </div>
+                    <div class="viewcontent__footer">
+                        <ul>
+                            <li>Category:</li>
+                            <li>SKU:</li>
+                            <li>Brand:</li>
+                        </ul>
+                        <ul>
+                            <li>Watches</li>
+                            <li>2584-MK63</li>
+                            <li>Brenda</li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>

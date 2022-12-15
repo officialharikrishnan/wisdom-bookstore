@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -169,8 +169,22 @@ var jwtotpuser={name:'',id:""}
         var decode = tokenVerify(req)
         let totel =await getTotelPrice(req)
         let cart =await cartBooks(req)
-        
-            res.render('userView/checkout',{user:decode.value.name,cart,totel,page:'CHECKOUT'})
+        res.render('userView/checkout',{user:decode.value.name,cart,totel,page:'CHECKOUT'})
     }
+    function checkoutSubmit(req,res){
+        console.log(req.body);
+        res.render("userView/order-success" )
+    }
+    async function currentAddress(req,res){
+        var decode = tokenVerify(req)
+        let totel =await getTotelPrice(req)
+        let cart =await cartBooks(req)
+        loadCurrentAddress(decode.value.id).then((address)=>{
+            res.render('userView/checkout',{user:decode.value.name,cart,totel,address,page:'CHECKOUT'})
+        }).catch(()=>{
+            console.log("address getting error");
+        })
+    }
+    
 
-module.exports={checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={currentAddress,checkoutSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

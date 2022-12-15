@@ -273,13 +273,25 @@ function getTotelAmount(userId){
                 }
             }
         ]).toArray()
-        if(totel[0].totel){
-        resolve(totel[0].totel)
+        if(totel[0]?.totel){
+        resolve(totel[0]?.totel)
         }else{
             reject()
         }
     })
 }
+function loadCurrentAddress(userId){
+    return new Promise(async(resolve,reject)=>{
+
+        var user =await db.get().collection(collections.USER_COLLECTION).findOne({_id:ObjectId(userId)})
+        if(user.address){
+            resolve(user.address)
+        }else{
+            reject()
+        }
+
+    })
+}
         
 
-module.exports={getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={loadCurrentAddress,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
