@@ -15,19 +15,24 @@
                                </tr>
                             <tbody>
                                 {{#each cart}}
-                                {{#each cartItem}}
+                                
                                 <tr class="max-width-set">
                                     <td>
-                                        <img src="/book-image/{{this._id}}.jpg" alt="">
+                                        <img src="/book-image/{{this.book._id}}.jpg" alt="">
                                     </td>
-                                    <td>{{this.bookname}}</td>
+                                    <td>{{this.book.bookname}}</td>
                                     <td>
-                                        ₹{{this.price}} 
+                                        ₹{{this.book.price}} 
                                     </td>
-                                {{/each}}
-                                    <td><div class="viewcontent__action single_action pt-30">
+                                
+                                    <td>
+                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',-1)">-</button>
+                                        <span>{{this.quantity}}</span>
+                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',1)">+</button>
+                                        {{!-- <div class="viewcontent__action single_action pt-30">
                                         <span><input type="number" placeholder="{{this.quantity}}"></span>
-                                    </div></td>
+                                    </div> --}}
+                                    </td>
                                      {{!-- <td>
                                         ₹{{this.price}}
                                     </td>
@@ -79,3 +84,4 @@
         </div>
     </div>
 </div>
+

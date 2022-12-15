@@ -1,5 +1,5 @@
 const express = require('express');
-const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, cartPage, cartAdd } = require('../controller/user-controller');
+const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, cartPage, cartAdd, changeQuantity } = require('../controller/user-controller');
 const { authorization, landingAuthorization } = require('../middlewares/tokenAuthentication');
 const router = express.Router();
 
@@ -16,6 +16,7 @@ router.post('/verify',veryfyOtp)
 router.get('/view-product/:id',authorization,viewProduct)
 router.get('/add-to-cart/:id',cartAdd)
 router.get('/cart',authorization,cartPage)
+router.post('/change-product-quantity',changeQuantity)
 router.get('/logout',logout)
 module.exports = router;
  

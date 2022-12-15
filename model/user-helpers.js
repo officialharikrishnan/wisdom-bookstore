@@ -194,17 +194,46 @@ const e = require('express')
                         foreignField:"_id",
                         as:"cartItem"
                     }
+                },
+                {
+                    $project:{
+                        item:1,quantity:1,book:{$arrayElemAt:["$cartItem",0]}
+                    }
                 }
             ]).toArray()
             // console.log(">>>",cartItems[0].cartItem);
             if(cartItems){
-                resolve(cartItems)
+                resolve(cartItems) 
+            }else{
+                reject()
+            } 
+        })
+    }
+     function changeBookQuantity(details){
+        console.log(details);
+        let count=parseInt(details.count)
+        return new Promise(async(resolve,reject)=>{
+            let cart =await db.get().collection(collections.CART_COLLECTION).findOne({_id:ObjectId(details.cart)})
+        if(cart){
+            let proExist=cart.books.findIndex(book => {return book.item==details.product})
+            console.log(proExist);
+            if(proExist != -1){
+                
+                db.get().collection(collections.CART_COLLECTION).updateOne({$and:[{_id:ObjectId(details.cart)},{"books.item":ObjectId(details.product)}]},{
+                    $inc:{
+                        "books.$.quantity":count
+                    }
+                }).then(()=>{
+                    resolve()
+                })
             }else{
                 reject()
             }
+        }else{
+            reject()
+        }
         })
     }
-
  
 
-module.exports={getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}

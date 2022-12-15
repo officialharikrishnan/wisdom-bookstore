@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 // require('dotenv').config()
@@ -151,8 +151,10 @@ var jwtotpuser={name:'',id:""}
             res.redirect(`/view-product/${req.params.id}`)
         })
     }
-    function getCartItems(req,res){
-        getCart('6399c50a5559a4ef410b15d7')
+    function changeQuantity(req,res){
+        changeBookQuantity(req.body).then(()=>{
+            res.redirect('/cart')
+        })
     }
 
-module.exports={getCartItems,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
