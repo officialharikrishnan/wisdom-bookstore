@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -38,8 +38,8 @@ var jwtotpuser={name:'',id:""}
                 phone:req.body.phone
             }
             userSignup(userData)
-                .then((response) => {
-                    var token = jwt.sign({ user: response }, process.env.JWT_KEY, { expiresIn: '5min' })
+                .then(async(response) => {
+                var token =await tockenGenerator(response)
                      res.cookie("wisdom", token, {
                         httpOnly: true
                     }).redirect('/home')
@@ -171,10 +171,6 @@ var jwtotpuser={name:'',id:""}
         let cart =await cartBooks(req)
         res.render('userView/checkout',{user:decode.value.name,cart,totel,page:'CHECKOUT'})
     }
-    function checkoutSubmit(req,res){
-        console.log(req.body);
-        res.render("userView/order-success" )
-    }
     async function currentAddress(req,res){
         var decode = tokenVerify(req)
         let totel =await getTotelPrice(req)
@@ -185,6 +181,24 @@ var jwtotpuser={name:'',id:""}
             console.log("address getting error");
         })
     }
+    function checkoutFormSubmit(req,res){
+        if(req.body.payment == 'COD'){
+            res.render("userView/order-success" )
+
+        }else{
+
+        }
+    }
+    async function getProfile(req,res){
+        var decode = tokenVerify(req)
+        let totel =await getTotelPrice(req)
+        let cart =await cartBooks(req)
+        getAccountInfo(decode.value.id).then((data)=>{
+            res.render('userView/account',{user:decode.value.name,cart,totel,data,page:'ACCOUNT'})
+        }).catch(()=>{
+            console.log("failed to get account info");
+        })
+    }
     
 
-module.exports={currentAddress,checkoutSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

@@ -1,5 +1,6 @@
 const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory } = require("../model/admin-helpers")
 var jwt = require('jsonwebtoken');
+const { adminTokenGenerator } = require("../utils/token");
 require('dotenv').config()
 var error;
 var btnstatus={};
@@ -9,9 +10,9 @@ var categorydata;
         res.render('adminView/login')
     }
     function adminLogin(req,res){
-        adminDoLogin(req.body).then((data)=>{
+        adminDoLogin(req.body).then(async(data)=>{
             console.log(data);
-                var token = jwt.sign({ admin: data.name }, process.env.JWT_KEY, { expiresIn: '5min' })
+                var token =await adminTokenGenerator(data)
                 res.cookie("auth", token, {
                     httpOnly: true
                 }).redirect('/admin/dashboard')

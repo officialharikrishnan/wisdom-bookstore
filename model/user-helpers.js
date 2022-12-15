@@ -292,6 +292,25 @@ function loadCurrentAddress(userId){
 
     })
 }
+function getAccountInfo(userId){
+    return new Promise(async(resolve,reject)=>{
+        var info = await db.get().collection(collections.USER_COLLECTION).findOne({_id:ObjectId(userId)})
+        if(info){
+            resolve(info)
+        }else{
+            reject()
+        }
+    })
+}
+function placeOrder(userId,details){
+    let data={
+        user:ObjectId(userId),
+        
+    }
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collections.ORDER_COLLECTION).insertOne(details)
+    })
+}
         
 
-module.exports={loadCurrentAddress,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={loadCurrentAddress,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
