@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder, OrderHistory, getOrderProductToOrder } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -184,12 +184,14 @@ var jwtotpuser={name:'',id:""}
     }
     async function checkoutFormSubmit(req,res){
         let decode = tokenVerify(req)
-        let cart = await getCartProducts(decode.value.id)
+        // let cart = await getCartProducts(decode.value.id)
+        console.log(">>>>>",req.body);
         let totel =await getTotelPrice(req)
-    
+        let product =await getOrderProductToOrder(decode.value.id)
+        
         let status=req.body.payment == 'COD'? 'placed' : 'pending'
         if(req.body.payment == 'COD'){
-            placeOrder(decode.value.id,cart.books,req.body,status).then(()=>{
+            placeOrder(decode.value.id,product,req.body,status).then(()=>{
                 removeCartAfterOrder(decode.value.id)
                 res.render("userView/order-success" ,{mode:'Order Placed Successfully',totel} )
             })
@@ -208,9 +210,19 @@ var jwtotpuser={name:'',id:""}
             console.log("failed to get account info");
         })
     }
-    function viewOrders(req,res){
+    async function viewOrders(req,res){
         var decode = tokenVerify(req)
-        res.render('userView/view-orders',{user:decode.value.name,page:'ORDERS'})
+        let cart =await cartBooks(req)
+        let totel =await getTotelPrice(req)
+        
+        console.log(totel);
+        OrderHistory(decode.value.id).then((products)=>{
+            console.log(products);
+            res.render('userView/view-orders',{products,user:decode.value.name,totel,cart,page:'ORDERS'})
+        }).catch(()=>{
+            res.render('userView/view-orders',{user:decode.value.name,totel,cart,page:'ORDERS'})
+
+        })
     } 
  
     

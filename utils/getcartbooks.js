@@ -10,7 +10,7 @@ function cartBooks(req){
         console.log("error to get cart");
     })
 }
-function getTotelPrice(req){
+function getTotelPrice(req,res){
     let decode = tokenVerify(req)
     return getTotelAmount(decode.value.id).then((totel)=>{
         return totel

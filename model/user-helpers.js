@@ -273,7 +273,8 @@ function getTotelAmount(userId){
                 }
             }
         ]).toArray()
-        if(totel[0]?.totel){
+        console.log(totel);
+        if(totel.length != 0){
         resolve(totel[0]?.totel) 
         }else{
             reject()
@@ -308,8 +309,8 @@ function getCartProducts(userId){
         resolve(cart)
     })
 }
-function placeOrder(userId,cart,order,status){
-   console.log(userId,cart,order,status);
+function placeOrder(userId,product,order,status){
+   console.log(userId,order,status);
    let orderObj={
     user:ObjectId(userId),
     deliveryDetails:{
@@ -321,6 +322,7 @@ function placeOrder(userId,cart,order,status){
         phone:order.phone,
         email:order.email
     },
+    product:product,
     paymentMethod:order.payment,
     date: new Date().toDateString(),
     status:status
@@ -328,6 +330,8 @@ function placeOrder(userId,cart,order,status){
     return new Promise((resolve,reject)=>{
         db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj).then(()=>{
             resolve()
+        }).catch(()=>{
+            reject()
         })
     })
 }
@@ -335,9 +339,91 @@ function removeCartAfterOrder(userId){
     return new Promise((resolve,reject)=>{
         db.get().collection(collections.CART_COLLECTION).deleteOne({user:ObjectId(userId)}).then(()=>{
             resolve()
+        }).catch(()=>{
+            reject()
         })
     })
 }
-        
+function getOrderProductToOrder(userId){
+    return new Promise(async(resolve,reject)=>{
+        var product=await db.get().collection(collections.CART_COLLECTION).aggregate([
+            {
+                $match:{
+                    user:ObjectId(userId)
+                }
+            },
+            {
+                $unwind:"$books"
+            },
+            {
+                $project:{
+                    item:"$books.item",
+                    quantity:"$books.quantity"
+                }
+            },
+            {
+                $lookup:{
+                    from:"books",
+                    localField:"item",
+                    foreignField:"_id",
+                    as:"cartItem"
+                }
+            },
+            {
+                $project:{
+                    cartItem:1,
+                    quantity:1
+                }
+            },
+            {
+                $unwind:'$cartItem'
+            },
+            {
+                $project:{
+                    _id:0,
+                    'cartItem._id':1,
+                    'cartItem.price':1,
+                    quantity:1
+                }
+            }
+        ]).toArray()
+        if (product.length == 0 ) {
+            console.log(product);
+            reject()
+        }else{
+            resolve(product)
+        }
+    })
+}
+function OrderHistory(userId){
+    return new Promise(async(resolve,reject)=>{
+         let history =await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+            {
+                $match:{user:ObjectId(userId)}
+            },
+            {
+                $unwind:'$product'
+            },
+            {
+                $lookup:{
+                    from:'books',
+                    localField:'product.cartItem._id',
+                    foreignField:'_id',
+                    as:'orders'
+                }
+            },
+            {
+                $unwind:'$orders'
+            },
+            {
+                $project:{deliveryDetails:1,paymentMethod:1,date:1,status:1,'orders.bookname':1,'orders.authorname':1,'product.cartItem':1,'product.quantity':1}
+            }
+         ]).toArray()
+        //  console.log(history);
+         resolve(history)
+       
+        })
+}
+         
 
-module.exports={removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}

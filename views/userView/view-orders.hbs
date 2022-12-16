@@ -1,5 +1,5 @@
 <div class="container">
-    <table class="table table-bordered border-primary">
+    <table class="table table-bordered border-primary mt-5">
                 <thead>
                   <tr>
                     <th scope="col">Product Name</th>
@@ -10,15 +10,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                    {{!-- {{#each orders}}
+                    {{#each products}}
                   <tr>
-                    <td>{{this.order.bookname}}</td>
-                    <td>{{this.order.authorname}}</td>
-                    <td>{{this.order.price}}</td>
+                    <td>{{this.orders.bookname}}</td>
+                    <td>{{this.orders.authorname}}</td>
+                    <td>{{this.product.cartItem.price}}</td>
                     <td>{{this.product.quantity}}</td>
                     <td>{{this.status}}</td>
                   </tr>
-                  {{/each}} --}}
+                  {{/each}}
                 </tbody>
               </table>
 </div>

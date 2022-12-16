@@ -99,7 +99,7 @@ const { ObjectId } = require('mongodb')
                     category:bookdata.category,
                     language:bookdata.language,
                     dateofpublish:bookdata.dateofpublish,
-                    price:bookdata.price
+                    price:parseInt(bookdata.price)
                 }
             })
             resolve(bookdata.category)
