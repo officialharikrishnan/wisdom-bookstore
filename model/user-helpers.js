@@ -416,7 +416,7 @@ function OrderHistory(userId){
                 $unwind:'$orders'
             },
             {
-                $project:{deliveryDetails:1,paymentMethod:1,date:1,status:1,'orders.bookname':1,'orders.authorname':1,'product.cartItem':1,'product.quantity':1}
+                $project:{deliveryDetails:1,paymentMethod:1,date:1,status:1,'orders.bookname':1,'orders.authorname':1,'product.cartItem':1,'product.quantity':1,'orders._id':1}
             }
          ]).toArray()
         //  console.log(history);

@@ -1,4 +1,4 @@
-<section class="page-align" id="footer">
+<section class=" page-align" id="footer">
   <div class="btns">
 
        <a href="/admin/add-stock-page"> <button class="btn btn-success">Add Stocks</button></a>
@@ -26,7 +26,7 @@
                     <td>{{this.category}}</td>
                     <td>{{this.dateofpublish}}</td>
                     <td>₹{{this.price}}</td>
-                    <td>
+                    <td class="button-set">
                         <a href="/admin/edit-book/{{this._id}}"><button class="btn btn-secondary">Edit</button></a><br>
                         <form action="/admin/delete-book/{{this.availability}}" method="post">
                         <input type="text" name="id" value="{{this._id}}" hidden>

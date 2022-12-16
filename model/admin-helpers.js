@@ -194,4 +194,10 @@ const { ObjectId } = require('mongodb')
             resolve()
         })
     }
-module.exports={updateBookCategory,deleteByCategory,editCategorySub,removeCategory,addCategory,category,getBanner,addBanner,removeBook,doEditBook,getBook,getAllStocks,addStock,userBlockManage,getAllUsers,adminDoLogin}
+    function AllOrders(){
+        return new Promise(async(resolve,reject)=>{
+            let orders=await db.get().collection(collections.ORDER_COLLECTION).find().toArray()
+            console.log(orders);
+        })
+    }
+module.exports={AllOrders,updateBookCategory,deleteByCategory,editCategorySub,removeCategory,addCategory,category,getBanner,addBanner,removeBook,doEditBook,getBook,getAllStocks,addStock,userBlockManage,getAllUsers,adminDoLogin}

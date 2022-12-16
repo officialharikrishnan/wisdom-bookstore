@@ -2,8 +2,6 @@ const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, g
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
-// require('dotenv').config()
-// const {tockenGenerator}= require('../utils')
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 var number;
 var jwtotpuser={name:'',id:""}
@@ -206,7 +204,7 @@ var jwtotpuser={name:'',id:""}
             })
 
         }else{
-
+            // code for online payment
         }
     }
     }

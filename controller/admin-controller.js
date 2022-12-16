@@ -1,4 +1,4 @@
-const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory } = require("../model/admin-helpers")
+const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders } = require("../model/admin-helpers")
 var jwt = require('jsonwebtoken');
 const { adminTokenGenerator } = require("../utils/token");
 require('dotenv').config()
@@ -164,4 +164,7 @@ var categorydata;
         res.cookie('auth','',{ expiresIn: '0.1s' })
         .redirect('/admin')
     }
-module.exports={adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}
+    function getAllOrders(req,res){
+        AllOrders()
+    }
+module.exports={getAllOrders,adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}
