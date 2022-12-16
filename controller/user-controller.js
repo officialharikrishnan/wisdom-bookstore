@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -175,15 +175,22 @@ var jwtotpuser={name:'',id:""}
         var decode = tokenVerify(req)
         let totel =await getTotelPrice(req)
         let cart =await cartBooks(req)
+        
         loadCurrentAddress(decode.value.id).then((address)=>{
             res.render('userView/checkout',{user:decode.value.name,cart,totel,address,page:'CHECKOUT'})
         }).catch(()=>{
             console.log("address getting error");
         })
     }
-    function checkoutFormSubmit(req,res){
+    async function checkoutFormSubmit(req,res){
+        let decode = tokenVerify(req)
+        let cart = await getCartProducts(decode.value.id)
+        let totel =await getTotelPrice(req)
+    
+        let status=req.body.payment == 'COD'? 'placed' : 'pending'
         if(req.body.payment == 'COD'){
-            res.render("userView/order-success" )
+            placeOrder(decode.value.id,cart.books,req.body,status)
+            res.render("userView/order-success" ,{mode:'Order Placed Successfully',totel} )
 
         }else{
 

@@ -302,15 +302,35 @@ function getAccountInfo(userId){
         }
     })
 }
-function placeOrder(userId,details){
-    let data={
-        user:ObjectId(userId),
-        
-    }
+function getCartProducts(userId){
     return new Promise((resolve,reject)=>{
-        db.get().collection(collections.ORDER_COLLECTION).insertOne(details)
+        let cart = db.get().collection(collections.CART_COLLECTION).findOne()
+        resolve(cart)
+    })
+}
+function placeOrder(userId,cart,order,status){
+   console.log(userId,cart,order,status);
+   let orderObj={
+    user:ObjectId(userId),
+    deliveryDetails:{
+        name:order.name,
+        street:order.street,
+        street2:order.street2,
+        town:order.town,
+        postcode:order.postcode,
+        phone:order.phone,
+        email:order.email
+    },
+    paymentMethod:order.payment,
+    date: new Date().toDateString(),
+    status:status
+   }
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj).then(()=>{
+            resolve()
+        })
     })
 }
         
 
-module.exports={loadCurrentAddress,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
