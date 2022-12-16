@@ -184,21 +184,31 @@ var jwtotpuser={name:'',id:""}
     }
     async function checkoutFormSubmit(req,res){
         let decode = tokenVerify(req)
-        // let cart = await getCartProducts(decode.value.id)
-        console.log(">>>>>",req.body);
-        let totel =await getTotelPrice(req)
-        let product =await getOrderProductToOrder(decode.value.id)
-        
+        let cart = await getCartProducts(decode.value.id)
+        if(cart){
+            var totel =await getTotelPrice(req)
+            var product =await getOrderProductToOrder(decode.value.id)
+        }
+        if(!req.body.name || !req.body.street || !req.body.postcode){
+            res.render('userView/checkout',{user:decode.value.name,cart,totel,page:'CHECKOUT',error:'Fill Details'})
+        }else if(!cart)
+        {
+            res.render('userView/checkout',{user:decode.value.name,cart,totel,page:'CHECKOUT',error:'No items in cart'})
+        }
+        else{
         let status=req.body.payment == 'COD'? 'placed' : 'pending'
         if(req.body.payment == 'COD'){
             placeOrder(decode.value.id,product,req.body,status).then(()=>{
                 removeCartAfterOrder(decode.value.id)
                 res.render("userView/order-success" ,{mode:'Order Placed Successfully',totel} )
+            }).catch(()=>{
+
             })
 
         }else{
 
         }
+    }
     }
     async function getProfile(req,res){
         var decode = tokenVerify(req)

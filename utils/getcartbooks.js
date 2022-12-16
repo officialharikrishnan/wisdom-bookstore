@@ -10,12 +10,13 @@ function cartBooks(req){
         console.log("error to get cart");
     })
 }
-function getTotelPrice(req,res){
+async function getTotelPrice(req,res){
     let decode = tokenVerify(req)
     return getTotelAmount(decode.value.id).then((totel)=>{
         return totel
-    }).catch((err)=>{
+    }).catch((totel)=>{
         console.log("get totel amount error");
+        return totel=null
     })
 }
 module.exports={cartBooks,getTotelPrice} 
