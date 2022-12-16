@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -189,8 +189,10 @@ var jwtotpuser={name:'',id:""}
     
         let status=req.body.payment == 'COD'? 'placed' : 'pending'
         if(req.body.payment == 'COD'){
-            placeOrder(decode.value.id,cart.books,req.body,status)
-            res.render("userView/order-success" ,{mode:'Order Placed Successfully',totel} )
+            placeOrder(decode.value.id,cart.books,req.body,status).then(()=>{
+                removeCartAfterOrder(decode.value.id)
+                res.render("userView/order-success" ,{mode:'Order Placed Successfully',totel} )
+            })
 
         }else{
 
@@ -200,12 +202,13 @@ var jwtotpuser={name:'',id:""}
         var decode = tokenVerify(req)
         let totel =await getTotelPrice(req)
         let cart =await cartBooks(req)
-        getAccountInfo(decode.value.id).then((data)=>{
+        getAccountInfo(decode.value.id).then(async(data)=>{
             res.render('userView/account',{user:decode.value.name,cart,totel,data,page:'ACCOUNT'})
         }).catch(()=>{
             console.log("failed to get account info");
         })
     }
+ 
     
 
 module.exports={currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

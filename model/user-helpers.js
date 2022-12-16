@@ -331,6 +331,13 @@ function placeOrder(userId,cart,order,status){
         })
     })
 }
+function removeCartAfterOrder(userId){
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collections.CART_COLLECTION).deleteOne({user:ObjectId(userId)}).then(()=>{
+            resolve()
+        })
+    })
+}
         
 
-module.exports={loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
