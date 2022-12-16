@@ -274,7 +274,7 @@ function getTotelAmount(userId){
             }
         ]).toArray()
         if(totel[0]?.totel){
-        resolve(totel[0]?.totel)
+        resolve(totel[0]?.totel) 
         }else{
             reject()
         }

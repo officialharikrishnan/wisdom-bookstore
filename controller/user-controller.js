@@ -208,7 +208,11 @@ var jwtotpuser={name:'',id:""}
             console.log("failed to get account info");
         })
     }
+    function viewOrders(req,res){
+        var decode = tokenVerify(req)
+        res.render('userView/view-orders',{user:decode.value.name,page:'ORDERS'})
+    } 
  
     
 
-module.exports={currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
