@@ -1,0 +1,28 @@
+<div class="page-align" id="footer">
+    <h1>View Product</h1>
+    <table class="table table-bordered border-primary mt-5">
+        <thead>
+            <tr>
+                <th>Image</th>
+                <th scope="col">Product</th>
+                <th scope="col">Address</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td class="book-image"><img src="/book-image/{{this.orders._id}}.jpg" alt="no"></td>
+                <td>{{this.orders.bookname}}</td>
+                <td>{{this.deliveryDetails.street}}
+                    {{this.deliveryDetails.postcode}}
+                </td>
+                <td>{{this.product.quantity}}</td>
+                <td>₹{{this.product.cartItem.price}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>

@@ -1,4 +1,4 @@
-const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders } = require("../model/admin-helpers")
+const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders, viewSingleOrder } = require("../model/admin-helpers")
 var jwt = require('jsonwebtoken');
 const { adminTokenGenerator } = require("../utils/token");
 require('dotenv').config()
@@ -165,6 +165,19 @@ var categorydata;
         .redirect('/admin')
     }
     function getAllOrders(req,res){
-        AllOrders()
+        AllOrders().then((orders)=>{
+            res.render('adminView/viewAllOrders',{admin:true,orders})
+        }).catch(()=>{
+            res.render('adminView/viewAllOrders',{admin:true,message:'No orders'})
+        })
     }
-module.exports={getAllOrders,adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}
+    function viewOrderProduct(req,res){
+        console.log("called>>>>>>>>>>>>>>>>>>>>>>>");
+        viewSingleOrder(req.params.id).then((products)=>{
+            res.render('adminView/viewOrderProduct',{admin:true,products})
+        }).catch(()=>{
+
+        })
+    }
+    
+module.exports={viewOrderProduct,getAllOrders,adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}

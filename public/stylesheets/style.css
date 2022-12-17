@@ -9,6 +9,26 @@ body{
   
   
 }
+.shipping{
+  background-color: rgb(188, 188, 188);
+  border: none;
+  border-radius: 5px;
+}
+.cancel{
+  color: #868686;
+  cursor: pointer;
+}
+.view-details{
+  z-index: -1;
+}
+tr:nth-child(odd){
+  background-color: #ededed;
+}
+.cancel p{
+  margin-top: 30px;
+  font-size: 12px;
+  
+}
 .header-login h1{
   color: #fff;
 }

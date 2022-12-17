@@ -1,0 +1,43 @@
+<div class="page-align" id="footer">
+    {{message}}
+    <table class="table table-bordered border-primary mt-5">
+        <thead>
+            <tr>
+                <th scope="col">User</th>
+                <th scope="col">Date</th>
+                <th scope="col">Method</th>
+                <th scope="col">Status</th>
+                <th scope="col">Shipping Status</th>
+                <th>View</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each orders}}
+            <tr>
+                <td>{{this.user.username}}</td>
+                <td>{{this.date}}</td>
+                <td>{{this.paymentMethod}}</td>
+                <td>
+                    <p class="badge badge-success">{{this.status}}</p> <br><a class="cancel">
+                        <p>Cancel Order</p>
+                    </a>
+                </td>
+                <td>
+                    <form action="/action_page.php">
+                        <select class="shipping" name="cars" id="cars">
+                            <option value="volvo">Preparing</option>
+                            <option value="saab">Shipped</option>
+                            <option value="opel">Delivered</option>
+                        </select>
+                        <br><br>
+                        <input class="shipping" type="submit" value="Change">
+                    </form>
+                </td>
+                <td><a href="/admin/view-order-product/{{this._id}}"><button class="btn btn-secondary">View
+                            Products</button></a></td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>

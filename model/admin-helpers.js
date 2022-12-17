@@ -196,8 +196,58 @@ const { ObjectId } = require('mongodb')
     }
     function AllOrders(){
         return new Promise(async(resolve,reject)=>{
-            let orders=await db.get().collection(collections.ORDER_COLLECTION).find().toArray()
-            console.log(orders);
+            let orders=await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+                {
+                    $lookup:{
+                        from:'users',
+                        localField:'user',
+                        foreignField:'_id',
+                        as:'user'
+                    }
+                },
+                {
+                    $unwind:'$user'
+                },
+                {
+                    $project:{'user.username':1,deliveryDetails:1,product:1,paymentMethod:1,date:1,status:1}
+                }
+            ]).toArray()
+            if (orders.length == 0) {
+                reject()
+            }else{
+                resolve(orders)
+            }
         })
     }
-module.exports={AllOrders,updateBookCategory,deleteByCategory,editCategorySub,removeCategory,addCategory,category,getBanner,addBanner,removeBook,doEditBook,getBook,getAllStocks,addStock,userBlockManage,getAllUsers,adminDoLogin}
+    function viewSingleOrder(orderId){
+        return new Promise(async(resolve,reject)=>{
+            let singleOrder=await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+                {
+                    $match:{_id:ObjectId(orderId)}
+                },
+                {
+                    $project:{
+                        product:1,
+                        deliveryDetails:1
+                    }
+                },
+                {
+                    $unwind:'$product'
+                },
+                {
+                    $lookup:{
+                        from:'books',
+                        localField:'product.cartItem._id',
+                        foreignField:'_id',
+                        as:'orders'
+                    }
+                },
+                {
+                    $unwind:'$orders'
+                }
+            ]).toArray()
+            console.log(singleOrder);
+            resolve(singleOrder)
+        })
+    }
+module.exports={viewSingleOrder,AllOrders,updateBookCategory,deleteByCategory,editCategorySub,removeCategory,addCategory,category,getBanner,addBanner,removeBook,doEditBook,getBook,getAllStocks,addStock,userBlockManage,getAllUsers,adminDoLogin}
