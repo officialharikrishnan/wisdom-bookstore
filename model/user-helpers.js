@@ -478,7 +478,8 @@ function cancelOrderSubmit(orderId){
     return new Promise(async(resolve,reject)=>{
         await db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{
             $set:{
-                status:'Cancelled'
+                status:'Cancelled',
+                deliveryStatus:'Cancelled'
             }
         }).then(()=>{
             resolve()
