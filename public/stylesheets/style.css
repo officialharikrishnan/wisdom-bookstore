@@ -107,6 +107,10 @@ tr:nth-child(odd){
 .card-body img{
   width: 200px;
 }
+.sidebars{
+  position: sticky;
+  top: 0;
+}
 .btns{
   float: right;
 }
