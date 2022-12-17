@@ -17,7 +17,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="view-details col-xl-6 col-lg-6 col-md-12">
+                <div class="col-xl-6 col-lg-6 col-md-12">
                     <div class="single_preview_content pl-30">
                         <h2 class="title-5 edit-title border-bottom-0">{{book.bookname}}</h2>
                         <div class="s-product-review">
@@ -35,9 +35,9 @@
                             <p>{{book.aboutbook}}</p>
                         </div>
                         {{#if book.availability}}
-                        <div class="viewcontent__action single_action pt-30">
+                        <div class="viewcontent__action single_action pt-30" >
                             <span><input type="number" placeholder="1"></span>
-                            <span ><a href="/add-to-cart/{{book._id}}">+ add to cart</a></span>
+                            <span ><a href="/add-to-cart/{{book._id}}" id="cart">+ add to cart</a></span>
                             <span><i class="fal fa-heart"></i></span>
                         </div>
                         {{else}}

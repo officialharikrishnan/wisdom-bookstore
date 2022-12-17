@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder, OrderHistory, getOrderProductToOrder } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder, OrderHistory, getOrderProductToOrder, cancelOrderSubmit } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -182,6 +182,7 @@ var jwtotpuser={name:'',id:""}
     }
     async function checkoutFormSubmit(req,res){
         let decode = tokenVerify(req)
+        
         let cart = await getCartProducts(decode.value.id)
         if(cart){
             var totel =await getTotelPrice(req)
@@ -196,7 +197,7 @@ var jwtotpuser={name:'',id:""}
         else{
         let status=req.body.payment == 'COD'? 'placed' : 'pending'
         if(req.body.payment == 'COD'){
-            placeOrder(decode.value.id,product,req.body,status).then(()=>{
+            placeOrder(decode.value.id,product,req.body,status,totel).then(()=>{
                 removeCartAfterOrder(decode.value.id)
                 res.render("userView/order-success" ,{mode:'Order Placed Successfully',totel} )
             }).catch(()=>{
@@ -231,8 +232,13 @@ var jwtotpuser={name:'',id:""}
             res.render('userView/view-orders',{user:decode.value.name,totel,cart,page:'ORDERS'})
 
         })
+    }
+    function cancelOrder(req,res){
+        cancelOrderSubmit(req.params.id).then(()=>{
+            res.redirect('/view-orders')
+        })
     } 
  
     
 
-module.exports={viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={cancelOrder,viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

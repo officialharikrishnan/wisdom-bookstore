@@ -209,7 +209,7 @@ const { ObjectId } = require('mongodb')
                     $unwind:'$user'
                 },
                 {
-                    $project:{'user.username':1,deliveryDetails:1,product:1,paymentMethod:1,date:1,status:1}
+                    $project:{'user.username':1,deliveryDetails:1,product:1,totelPrice:1,paymentMethod:1,date:1,status:1}
                 }
             ]).toArray()
             if (orders.length == 0) {

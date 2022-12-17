@@ -1,10 +1,12 @@
 <div class="page-align" id="footer">
+    <h1>Orders</h1>
     {{message}}
     <table class="table table-bordered border-primary mt-5">
         <thead>
             <tr>
                 <th scope="col">User</th>
                 <th scope="col">Date</th>
+                <th scope="col">Totel Price</th>
                 <th scope="col">Method</th>
                 <th scope="col">Status</th>
                 <th scope="col">Shipping Status</th>
@@ -16,6 +18,7 @@
             <tr>
                 <td>{{this.user.username}}</td>
                 <td>{{this.date}}</td>
+                <td>₹{{this.totelPrice}}</td>
                 <td>{{this.paymentMethod}}</td>
                 <td>
                     <p class="badge badge-success">{{this.status}}</p> <br><a class="cancel">
@@ -23,11 +26,11 @@
                     </a>
                 </td>
                 <td>
-                    <form action="/action_page.php">
-                        <select class="shipping" name="cars" id="cars">
-                            <option value="volvo">Preparing</option>
-                            <option value="saab">Shipped</option>
-                            <option value="opel">Delivered</option>
+                    <form action="/admin/delivery-status/{{this._id}}">
+                        <select class="shipping" name="deliveryStatus" id="cars">
+                            <option value="shipping">Preparing</option>
+                            <option value="shipped">Shipped</option>
+                            <option value="Delivered">Delivered</option>
                         </select>
                         <br><br>
                         <input class="shipping" type="submit" value="Change">

@@ -309,7 +309,7 @@ function getCartProducts(userId){
         resolve(cart)
     })
 }
-function placeOrder(userId,product,order,status){
+function placeOrder(userId,product,order,status,totel){
    console.log(userId,order,status);
    let orderObj={
     user:ObjectId(userId),
@@ -323,6 +323,7 @@ function placeOrder(userId,product,order,status){
         email:order.email
     },
     product:product,
+    totelPrice:totel,
     paymentMethod:order.payment,
     date: new Date().toDateString(),
     status:status
@@ -424,6 +425,19 @@ function OrderHistory(userId){
        
         })
 }
+function cancelOrderSubmit(orderId){
+    return new Promise(async(resolve,reject)=>{
+        await db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{
+            $set:{
+                status:'Cancelled'
+            }
+        }).then(()=>{
+            resolve()
+        }).catch(()=>{
+            reject()
+        })
+    })
+}
          
 
-module.exports={OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={cancelOrderSubmit,OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}

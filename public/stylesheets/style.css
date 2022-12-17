@@ -14,13 +14,14 @@ body{
   border: none;
   border-radius: 5px;
 }
+.full-view{
+  z-index: 9;
+}
 .cancel{
   color: #868686;
   cursor: pointer;
 }
-.view-details{
-  z-index: -1;
-}
+
 tr:nth-child(odd){
   background-color: #ededed;
 }
@@ -123,7 +124,7 @@ tr:nth-child(odd){
   width: 400px;
 }
 #cart{
-  z-index: -1;
+  z-index: 0;
 }
 .middle-title{
   color: white;
