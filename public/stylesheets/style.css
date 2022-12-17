@@ -110,6 +110,20 @@ tr:nth-child(odd){
 .btns{
   float: right;
 }
+.card-body input{
+  margin-top: 10px;
+  width: 95%;
+  font-size: 17px;
+}
+.card-body button{
+  width: 95%;
+  margin-top: 20px;
+  background-color: #818181;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: large;
+}
 .return-add-category{
   text-decoration: none;
   color: rgb(115, 115, 115);

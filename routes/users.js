@@ -1,5 +1,5 @@
 const express = require('express');
-const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, cartPage, cartAdd, changeQuantity, totelPrice, checkoutForm, checkoutSubmit, currentAddress, checkoutFormSubmit, getProfile, viewOrders, cancelOrder, viewOrderProduct } = require('../controller/user-controller');
+const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, cartPage, cartAdd, changeQuantity, totelPrice, checkoutForm, checkoutSubmit, currentAddress, checkoutFormSubmit, getProfile, viewOrders, cancelOrder, viewOrderProduct, editAccount, editAccountSubmit } = require('../controller/user-controller');
 const { authorization, landingAuthorization } = require('../middlewares/tokenAuthentication');
 const router = express.Router();
 
@@ -24,6 +24,8 @@ router.post('/checkout-submit',authorization,checkoutFormSubmit)
 router.get('/view-orders',authorization,viewOrders)
 router.get('/view-user-order-product/:id',viewOrderProduct)
 router.get('/cancel-order/:id',cancelOrder)
+router.get('/edit-account',editAccount)
+router.post('/edit-address',editAccountSubmit)
 router.get('/logout',logout)
 module.exports = router;
  

@@ -487,6 +487,23 @@ function cancelOrderSubmit(orderId){
         })
     })
 }
+function editAddress(userId,data){
+    return new Promise((resolve,reject)=>{
+        db.get().collection(collections.USER_COLLECTION).updateOne({_id:ObjectId(userId)},{
+            $set:{
+                'address.name':data.name,
+                'address.street':data.street,
+                'address.street2':data.street2,
+                'address.city':data.city,
+                'address.district':data.district,
+                'address.state':data.state,
+                'address.postcode':data.postcode
+            }
+        }).then(()=>{
+            resolve()
+        })
+    })
+}
          
 
-module.exports={viewSingleUserOrder,userAllOrders,cancelOrderSubmit,OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={editAddress,viewSingleUserOrder,userAllOrders,cancelOrderSubmit,OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
