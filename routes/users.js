@@ -27,7 +27,7 @@ router.get('/cancel-order/:id',authorization,cancelOrder)
 router.get('/edit-account',authorization,editAccount)
 router.post('/edit-address',authorization,editAccountSubmit)
 router.get('/shop-books',authorization,shopBooks)
-router.get('/filter-book/:id',filterBook)
+router.get('/filter-book/:id',authorization,filterBook)
 router.get('/logout',logout)
 module.exports = router;
  

@@ -271,23 +271,30 @@ var jwtotpuser={name:'',id:""}
             category=data
         })
         let totel =await getTotelPrice(req)
-        getAllBooks().then((data)=>{
-
-            res.render('userView/shopbook',{user:decode.value.name,data,cart,totel,category})
+        getAllBooks().then((books)=>{
+            books=books.all
+            res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category})
         })
     }
     async function filterBook(req,res){
         var decode = tokenVerify(req)
         let cart =await cartBooks(req)
         let totel =await getTotelPrice(req)
-
         let category;
         await categoryUser().then((data)=>{
             category=data
         })
+        if(req.params.id == 'all'){
+            await getAllBooks().then((book)=>{
+                let books=book.all
+                console.log(books);
+                res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category})
+            })
+        }else{
         filterByCategory(req.params.id).then((books)=>{
             res.render('userView/shopbook',{user:decode.value.name,cart,totel,category,books})
         })
+    }
     }
 
 module.exports={shopBooks,filterBook,editAccountSubmit,editAccount,viewOrderProduct,cancelOrder,viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}

@@ -107,10 +107,7 @@ tr:nth-child(odd){
 .card-body img{
   width: 200px;
 }
-.filter-btn{
-  background-color: transparent;
-  border: none;
-}
+
 .sidebars{
   position: sticky;
   top: 0;

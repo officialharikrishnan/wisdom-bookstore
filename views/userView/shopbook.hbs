@@ -6,8 +6,9 @@
                     <div class="product-widget">
                         <h3 class="widget-title mb-30">Book categories</h3>
                         <ul class="product-categories">
+                            <li><a href="/filter-book/all">All</li>
                             {{#each category}}
-                            <li><a href="/filter-book/{{this.name}}">{{this.name}}<span>(5)</span></a></li>
+                            <li><a href="/filter-book/{{this.name}}">{{this.name}}</a></li>
                             {{/each}}
                             
                         </ul>
