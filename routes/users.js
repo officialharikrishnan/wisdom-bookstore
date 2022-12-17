@@ -1,5 +1,5 @@
 const express = require('express');
-const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, cartPage, cartAdd, changeQuantity, totelPrice, checkoutForm, checkoutSubmit, currentAddress, checkoutFormSubmit, getProfile, viewOrders, cancelOrder, viewOrderProduct, editAccount, editAccountSubmit, shopBooks } = require('../controller/user-controller');
+const { landingPage, loginPage, signUpPage, signUpSubmit, loginSubmit, homePage, otpManager, sendOtp, veryfyOtp, logout, viewProduct, cartPage, cartAdd, changeQuantity, totelPrice, checkoutForm, checkoutSubmit, currentAddress, checkoutFormSubmit, getProfile, viewOrders, cancelOrder, viewOrderProduct, editAccount, editAccountSubmit, shopBooks, filterBook } = require('../controller/user-controller');
 const { authorization, landingAuthorization } = require('../middlewares/tokenAuthentication');
 const router = express.Router();
 
@@ -10,7 +10,7 @@ router.get('/register', signUpPage);
 router.post('/signup-submit',signUpSubmit)
 router.get('/otp',otpManager)
 router.post('/login-submit',loginSubmit)
-router.get('/home',authorization,homePage)
+router.get('/home',authorization,homePage) 
 router.post('/number-submit',sendOtp)
 router.post('/verify',veryfyOtp)
 router.get('/view-product/:id',authorization,viewProduct)
@@ -27,6 +27,7 @@ router.get('/cancel-order/:id',authorization,cancelOrder)
 router.get('/edit-account',authorization,editAccount)
 router.post('/edit-address',authorization,editAccountSubmit)
 router.get('/shop-books',authorization,shopBooks)
+router.get('/filter-book/:id',filterBook)
 router.get('/logout',logout)
 module.exports = router;
  

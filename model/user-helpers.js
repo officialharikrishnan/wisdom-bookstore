@@ -505,6 +505,22 @@ function editAddress(userId,data){
         })
     })
 }
+function categoryUser(){
+    return new Promise(async(resolve,reject)=>{
+        let category = await db.get().collection(collections.CATEGORY_COLLECTION).find().toArray()
+        if(category.length != 0 ){
+            resolve(category)
+        }else{
+            reject()
+        }
+    })
+}
+function filterByCategory(data){
+    return new Promise(async(resolve,reject)=>{
+        let books=await db.get().collection(collections.PRODUCT_COLLECTION).find({category:data}).toArray()
+        resolve(books)
+    })
+}
          
 
-module.exports={editAddress,viewSingleUserOrder,userAllOrders,cancelOrderSubmit,OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={filterByCategory,editAddress,categoryUser,viewSingleUserOrder,userAllOrders,cancelOrderSubmit,OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}

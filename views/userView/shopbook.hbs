@@ -6,12 +6,10 @@
                     <div class="product-widget">
                         <h3 class="widget-title mb-30">Book categories</h3>
                         <ul class="product-categories">
-                            <li><a href="shop.html">All<span>(5)</span></a></li>
-                            <li><a href="shop.html">History<span>(0)</span></a></li>
-                            <li><a href="shop.html">Biography<span>(2)</span></a></li>
-                            <li><a href="shop.html">Romance<span>(4)</span></a></li>
-                            <li><a href="shop.html">Kids<span>(2)</span></a></li>
-                            <li><a href="shop.html">Fantasy<span>(0)</span></a></li>
+                            {{#each category}}
+                            <li><a href="/filter-book/{{this.name}}">{{this.name}}<span>(5)</span></a></li>
+                            {{/each}}
+                            
                         </ul>
                     </div>
                     
@@ -143,7 +141,7 @@
                                 <div class=" tab-pane fade show active" id="nav-profile" role="tabpanel"
                                     aria-labelledby="nav-profile-tab">
                                     <div class="row">
-                                        {{#each data.all}}
+                                        {{#each books}}
                                         <div class="col-xl-4 col-md-6">
                                             <div class="product product-4">
                                                 <div class="product__thumb">

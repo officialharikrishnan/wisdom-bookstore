@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder, OrderHistory, getOrderProductToOrder, cancelOrderSubmit, userAllOrders, viewSingleUserOrder, editAddress } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder, OrderHistory, getOrderProductToOrder, cancelOrderSubmit, userAllOrders, viewSingleUserOrder, editAddress, categoryUser, filterByCategory } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -266,11 +266,28 @@ var jwtotpuser={name:'',id:""}
     async function shopBooks(req,res){
         var decode = tokenVerify(req)
         let cart =await cartBooks(req)
+        let category;
+        await categoryUser().then((data)=>{
+            category=data
+        })
         let totel =await getTotelPrice(req)
         getAllBooks().then((data)=>{
 
-            res.render('userView/shopbook',{user:decode.value.name,data,cart,totel})
+            res.render('userView/shopbook',{user:decode.value.name,data,cart,totel,category})
+        })
+    }
+    async function filterBook(req,res){
+        var decode = tokenVerify(req)
+        let cart =await cartBooks(req)
+        let totel =await getTotelPrice(req)
+
+        let category;
+        await categoryUser().then((data)=>{
+            category=data
+        })
+        filterByCategory(req.params.id).then((books)=>{
+            res.render('userView/shopbook',{user:decode.value.name,cart,totel,category,books})
         })
     }
 
-module.exports={shopBooks,editAccountSubmit,editAccount,viewOrderProduct,cancelOrder,viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={shopBooks,filterBook,editAccountSubmit,editAccount,viewOrderProduct,cancelOrder,viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
