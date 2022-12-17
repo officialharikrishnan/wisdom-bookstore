@@ -1,0 +1,33 @@
+<div class="container" id="">
+    <table class="table table-bordered border-primary mt-5">
+        <thead>
+            <tr>
+                <th scope="col">Address</th>
+                <th scope="col">Date</th>
+                <th scope="col">Totel Price</th>
+                <th scope="col">Method</th>
+                <th scope="col">Status</th>
+                <th scope="col">Delivery Status</th>
+                <th>Shipping Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {{#each products}}
+            <tr>
+                <td>{{this.deliveryDetails.street}}</td>
+                <td>{{this.date}}</td>
+                <td>₹{{this.totelPrice}}</td>
+                <td>{{this.paymentMethod}}</td>
+                <td>
+                    <p class="badge badge-success">{{this.status}}</p> <br><a href="/cancel-order/{{this._id}}" class="cancel">
+                        <p>Cancel Order</p>
+                    </a>
+                </td>
+               <td><a href="/view-user-order-product/{{this._id}}"><button class="btn btn-secondary">ViewProducts</button></a></td>
+               <td>{{this.deliveryStatus}}</td>
+            </tr>
+            {{/each}}
+        </tbody>
+    </table>
+
+</div>

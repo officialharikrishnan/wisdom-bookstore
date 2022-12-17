@@ -209,7 +209,7 @@ const { ObjectId } = require('mongodb')
                     $unwind:'$user'
                 },
                 {
-                    $project:{'user.username':1,deliveryDetails:1,product:1,totelPrice:1,paymentMethod:1,date:1,status:1}
+                    $project:{'user.username':1,deliveryDetails:1,product:1,totelPrice:1,paymentMethod:1,date:1,status:1,deliveryStatus:1}
                 }
             ]).toArray()
             if (orders.length == 0) {
@@ -250,4 +250,32 @@ const { ObjectId } = require('mongodb')
             resolve(singleOrder)
         })
     }
-module.exports={viewSingleOrder,AllOrders,updateBookCategory,deleteByCategory,editCategorySub,removeCategory,addCategory,category,getBanner,addBanner,removeBook,doEditBook,getBook,getAllStocks,addStock,userBlockManage,getAllUsers,adminDoLogin}
+
+function cancelOrderAdminSubmit(orderId){
+    return new Promise(async(resolve,reject)=>{
+        await db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{
+            $set:{
+                status:'Cancelled'
+            }
+        }).then(()=>{
+            resolve()
+        }).catch(()=>{
+            reject()
+        })
+    })
+}
+function deliveryStatusChange(orderId,status){
+    console.log(orderId,status);
+    return new Promise(async(resolve,reject)=>{
+        await db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{
+            $set:{
+                deliveryStatus:status
+            }
+        }).then(()=>{
+            resolve()
+        }).catch(()=>{
+            reject()
+        })
+    })
+}
+module.exports={deliveryStatusChange,cancelOrderAdminSubmit,viewSingleOrder,AllOrders,updateBookCategory,deleteByCategory,editCategorySub,removeCategory,addCategory,category,getBanner,addBanner,removeBook,doEditBook,getBook,getAllStocks,addStock,userBlockManage,getAllUsers,adminDoLogin}

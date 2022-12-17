@@ -326,7 +326,8 @@ function placeOrder(userId,product,order,status,totel){
     totelPrice:totel,
     paymentMethod:order.payment,
     date: new Date().toDateString(),
-    status:status
+    status:status,
+    deliveryStatus:'Preparing'
    }
     return new Promise((resolve,reject)=>{
         db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj).then(()=>{
@@ -425,6 +426,54 @@ function OrderHistory(userId){
        
         })
 }
+function userAllOrders(userId){
+    return new Promise(async(resolve,reject)=>{
+        let orders=await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+            {
+                $match:{user:ObjectId(userId)}
+            }
+            
+        ]).toArray()
+        console.log(orders);
+        if (orders.length == 0) {
+            reject()
+        }else{
+            resolve(orders)
+        }
+    })
+}
+function viewSingleUserOrder(orderId){
+    return new Promise(async(resolve,reject)=>{
+        let singleOrder=await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+            {
+                $match:{_id:ObjectId(orderId)}
+            },
+            {
+                $project:{
+                    product:1,
+                    deliveryDetails:1
+                }
+            },
+            {
+                $unwind:'$product'
+            },
+            {
+                $lookup:{
+                    from:'books',
+                    localField:'product.cartItem._id',
+                    foreignField:'_id',
+                    as:'orders'
+                }
+            },
+            {
+                $unwind:'$orders'
+            }
+        ]).toArray()
+        console.log(singleOrder);
+        resolve(singleOrder)
+    })
+}
+
 function cancelOrderSubmit(orderId){
     return new Promise(async(resolve,reject)=>{
         await db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{
@@ -440,4 +489,4 @@ function cancelOrderSubmit(orderId){
 }
          
 
-module.exports={cancelOrderSubmit,OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}
+module.exports={viewSingleUserOrder,userAllOrders,cancelOrderSubmit,OrderHistory,getOrderProductToOrder,removeCartAfterOrder,loadCurrentAddress,placeOrder,getCartProducts,getAccountInfo,getTotelAmount,changeBookQuantity,getCart,userSignup,userLogin,userBlockCheck,getAllBooks,findByNumber,viewBook,addToCart}

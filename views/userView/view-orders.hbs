@@ -7,13 +7,10 @@
                 <th scope="col">Author Name</th>
                 <th scope="col">Price <sub>/One</sub></th>
                 <th scope="col">Qty</th>
-                <th scope="col">Date</th>
-                <th scope="col">Method</th>
-                <th scope="col">Status</th>
             </tr>
         </thead>
         <tbody>
-            {{#each products}}
+            {{#each order}}
             <tr>
                 <td class="table-img">
                     <img src="/book-image/{{this.orders._id}}.jpg" alt="">
@@ -26,9 +23,6 @@
                 <td>{{this.orders.authorname}}</td>
                 <td>{{this.product.cartItem.price}}</td>
                 <td>{{this.product.quantity}}</td>
-                <td>{{this.date}}</td>
-                <td>{{this.paymentMethod}}</td>
-                <td><p class="badge badge-success">{{this.status}}</p>  <br><a class="cancel" href="/cancel-order/{{this._id}}"><p>Cancel Order</p></a></td>
             </tr>
             {{/each}}
         </tbody>

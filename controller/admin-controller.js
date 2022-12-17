@@ -1,4 +1,4 @@
-const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders, viewSingleOrder } = require("../model/admin-helpers")
+const { adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook, doEditBook, removeBook, addBanner, getBanner, editBanner, category, addCategory, removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders, viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange } = require("../model/admin-helpers")
 var jwt = require('jsonwebtoken');
 const { adminTokenGenerator } = require("../utils/token");
 require('dotenv').config()
@@ -179,5 +179,18 @@ var categorydata;
 
         })
     }
+    function cancelOrderAdmin(req,res){
+        cancelOrderAdminSubmit(req.params.id).then(()=>{
+            res.redirect('/admin/getallorders')
+        })
+    } 
+    function deliveryStatus(req,res){
+        console.log("called");
+        deliveryStatusChange(req.body.id,req.body.status).then(()=>{
+            res.redirect('/admin/getallorders')
+        }).catch(()=>{
+            console.log('failed to change delivery status');
+        })
+    }
     
-module.exports={viewOrderProduct,getAllOrders,adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}
+module.exports={deliveryStatus,cancelOrderAdmin,viewOrderProduct,getAllOrders,adminLoginPage,adminDashboard,allUsersPage,userBlock,adminLogin,stocks,addStockPage,addStockSubmit,editBook,editBookSubmit,deleteBook,bannerEditForm,bannerEditPage,editBannerImage,viewCategory,addNewCategory,editCategory,editcategorySubmit,deleteCategory,adminLogout}

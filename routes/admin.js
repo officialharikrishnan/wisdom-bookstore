@@ -1,5 +1,5 @@
 const express = require('express');
-const { adminLoginPage, adminLogin, adminDashboard, allUsersPage, userBlock, stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook, bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory, addNewCategory, editCategory, editcategorySubmit, adminLogout, getAllOrders, viewOrderProduct } = require('../controller/admin-controller');
+const { adminLoginPage, adminLogin, adminDashboard, allUsersPage, userBlock, stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook, bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory, addNewCategory, editCategory, editcategorySubmit, adminLogout, getAllOrders, viewOrderProduct, cancelOrderAdmin, deliveryStatus } = require('../controller/admin-controller');
 const { adminAuthorization } = require('../middlewares/tokenAuthentication');
 const router = express.Router();
 
@@ -24,5 +24,7 @@ router.post('/edit-category-submit/:id',adminAuthorization,editcategorySubmit)
 router.get('/delete-category/:id',adminAuthorization,deleteCategory)
 router.get('/getallorders',adminAuthorization,getAllOrders)
 router.get('/view-order-product/:id',viewOrderProduct)
+router.post('/delivery-status',deliveryStatus)
+router.get('/cancel-order/:id',cancelOrderAdmin)
 router.get('/logout',adminLogout)
 module.exports = router;

@@ -1,4 +1,4 @@
-const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder, OrderHistory, getOrderProductToOrder, cancelOrderSubmit } = require("../model/user-helpers");
+const { getAllBooks, userLogin, userSignup, findByNumber, viewBook, addToCart, getCart, changeBookQuantity, getTotelAmount, loadCurrentAddress, getAccountInfo, getCartProducts, placeOrder, removeCartAfterOrder, OrderHistory, getOrderProductToOrder, cancelOrderSubmit, userAllOrders, viewSingleUserOrder } = require("../model/user-helpers");
 const { tockenGenerator, tokenVerify } = require("../utils/token");
 var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
@@ -225,12 +225,20 @@ var jwtotpuser={name:'',id:""}
         let totel =await getTotelPrice(req)
         
         console.log(totel);
-        OrderHistory(decode.value.id).then((products)=>{
+        userAllOrders(decode.value.id).then((products)=>{
             console.log(products);
-            res.render('userView/view-orders',{products,user:decode.value.name,totel,cart,page:'ORDERS'})
+            res.render('userView/viewAllOrder',{products,user:decode.value.name,totel,cart,page:'ORDERS'})
         }).catch(()=>{
             res.render('userView/view-orders',{user:decode.value.name,totel,cart,page:'ORDERS'})
 
+        })  
+    }
+    async function viewOrderProduct(req,res){
+        var decode = tokenVerify(req)
+        let cart =await cartBooks(req)
+        let totel =await getTotelPrice(req)
+        viewSingleUserOrder(req.params.id).then((order)=>{
+            res.render('userView/view-orders',{user:decode.value.name,totel,cart,order,page:'ORDERS'})
         })
     }
     function cancelOrder(req,res){
@@ -241,4 +249,4 @@ var jwtotpuser={name:'',id:""}
  
     
 
-module.exports={cancelOrder,viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
+module.exports={viewOrderProduct,cancelOrder,viewOrders,currentAddress,getProfile,checkoutFormSubmit,checkoutForm,totelPrice,changeQuantity,cartPage,cartAdd,landingPage,loginPage,signUpPage,signUpSubmit,otpManager,loginSubmit,homePage,sendOtp,veryfyOtp,viewProduct,logout}
