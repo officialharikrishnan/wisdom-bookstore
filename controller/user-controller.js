@@ -150,8 +150,6 @@ var jwtotpuser={name:'',id:""}
         console.log(req.params.id);
         var decode = tokenVerify(req)
         addToCart(req.params.id,decode.value.id).then(()=>{
-            // res.redirect(`/view-product/${req.params.id}`)
-            // window.location.reload()
             res.redirect(req.get('referer'));
         })
     }

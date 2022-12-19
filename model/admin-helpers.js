@@ -180,7 +180,11 @@ const { ObjectId } = require('mongodb')
     }
     function deleteByCategory(data){
         return new Promise((resolve,reject)=>{
-            db.get().collection(collections.PRODUCT_COLLECTION).deleteMany({category:data.value.name})
+            db.get().collection(collections.PRODUCT_COLLECTION).updateMany({category:data.value.name},{
+                $set:{
+                    availability:false
+                }
+            })
             resolve()
         })
     }
