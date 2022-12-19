@@ -6,9 +6,9 @@
                     <div class="product-widget">
                         <h3 class="widget-title mb-30">Book categories</h3>
                         <ul class="product-categories">
-                            <li><a href="/filter-book/all">All</li> 
+                            <li onclick="return filter('all')">All</li> 
                             {{#each category}}
-                            <li><a href="/filter-book/{{this.name}}">{{this.name}}</a></li>
+                            <li id="oncl" onclick="return filter('{{this.name}}')">{{this.name}}</li>
                             {{/each}}
                             
                         </ul>

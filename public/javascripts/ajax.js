@@ -17,3 +17,18 @@ function changeQuantity(cartId,proId,count,quantity){
 
 }
 
+function filter(cat){
+
+    $.ajax({
+        url:'/filter-book',
+        data:{
+            data:cat
+        },
+        method:'post',
+        success:(response)=>{
+            location.reload();
+
+        }
+    })
+
+}

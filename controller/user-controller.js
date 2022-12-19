@@ -4,6 +4,8 @@ var jwt = require('jsonwebtoken');
 const { cartBooks, getTotelPrice } = require("../utils/getcartbooks");
 const client = require("twilio")(process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
 var number;
+var filterStatus=false
+var books;
 var jwtotpuser={name:'',id:""}
 
 
@@ -268,28 +270,38 @@ var jwtotpuser={name:'',id:""}
             category=data
         })
         let totel =await getTotelPrice(req)
-        getAllBooks().then((books)=>{
-            books=books.all
+        if(filterStatus){
             res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category,page:'SHOP'})
-        })
+
+        }else{
+            getAllBooks().then((book)=>{
+            
+                books=book.all
+                res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category,page:'SHOP'})
+            })
+        }
+  
     }
     async function filterBook(req,res){
-        var decode = tokenVerify(req)
-        let cart =await cartBooks(req)
-        let totel =await getTotelPrice(req)
+        filterStatus=true
         let category;
         await categoryUser().then((data)=>{
             category=data
         })
-        if(req.params.id == 'all'){
+        if(req.body.data == 'all'){
             await getAllBooks().then((book)=>{
-                let books=book.all
+                 books=book.all
                 console.log(books);
-                res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category,page:'SHOP'})
+            res.redirect('/shop-books')
+
+                // res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category,page:'SHOP'})
             })
-        }else{
-        filterByCategory(req.params.id).then((books)=>{
-            res.render('userView/shopbook',{user:decode.value.name,cart,totel,category,books,page:'SHOP'})
+        }else{  
+         filterByCategory(req.body.data).then((book)=>{
+            console.log("boooooooks",books,"///////////////");
+            books=book
+            res.redirect('/shop-books')
+            // res.render('userView/shopbook',{user:decode.value.name,cart,totel,category,books,page:'SHOP'})
         })
     }
     }
