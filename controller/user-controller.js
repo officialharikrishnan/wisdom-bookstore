@@ -96,10 +96,9 @@ var jwtotpuser={name:'',id:""}
                     console.log(err);
                 })  
         })
-        .catch(() => {
-            res.render('userView/otpPage', { error: "account not found" })
+        .catch((err) => {
+            res.render('userView/otpPage', { error: err })
         })
-        res.render('userView/verifyPage')
 
     }
     function veryfyOtp  (req, res) {

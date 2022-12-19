@@ -112,9 +112,13 @@ const e = require('express')
         return new Promise(async(resolve,reject)=>{
             let user = await db.get().collection(collections.USER_COLLECTION).findOne({phone:num})
             if(user){
-                resolve(user)
+                if(user.isBlocked){
+                    reject({err:"This account is block"})
+                }else{
+                    resolve(user)
+                }
             }else{
-                reject()
+                reject({err:"account not found"})
             }
         })
     }
