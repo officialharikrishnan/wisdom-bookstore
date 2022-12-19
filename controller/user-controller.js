@@ -273,7 +273,7 @@ var jwtotpuser={name:'',id:""}
         let totel =await getTotelPrice(req)
         getAllBooks().then((books)=>{
             books=books.all
-            res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category})
+            res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category,page:'SHOP'})
         })
     }
     async function filterBook(req,res){
@@ -288,11 +288,11 @@ var jwtotpuser={name:'',id:""}
             await getAllBooks().then((book)=>{
                 let books=book.all
                 console.log(books);
-                res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category})
+                res.render('userView/shopbook',{user:decode.value.name,books,cart,totel,category,page:'SHOP'})
             })
         }else{
         filterByCategory(req.params.id).then((books)=>{
-            res.render('userView/shopbook',{user:decode.value.name,cart,totel,category,books})
+            res.render('userView/shopbook',{user:decode.value.name,cart,totel,category,books,page:'SHOP'})
         })
     }
     }
