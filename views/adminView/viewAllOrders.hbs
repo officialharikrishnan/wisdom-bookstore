@@ -21,9 +21,9 @@
                 <td>₹{{this.totelPrice}}</td>
                 <td>{{this.paymentMethod}}</td>
                 <td>
-                    <p class="badge badge-success">{{this.status}}</p> <br><a href="/admin/cancel-order/{{this._id}}" class="cancel">
-                        <p>Cancel Order</p>
-                    </a>
+                    <p class="badge badge-success">{{this.status}}</p> <br>
+                        <p class="cancel" onclick="return cancelOrder('{{this._id}}')">Cancel Order</p>
+                    
                 </td>
                 <td>
                     <form action="/admin/delivery-status" method="post">

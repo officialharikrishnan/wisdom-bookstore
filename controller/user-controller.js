@@ -243,7 +243,7 @@ var jwtotpuser={name:'',id:""}
         })
     }
     function cancelOrder(req,res){
-        cancelOrderSubmit(req.params.id).then(()=>{
+        cancelOrderSubmit(req.body.data).then(()=>{
             res.redirect('/view-orders')
         })
     } 

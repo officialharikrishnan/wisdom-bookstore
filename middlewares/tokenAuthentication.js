@@ -16,7 +16,8 @@ function authorization (req, res, next){
                 console.log(decode,"????>>>>>");
 
                 userBlockCheck(decode.value.id).then(()=>{
-                    next()
+                 next()
+                
                 }) 
                 .catch(()=>{
                 res.render('userView/login',{error:'This account is blocked'})

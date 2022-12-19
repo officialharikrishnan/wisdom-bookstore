@@ -155,7 +155,8 @@ var categorydata;
         })
     }
     function deleteCategory(req,res){
-        removeCategory(req.params.id).then((data)=>{
+        removeCategory(req.body.data).then((data)=>{
+            
             deleteByCategory(data)
             res.redirect('/admin/category')
         })

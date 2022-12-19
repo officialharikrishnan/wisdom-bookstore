@@ -29,12 +29,16 @@
                 <td>{{this.name}}</td> 
                 <td>
                     <a href="/admin/edit-category/{{this._id}}"><button class="btn btn-secondary">Edit</button></a>
-                    <a href="/admin/delete-category/{{this._id}}"><button class="btn btn-secondary" onclick="return confirm(`Are you sure want to delete {{this.name}} 
-                    if you delete this category, all the books related to this will be Unlisted` )">Remove</button></a>
+                    <button class="btn btn-secondary" onclick="return example('{{this._id}}')">Remove</button>
                 </td>
             </tr>
             {{/each}}
 
         </tbody>
     </table>
+    {{!-- <button onclick="example()">ALERT</button> --}}
+
+
+
 </div>
+

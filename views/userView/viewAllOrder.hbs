@@ -19,9 +19,9 @@
                 <td>₹{{this.totelPrice}}</td>
                 <td>{{this.paymentMethod}}</td>
                 <td>
-                    <p class="badge badge-success">{{this.status}}</p> <br><a href="/cancel-order/{{this._id}}" class="cancel">
-                        <p>Cancel Order</p>
-                    </a>
+                    <p class="badge badge-success">{{this.status}}</p> <br>
+                        <p class="cancel" onclick="return cancelOrder('{{this._id}}')">Cancel Order</p>
+                    
                 </td>
                <td><a href="/view-user-order-product/{{this._id}}"><button class="btn btn-secondary">ViewProducts</button></a></td>
                <td>{{this.deliveryStatus}}</td>
