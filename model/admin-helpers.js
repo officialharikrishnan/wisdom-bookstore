@@ -315,27 +315,6 @@ function getDailyOrder() {
     resolve(order);
   });
 }
-function getDailySales() {
-  const currentDate = new Date().toDateString();
-  return new Promise(async (resolve, reject) => {
-    const sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-      {
-        $match: { date: currentDate },
-      },
-      {
-        $group: {
-          _id: null,
-          total: { $sum: '$totalPrice' },
-        },
-      },
-    ]).toArray();
-    if (sales.length == 0) {
-      reject();
-    } else {
-      resolve(sales[0].total);
-    }
-  });
-}
 function weeklyOrders() {
   return new Promise(async (resolve, reject) => {
     const orders = await db.get().collection(collections.ORDER_COLLECTION)
@@ -355,6 +334,67 @@ function yearlyOrders() {
         fullDate: { $gte: new Date(new Date().getFullYear - 1) },
       }).toArray();
     resolve(orders);
+  });
+}
+function getDailyRevenue() {
+  const currentDate = new Date().toDateString();
+  return new Promise(async (resolve, reject) => {
+    const sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $match: { date: currentDate },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$totalPrice' },
+        },
+      },
+    ]).toArray();
+    if (sales.length === 0) {
+      reject();
+    } else {
+      resolve(sales[0].total);
+    }
+  });
+}
+function getWeeklyRevenue() {
+  return new Promise(async (resolve, reject) => {
+    const sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $match: { fullDate: { $gte: new Date(new Date().getDate() - 7) } },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$totalPrice' },
+        },
+      },
+    ]).toArray();
+    if (sales.length !== 0) {
+      resolve(sales[0].total);
+    } else {
+      reject();
+    }
+  });
+}
+function getYearlyRevenue() {
+  return new Promise(async (resolve, reject) => {
+    const sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $match: { fullDate: { $gte: new Date(new Date().getFullYear - 1) } },
+      },
+      {
+        $group: {
+          _id: null,
+          total: { $sum: '$totalPrice' },
+        },
+      },
+    ]).toArray();
+    if (sales.length !== 0) {
+      resolve(sales[0].total);
+    } else {
+      reject();
+    }
   });
 }
 module.exports = {
@@ -380,7 +420,9 @@ module.exports = {
   getAllUsers,
   adminDoLogin,
   totalusers,
-  getDailySales,
+  getDailyRevenue,
   weeklyOrders,
   yearlyOrders,
+  getWeeklyRevenue,
+  getYearlyRevenue,
 };

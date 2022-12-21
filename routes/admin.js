@@ -4,7 +4,7 @@ const {
   stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook,
   bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory,
   addNewCategory, editCategory, editcategorySubmit, adminLogout, getAllOrders,
-  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport,
+  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport, revenueReport,
 } = require('../controller/admin-controller');
 const { adminAuthorization } = require('../middlewares/tokenAuthentication');
 
@@ -14,6 +14,7 @@ router.get('/', adminLoginPage);
 router.post('/admin-login-submit', adminLogin);
 router.get('/dashboard', adminAuthorization, adminDashboard);
 router.post('/reports', adminAuthorization, salesReport);
+router.post('/revenue', adminAuthorization, revenueReport);
 router.get('/allusers', adminAuthorization, allUsersPage);
 router.post('/blockmanager/:id', adminAuthorization, userBlock);
 router.get('/stocks', adminAuthorization, stocks);

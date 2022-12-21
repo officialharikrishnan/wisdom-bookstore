@@ -3,7 +3,7 @@ const {
   doEditBook, removeBook, getBanner, category, addCategory,
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
   viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers,
-  getDailyOrder, getDailySales, weeklyOrders, yearlyOrders,
+  getDailyOrder, getDailyRevenue, weeklyOrders, yearlyOrders, getWeeklyRevenue, getYearlyRevenue,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 require('dotenv').config();
@@ -14,29 +14,49 @@ let saleStatus = false;
 let reports = null;
 let report;
 let categorydata;
-let salesTitle=null;
+let salesTitle = null;
+let revenueTitle = null;
+let revenReport = null;
+let revenueStatus = false;
 
 function adminLoginPage(req, res) {
   res.render('adminView/login');
 }
 async function salesReport(req, res) {
-  if (req.body.data == 'daily') {
-    salesTitle='Today'
+  if (req.body.data === 'daily') {
+    salesTitle = 'Today';
     reports = await getDailyOrder();
-  } else if (req.body.data == 'weekly') {
-    salesTitle='Weekly'
+  } else if (req.body.data === 'weekly') {
+    salesTitle = 'Weekly';
     saleStatus = true;
     reports = await weeklyOrders();
-  } else if (req.body.data == 'yearly') {
-    salesTitle='Yearly'
+  } else if (req.body.data === 'yearly') {
+    salesTitle = 'Yearly';
     saleStatus = true;
     reports = await yearlyOrders();
   }
   report = reports.length;
-  const sales = await getDailySales();
   const users = await totalusers();
   res.render('adminView/dashboard', {
-    admin: true, report, users: users.length, sales,salesTitle ,
+    admin: true, report, users: users.length, salesTitle,
+  });
+}
+async function revenueReport(req, res) {
+  if (req.body.data === 'daily') {
+    revenueTitle = 'Daily';
+    revenReport = await getDailyRevenue();
+  } else if (req.body.data === 'weekly') {
+    revenueStatus = true;
+    revenueTitle = 'Weekly';
+    revenReport = await getWeeklyRevenue();
+  } else if (req.body.data === 'yearly') {
+    revenueStatus = true;
+    revenueTitle = 'Yearly';
+    revenReport = await getYearlyRevenue();
+  }
+  const users = await totalusers();
+  res.render('adminView/dashboard', {
+    admin: true, report, users: users.length, revenReport, salesTitle, revenueTitle,
   });
 }
 function adminLogin(req, res) {
@@ -52,14 +72,17 @@ function adminLogin(req, res) {
 async function adminDashboard(req, res) {
   try {
     if (!saleStatus) {
-      salesTitle='Today'
+      salesTitle = 'Today';
       reports = await getDailyOrder();
       report = reports.length;
     }
-    const sales = await getDailySales();
+    if (!revenueStatus) {
+      revenueTitle = 'Today';
+      revenReport = await getDailyRevenue();
+    }
     const users = await totalusers();
     res.render('adminView/dashboard', {
-      admin: true, report, users: users.length, sales,salesTitle,
+      admin: true, report, users: users.length, revenReport, salesTitle, revenueTitle,
     });
   } catch (err) {
     res.render('adminView/dashboard', {
@@ -260,4 +283,5 @@ module.exports = {
   deleteCategory,
   adminLogout,
   salesReport,
+  revenueReport,
 };
