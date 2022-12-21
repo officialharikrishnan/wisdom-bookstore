@@ -2,7 +2,7 @@ const {
   adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook,
   doEditBook, removeBook, getBanner, category, addCategory,
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
-  viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange,
+  viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalOrderCount, totalusers,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 require('dotenv').config();
@@ -25,8 +25,10 @@ function adminLogin(req, res) {
     res.render('adminView/login', { error: err.error });
   });
 }
-function adminDashboard(req, res) {
-  res.render('adminView/dashboard', { admin: true });
+async function adminDashboard(req, res) {
+  const orders = await totalOrderCount();
+  const users = await totalusers();
+  res.render('adminView/dashboard', { admin: true, count: orders.length, users: users.length });
 }
 function allUsersPage(req, res) {
   getAllUsers().then((users) => {
@@ -167,7 +169,7 @@ function adminLogout(req, res) {
   res.cookie('auth', '', { expiresIn: '0.1s' })
     .redirect('/admin');
 }
-function getAllOrders(req, res) {
+async function getAllOrders(req, res) {
   AllOrders().then((orders) => {
     res.render('adminView/viewAllOrders', { admin: true, orders });
   }).catch(() => {
@@ -175,7 +177,6 @@ function getAllOrders(req, res) {
   });
 }
 function viewOrderProduct(req, res) {
-  console.log('called>>>>>>>>>>>>>>>>>>>>>>>');
   viewSingleOrder(req.params.id).then((products) => {
     res.render('adminView/viewOrderProduct', { admin: true, products });
   }).catch(() => {

@@ -29,14 +29,14 @@
                 <td>
                     <form action="/admin/delivery-status" method="post">
                     <input type="text" value="{{this._id}}" name="id" hidden>
-                    {{!-- <label for=""></label> --}}
+                    <h6 class="badge badge-info">{{this.deliveryStatus}}</h6><br>
+
                         <select class="shipping" name="status">
-                            <option value="{{this.deliveryStatus}}" selected>{{this.deliveryStatus}}</option>
                             <option value="Preparing">Preparing</option>
                             <option value="Shipped">Shipped</option>
                             <option value="Delivered">Delivered</option>
                         </select>
-                        <br><br>
+                        
                         <input class="shipping" type="submit" value="Change">
                     </form>
                 </td>

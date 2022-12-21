@@ -13918,7 +13918,7 @@ input:-ms-input-placeholder {
 
 .company__info.info2 {
   padding: 116px 30px;
-  text-align: center;
+  /* text-align: center; */
 }
 .company__info.info2 h3 {
   font-size: 30px;

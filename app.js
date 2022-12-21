@@ -15,7 +15,7 @@ app.use(fileUpload());
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs', hbs.engine({
-  extname: 'hbs', defaultLayout: 'layout', layoutsDir: (path.join(__dirname, '/views')), partialsDir: path.join(__dirname, '/views/headers/'),
+  extname: 'hbs', defaultLayout: 'layout', layoutsDir: (path.join(__dirname, '/views')), partialsDir: path.join(__dirname, '/views/Sections/'),
 }));
 
 app.use(logger('dev'));

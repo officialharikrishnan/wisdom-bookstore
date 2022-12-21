@@ -10,9 +10,10 @@ body{
   
 }
 .shipping{
-  background-color: rgb(188, 188, 188);
+  background-color: rgb(198, 197, 197);
   border: none;
   border-radius: 5px;
+  color: rgb(78, 78, 78);
 }
 .full-view{
   z-index: 9;
@@ -61,7 +62,6 @@ tr:nth-child(odd){
 }
 .page-align{
   position: relative;
-  margin-left: 25%;
   padding-left: 1%;
   margin-top: 10%;
   padding-right: 1%;

@@ -298,6 +298,19 @@ function deliveryStatusChange(orderId, status) {
       });
   });
 }
+function totalOrderCount() {
+  return new Promise(async (resolve, reject) => {
+    const orders = await db.get().collection(collections.ORDER_COLLECTION).find().toArray();
+    resolve(orders);
+  });
+}
+function totalusers() {
+  return new Promise(async (resolve, reject) => {
+    const users = await db.get().collection(collections.USER_COLLECTION).find().toArray();
+    resolve(users);
+  });
+}
+
 module.exports = {
   deliveryStatusChange,
   cancelOrderAdminSubmit,
@@ -319,4 +332,6 @@ module.exports = {
   userBlockManage,
   getAllUsers,
   adminDoLogin,
+  totalOrderCount,
+  totalusers,
 };
