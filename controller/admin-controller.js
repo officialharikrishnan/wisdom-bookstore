@@ -2,7 +2,7 @@ const {
   adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook,
   doEditBook, removeBook, getBanner, category, addCategory,
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
-  viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalOrderCount, totalusers,
+  viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers, getDailyOrder, getDailySales,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 require('dotenv').config();
@@ -26,9 +26,10 @@ function adminLogin(req, res) {
   });
 }
 async function adminDashboard(req, res) {
-  const orders = await totalOrderCount();
+  const sales = await getDailySales()
+  const daily = await getDailyOrder();
   const users = await totalusers();
-  res.render('adminView/dashboard', { admin: true, count: orders.length, users: users.length });
+  res.render('adminView/dashboard', { admin: true, count: daily.length, users: users.length, sales });
 }
 function allUsersPage(req, res) {
   getAllUsers().then((users) => {

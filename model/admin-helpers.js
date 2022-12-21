@@ -298,20 +298,39 @@ function deliveryStatusChange(orderId, status) {
       });
   });
 }
-function totalOrderCount() {
-  return new Promise(async (resolve, reject) => {
-    const orders = await db.get().collection(collections.ORDER_COLLECTION).find().toArray();
-    resolve(orders);
-  });
-}
 function totalusers() {
   return new Promise(async (resolve, reject) => {
     const users = await db.get().collection(collections.USER_COLLECTION).find().toArray();
     resolve(users);
   });
 }
+function getDailyOrder() {
+  const currentDate = new Date().toDateString()
+  return new Promise(async(resolve, reject) => {
+    const order = await db.get().collection(collections.ORDER_COLLECTION).find({date: currentDate}).toArray()
+    resolve(order)
+  })
+}
+function getDailySales() {
+  const currentDate = new Date().toDateString()
+  return new Promise(async(resolve, reject) => {
+    const sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $match: {date: currentDate}
+      },
+      {
+        $group: {
+          _id:null,
+          total: { $sum: '$totalPrice' }
+        }
+      }
+    ]).toArray()
+    resolve(sales[0].total)
+  })
+}
 
 module.exports = {
+  getDailyOrder,
   deliveryStatusChange,
   cancelOrderAdminSubmit,
   viewSingleOrder,
@@ -332,6 +351,6 @@ module.exports = {
   userBlockManage,
   getAllUsers,
   adminDoLogin,
-  totalOrderCount,
   totalusers,
+  getDailySales,
 };
