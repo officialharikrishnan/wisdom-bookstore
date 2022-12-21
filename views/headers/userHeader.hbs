@@ -38,9 +38,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-6 d-flex justify-content-center">
+                    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-6 d-flex justify-content-end">
                         <div class="gota_top pl-40 gota_top_bg">
-                            <div class="gota_lang gota_lang_3 d-flex align-items-center justify-content-end">
+                            <div class="gota_lang gota_lang_3 d-flex justify-content-end">
                                 <ul class="d-none d-lg-block">
                                 </ul>
                                 <div class="dropdown">
@@ -132,6 +132,7 @@
 <!-- slider area end -->
 <div class="cart__sidebar">
     <div class="container">
+        {{#if cart}}
         <div class="cart__content">
             <div class="cart-text">
                 <h3 class="mb-40">Wisdom</h3>
@@ -153,13 +154,17 @@
             </div>
             <div class="cart-bottom">
                 <div class="cart-bottom__text">
+                    
                     <span>Subtotal:</span>
-                    <span class="end">₹{{totel}}</span>
+                    <span class="end">₹{{total}}</span>
                     <a href="/cart">view cart</a>
                     <a href="/checkout">checkout</a>
                 </div>
             </div>
         </div>
+        {{else}}
+        <span>No items in cart</span>
+        {{/if}}
     </div>
 </div>
 <div class="cart-offcanvas-overlay"></div>

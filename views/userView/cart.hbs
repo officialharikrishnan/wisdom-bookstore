@@ -13,7 +13,7 @@
                                 {{!-- <td>Total</td> --}}
                                 
                                </tr>
-                            <tbody>
+                            <tbody>{{#if cart}}
                                 {{#each cart}}
                                 
                                 <tr class="max-width-set">
@@ -44,15 +44,30 @@
                                     </td> --}}
                                 </tr>
                                 {{/each }}
+                                {{else}}
+                                <tr>
+                                    <td>
+                                        No Items
+                                    </td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                </tr>
+                                {{/if}}
                             </tbody>
+                                {{#if cart}}
                             <tfoot>
                                 <tr class="design-footer">
                                     <td>
                                         <input type="text" placeholder="Coupon Code">
                                     </td>
                                     <td><button type="submit">Apply Coupon</button></td>
+                                    <td></td>
+                                    <td></td>
                                 </tr>
+
                             </tfoot>
+                            {{/if}}
                         </table>
                     </div>
                 </div>
@@ -62,7 +77,7 @@
                       <table>
                           <tr class="first-child">
                               <td>Subtotal</td>
-                              <td>₹{{totel}}</td>
+                              <td>₹{{total}}</td>
                           </tr>
                           <tr class="first-child lastchild">
                               <td>Shipping</td>
@@ -71,7 +86,7 @@
                           </tr>
                           <tr class="first-child">
                               <td>Total</td>
-                              <td>₹{{totel}}</td>
+                              <td>₹{{total}}</td>
                           </tr>
                           <tr>   
                               <td colspan="2">

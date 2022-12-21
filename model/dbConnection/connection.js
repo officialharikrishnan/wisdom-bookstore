@@ -1,18 +1,20 @@
-const mongoClient=require('mongodb').MongoClient
-const state={
-    db:null
-}
+const mongoClient = require('mongodb').MongoClient;
 
-module.exports.connect=function(done){
-    const url="mongodb://localhost:27017"
-    const dbname='Wisdom'
+const state = {
+  db: null,
+};
 
-    mongoClient.connect(url,(err,data)=>{
-        if(err) return done(err)
-        state.db=data.db(dbname)
-        done()
-        
-    })
-}
+// eslint-disable-next-line func-names
+module.exports.connect = function (done) {
+  const url = 'mongodb://localhost:27017';
+  const dbname = 'Wisdom';
 
-module.exports.get= () => { return state.db }
+  // eslint-disable-next-line consistent-return
+  mongoClient.connect(url, (err, data) => {
+    if (err) return done(err);
+    state.db = data.db(dbname);
+    done();
+  });
+};
+
+module.exports.get = () => state.db;

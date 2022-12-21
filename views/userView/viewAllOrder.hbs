@@ -4,7 +4,7 @@
             <tr>
                 <th scope="col">Address</th>
                 <th scope="col">Date</th>
-                <th scope="col">Totel Price</th>
+                <th scope="col">Total Price</th>
                 <th scope="col">Method</th>
                 <th scope="col">Status</th>
                 <th scope="col">View products</th>
@@ -16,15 +16,16 @@
             <tr>
                 <td>{{this.deliveryDetails.street}}</td>
                 <td>{{this.date}}</td>
-                <td>₹{{this.totelPrice}}</td>
+                <td>₹{{this.totalPrice}}</td>
                 <td>{{this.paymentMethod}}</td>
                 <td>
                     <p class="badge badge-success">{{this.status}}</p> <br>
-                        <p class="cancel" onclick="return cancelOrder('{{this._id}}')">Cancel Order</p>
-                    
+                    {{#if this.btnStatus}}
+                        <p class="cancel badge badge-danger" onclick="return cancelOrder('{{this._id}}')">Cancel Order</p>
+                    {{/if}}
                 </td>
                <td><a href="/view-user-order-product/{{this._id}}"><button class="btn btn-secondary">ViewProducts</button></a></td>
-               <td>{{this.deliveryStatus}}</td>
+               <td> <p class="badge badge-secondary">{{this.deliveryStatus}}</p></td>
             </tr>
             {{/each}}
         </tbody>

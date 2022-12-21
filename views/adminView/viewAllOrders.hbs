@@ -6,7 +6,7 @@
             <tr>
                 <th scope="col">User</th>
                 <th scope="col">Date</th>
-                <th scope="col">Totel Price</th>
+                <th scope="col">Total Price</th>
                 <th scope="col">Method</th>
                 <th scope="col">Status</th>
                 <th scope="col">Shipping Status</th>
@@ -18,12 +18,13 @@
             <tr>
                 <td>{{this.user.username}}</td>
                 <td>{{this.date}}</td>
-                <td>₹{{this.totelPrice}}</td>
+                <td>₹{{this.totalPrice}}</td>
                 <td>{{this.paymentMethod}}</td>
                 <td>
                     <p class="badge badge-success">{{this.status}}</p> <br>
-                        <p class="cancel" onclick="return cancelOrder('{{this._id}}')">Cancel Order</p>
-                    
+                    {{#if this.btnStatus}}
+                        <p class="cancel badge badge-danger" onclick="return cancelOrder('{{this._id}}')">Cancel Order</p>
+                    {{/if}}
                 </td>
                 <td>
                     <form action="/admin/delivery-status" method="post">
