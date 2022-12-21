@@ -16,21 +16,21 @@
                       <h6>Filter</h6>
                     </li>
 
-                    <li><a class="dropdown-item" href="#">Today</a></li>
-                    <li><a class="dropdown-item" href="#">This Month</a></li>
-                    <li><a class="dropdown-item" href="#">This Year</a></li>
+                    <li><a class="dropdown-item" onclick="return sales('daily')">Today</a></li>
+                    <li><a class="dropdown-item" onclick="return sales('weekly')">Last week</a></li>
+                    <li><a class="dropdown-item"  onclick="return sales('yearly')">Last Year</a></li>
                   </ul>
                 </div>
 
                 <div class="card-body">
-                  <h5 class="card-title">Sales <span>| Today</span></h5>
+                  <h5 class="card-title">Sales <span>| {{salesTitle}}</span></h5>
 
                   <div class="d-flex align-items-center">
                     <div class="card-icon rounded-circle d-flex align-items-center justify-content-center">
                       <i class="bi bi-cart"></i>
                     </div>
                     <div class="ps-3">
-                      <h6>{{count}}</h6>
+                      <h6>{{report}}</h6>
                       <span class="text-success small pt-1 fw-bold">12%</span> <span class="text-muted small pt-2 ps-1">increase</span>
 
                     </div>
@@ -560,3 +560,20 @@
 
       </div>
     </section>
+ <script>
+    function sales(value) {
+  $.ajax({
+    url: '/admin/reports',
+    data: {
+        data:value
+    },
+    method: 'post',
+    success: () => {
+      // eslint-disable-next-line no-restricted-globals
+      location.reload();
+    },
+  });
+}
+
+
+ </script>

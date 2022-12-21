@@ -314,6 +314,7 @@ function placeOrder(userId, product, order, status, total) {
     totalPrice: total,
     paymentMethod: order.payment,
     date: new Date().toDateString(),
+    fullDate: new Date(),
     status,
     deliveryStatus: 'Preparing',
     btnStatus: true,

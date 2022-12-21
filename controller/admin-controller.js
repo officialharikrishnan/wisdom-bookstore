@@ -2,21 +2,45 @@ const {
   adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook,
   doEditBook, removeBook, getBanner, category, addCategory,
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
-  viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers, getDailyOrder, getDailySales,
+  viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers,
+  getDailyOrder, getDailySales, weeklyOrders, yearlyOrders,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 require('dotenv').config();
 
 let error;
 const btnstatus = {};
+let saleStatus = false;
+let reports = null;
+let report;
 let categorydata;
+let salesTitle=null;
 
 function adminLoginPage(req, res) {
   res.render('adminView/login');
 }
+async function salesReport(req, res) {
+  if (req.body.data == 'daily') {
+    salesTitle='Today'
+    reports = await getDailyOrder();
+  } else if (req.body.data == 'weekly') {
+    salesTitle='Weekly'
+    saleStatus = true;
+    reports = await weeklyOrders();
+  } else if (req.body.data == 'yearly') {
+    salesTitle='Yearly'
+    saleStatus = true;
+    reports = await yearlyOrders();
+  }
+  report = reports.length;
+  const sales = await getDailySales();
+  const users = await totalusers();
+  res.render('adminView/dashboard', {
+    admin: true, report, users: users.length, sales,salesTitle ,
+  });
+}
 function adminLogin(req, res) {
   adminDoLogin(req.body).then(async (data) => {
-    console.log(data);
     const token = await adminTokenGenerator(data);
     res.cookie('auth', token, {
       httpOnly: true,
@@ -26,10 +50,22 @@ function adminLogin(req, res) {
   });
 }
 async function adminDashboard(req, res) {
-  const sales = await getDailySales()
-  const daily = await getDailyOrder();
-  const users = await totalusers();
-  res.render('adminView/dashboard', { admin: true, count: daily.length, users: users.length, sales });
+  try {
+    if (!saleStatus) {
+      salesTitle='Today'
+      reports = await getDailyOrder();
+      report = reports.length;
+    }
+    const sales = await getDailySales();
+    const users = await totalusers();
+    res.render('adminView/dashboard', {
+      admin: true, report, users: users.length, sales,salesTitle,
+    });
+  } catch (err) {
+    res.render('adminView/dashboard', {
+      admin: true,
+    });
+  }
 }
 function allUsersPage(req, res) {
   getAllUsers().then((users) => {
@@ -223,4 +259,5 @@ module.exports = {
   editcategorySubmit,
   deleteCategory,
   adminLogout,
+  salesReport,
 };

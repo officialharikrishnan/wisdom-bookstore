@@ -144,4 +144,17 @@ function cancelOrder(id) {
 
   });
 }
-// eslint no - use - before - define; 0;
+//admin sales
+
+// function sales(time) {
+//   $.ajax({
+//     url: '/admin/dashboard',
+//     data: time,
+//     method: 'post',
+//     success: () => {
+//       // eslint-disable-next-line no-restricted-globals
+//       location.reload();
+//     },
+//   });
+// }
+

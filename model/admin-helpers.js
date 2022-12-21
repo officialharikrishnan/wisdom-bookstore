@@ -305,30 +305,58 @@ function totalusers() {
   });
 }
 function getDailyOrder() {
-  const currentDate = new Date().toDateString()
-  return new Promise(async(resolve, reject) => {
-    const order = await db.get().collection(collections.ORDER_COLLECTION).find({date: currentDate}).toArray()
-    resolve(order)
-  })
+  const currentDate = new Date();
+  return new Promise(async (resolve, reject) => {
+    const order = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $match: { date: new Date().toDateString() },
+      },
+    ]).toArray();
+    resolve(order);
+  });
 }
 function getDailySales() {
-  const currentDate = new Date().toDateString()
-  return new Promise(async(resolve, reject) => {
+  const currentDate = new Date().toDateString();
+  return new Promise(async (resolve, reject) => {
     const sales = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
       {
-        $match: {date: currentDate}
+        $match: { date: currentDate },
       },
       {
         $group: {
-          _id:null,
-          total: { $sum: '$totalPrice' }
-        }
-      }
-    ]).toArray()
-    resolve(sales[0].total)
-  })
+          _id: null,
+          total: { $sum: '$totalPrice' },
+        },
+      },
+    ]).toArray();
+    if (sales.length == 0) {
+      reject();
+    } else {
+      resolve(sales[0].total);
+    }
+  });
 }
-
+function weeklyOrders() {
+  return new Promise(async (resolve, reject) => {
+    const orders = await db.get().collection(collections.ORDER_COLLECTION)
+      .find({
+        $and: [
+          { fullDate: { $lte: new Date() } },
+          { fullDate: { $gte: new Date(new Date().getDate() - 7) } },
+        ],
+      }).toArray();
+    resolve(orders);
+  });
+}
+function yearlyOrders() {
+  return new Promise(async (resolve, reject) => {
+    const orders = await db.get().collection(collections.ORDER_COLLECTION)
+      .find({
+        fullDate: { $gte: new Date(new Date().getFullYear - 1) },
+      }).toArray();
+    resolve(orders);
+  });
+}
 module.exports = {
   getDailyOrder,
   deliveryStatusChange,
@@ -353,4 +381,6 @@ module.exports = {
   adminDoLogin,
   totalusers,
   getDailySales,
+  weeklyOrders,
+  yearlyOrders,
 };
