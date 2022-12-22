@@ -221,13 +221,18 @@ async function checkoutFormSubmit(req, res) {
           res.json({cod:true})
         }else{
       // code for online payment
-      generateRazorpay(orderId,total)
+      generateRazorpay(orderId,total).then((order)=>[
+          res.json({cod:false,order})
+      ])
 
         }
       }).catch(() => {
 
       });
   }
+}
+function verifyPayment(req,res){
+  console.log(">>>>>>>>",req.body);
 }
 function orderSuccess(req,res){
         res.render('userView/order-success',{mode,successAmount});
@@ -367,4 +372,5 @@ module.exports = {
   viewProduct,
   logout,
   orderSuccess,
+  verifyPayment,
 };

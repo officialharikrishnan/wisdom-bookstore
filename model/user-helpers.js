@@ -527,7 +527,8 @@ function filterByCategory(data) {
 function generateRazorpay(orderId,amount) {
   console.log(orderId,amount);
   return new Promise((resolve, reject) => {
-    let options = {amount: amount,
+    let options = {
+      amount: amount*100,
       currency: "INR",
       receipt: ''+orderId,
       notes: {
@@ -539,6 +540,7 @@ function generateRazorpay(orderId,amount) {
       console.log(err);
     }else{
       console.log(order);
+      resolve(order)
     }
   })
   })
