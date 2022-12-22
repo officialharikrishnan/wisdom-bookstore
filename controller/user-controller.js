@@ -7,7 +7,7 @@ const {
   changeBookQuantity, loadCurrentAddress, getAccountInfo,
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
-  editAddress, categoryUser, filterByCategory, generateRazorpay,
+  editAddress, categoryUser, filterByCategory, generateRazorpay, paymentVerification, OrderStatusChange,
 } = require('../model/user-helpers');
 
 
@@ -232,7 +232,15 @@ async function checkoutFormSubmit(req, res) {
   }
 }
 function verifyPayment(req,res){
-  console.log(">>>>>>>>",req.body);
+  
+  paymentVerification(req.body).then(()=>{
+    console.log("successs");
+    OrderStatusChange(req.body['order[receipt]']).then(()=>{
+      res.json({status:true})
+    })
+  }).catch(()=>{
+    res.json({status:false})
+  })
 }
 function orderSuccess(req,res){
         res.render('userView/order-success',{mode,successAmount});

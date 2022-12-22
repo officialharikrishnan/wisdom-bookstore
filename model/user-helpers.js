@@ -1,5 +1,6 @@
 const bcrypt = require('bcrypt');
 const Razorpay = require('razorpay');
+const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
 const collections = require('./dbConnection/collection');
 const db = require('./dbConnection/connection');
@@ -545,6 +546,27 @@ function generateRazorpay(orderId,amount) {
   })
   })
 }
+function paymentVerification(details){
+  console.log(details);
+  return new Promise((resolve,reject)=>{
+    let hmac = crypto.createHmac('sha256',process.env.KEY_SECRET);
+    hmac.update(details['payment[razorpay_order_id]']+'|'+ details['payment[razorpay_payment_id]'])
+    hmac=hmac.digest('hex')
+    if(hmac==details['payment[razorpay_signature]']){
+      resolve()
+    }else{
+      reject()
+    }
+
+  })
+}
+function OrderStatusChange(orderId){
+  return new Promise((resolve,reject)=>{
+    db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{
+      $set:{status:'placed'}
+    })
+  })
+}
 
 module.exports = {
   filterByCategory,
@@ -571,4 +593,6 @@ module.exports = {
   viewBook,
   addToCart,
   generateRazorpay,
+  paymentVerification,
+  OrderStatusChange,
 };
