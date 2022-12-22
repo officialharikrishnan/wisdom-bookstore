@@ -1,3 +1,4 @@
+/* eslint-disable radix */
 const {
   adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook,
   doEditBook, removeBook, getBanner, category, addCategory,
@@ -81,17 +82,29 @@ async function adminDashboard(req, res) {
       revenReport = await getDailyRevenue();
     }
     const users = await totalusers();
-    const graph= await revenueGraph()
-    let gr1 = parseInt(graph[0].per)
-    let gr2 = parseInt(graph[1].per)
-    let gr3 = parseInt(graph[2].per)
-    let gr4 = parseInt(graph[3].per)
-    let gr5 = parseInt(graph[4].per)
-    let gr6 = parseInt(graph[5].per)
-    let gr7 = parseInt(graph[6].per)
+    const graph = await revenueGraph();
+    const gr1 = parseInt(graph[0].per);
+    const gr2 = parseInt(graph[1].per);
+    const gr3 = parseInt(graph[2].per);
+    const gr4 = parseInt(graph[3].per);
+    const gr5 = parseInt(graph[4].per);
+    const gr6 = parseInt(graph[5].per);
+    const gr7 = parseInt(graph[6].per);
 
     res.render('adminView/dashboard', {
-      admin: true, report, users: users.length, revenReport, salesTitle, revenueTitle,gr1 ,gr2,gr3, gr4, gr5, gr6, gr7,
+      admin: true,
+      report,
+      users: users.length,
+      revenReport,
+      salesTitle,
+      revenueTitle,
+      gr1,
+      gr2,
+      gr3,
+      gr4,
+      gr5,
+      gr6,
+      gr7,
     });
   } catch (err) {
     res.render('adminView/dashboard', {

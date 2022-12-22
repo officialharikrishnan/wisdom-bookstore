@@ -7,13 +7,16 @@ const {
   changeBookQuantity, loadCurrentAddress, getAccountInfo,
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
-  editAddress, categoryUser, filterByCategory,
+  editAddress, categoryUser, filterByCategory, generateRazorpay,
 } = require('../model/user-helpers');
+
 
 let number;
 let filterStatus = false;
 let books;
 let catg;
+let mode;
+let successAmount;
 const jwtotpuser = { name: '', id: '' };
 
 function landingPage(req, res) {
@@ -92,6 +95,7 @@ function sendOtp(req, res) {
     jwtotpuser.name = user.username;
     // eslint-disable-next-line no-underscore-dangle
     jwtotpuser.id = user._id;
+    console.log(user, '>>>>', process.env.SERVICE_ID, '>>>>', number);
     client.verify
       .services(process.env.SERVICE_ID)
       .verifications.create({
@@ -209,17 +213,25 @@ async function checkoutFormSubmit(req, res) {
     });
   } else {
     const status = req.body.payment === 'COD' ? 'placed' : 'pending';
-    if (req.body.payment === 'COD') {
-      placeOrder(decode.value.id, product, req.body, status, total).then(() => {
+      placeOrder(decode.value.id, product, req.body, status, total).then((orderId) => {
         removeCartAfterOrder(decode.value.id);
-        res.render('userView/order-success', { mode: 'Order Placed Successfully', total });
+        if(req.body.payment === 'COD'){
+          mode='Order placed successfully'
+          successAmount=total
+          res.json({cod:true})
+        }else{
+      // code for online payment
+      generateRazorpay(orderId,total)
+
+        }
       }).catch(() => {
 
       });
-    } else {
-      // code for online payment
-    }
   }
+}
+function orderSuccess(req,res){
+        res.render('userView/order-success',{mode,successAmount});
+
 }
 async function getProfile(req, res) {
   const decode = tokenVerify(req);
@@ -327,6 +339,7 @@ async function filterBook(req, res) {
   }
 }
 
+
 module.exports = {
   shopBooks,
   filterBook,
@@ -353,4 +366,5 @@ module.exports = {
   veryfyOtp,
   viewProduct,
   logout,
+  orderSuccess,
 };

@@ -5,7 +5,7 @@
             <div class="col-xl-7 col-lg-7 col-md-12">
                     <p class="error">{{error}}</p>
                 <div class="checkout_form mb-100">
-                    <form action="/checkout-submit" method="post">
+                    <form action="" method="" id="checkout-form">
                         <div class="row mb-30">
                             <div class="col-xl-12 col-lg-12 col-md-12">
                                 <div class="checkout__wrap">
@@ -168,3 +168,20 @@
         </div>
     </div>
 </div>
+
+<script>
+
+
+  $("#checkout-form").submit((e) => {
+    e.preventDefault()
+    $.ajax({
+      url: '/checkout-submit',
+      method: 'post',
+      data: $('#checkout-form').serialize(),
+      success: (response) => {
+        alert('order placed')
+        location.href = '/order-success'
+      }
+    })
+  })
+</script>

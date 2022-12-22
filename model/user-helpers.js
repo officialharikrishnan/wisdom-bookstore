@@ -1,8 +1,12 @@
 const bcrypt = require('bcrypt');
+const Razorpay = require('razorpay');
 const { ObjectId } = require('mongodb');
 const collections = require('./dbConnection/collection');
 const db = require('./dbConnection/connection');
-
+const instance = new Razorpay({
+  key_id: process.env.KEY_ID,
+  key_secret: process.env.KEY_SECRET,
+});
 function userSignup(userDatas) {
   const userData = userDatas;
   userData.createdAt = new Date().toDateString();
@@ -320,8 +324,8 @@ function placeOrder(userId, product, order, status, total) {
     btnStatus: true,
   };
   return new Promise((resolve, reject) => {
-    db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj).then(() => {
-      resolve();
+    db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj).then((res) => {
+      resolve(res.insertedId);
     })
       .catch(() => {
         reject();
@@ -520,6 +524,25 @@ function filterByCategory(data) {
     if (books) { resolve(books); } else reject();
   });
 }
+function generateRazorpay(orderId,amount) {
+  console.log(orderId,amount);
+  return new Promise((resolve, reject) => {
+    let options = {amount: amount,
+      currency: "INR",
+      receipt: ''+orderId,
+      notes: {
+        key1: "value3",
+        key2: "value2"
+      }}
+  instance.orders.create(options,(err,order)=>{
+    if(err){
+      console.log(err);
+    }else{
+      console.log(order);
+    }
+  })
+  })
+}
 
 module.exports = {
   filterByCategory,
@@ -545,4 +568,5 @@ module.exports = {
   findByNumber,
   viewBook,
   addToCart,
+  generateRazorpay,
 };

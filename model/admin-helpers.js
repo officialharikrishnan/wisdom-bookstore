@@ -398,38 +398,37 @@ function getYearlyRevenue() {
   });
 }
 function revenueGraph() {
-  return new Promise(async(resolve,reject)=>{
+  return new Promise(async (resolve, reject) => {
     const result = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
       {
         $group: {
-          _id:null,
-          arr: {$push:"$totalPrice"},
-          tot: {$sum:"$totalPrice"}
-        }
+          _id: null,
+          arr: { $push: '$totalPrice' },
+          tot: { $sum: '$totalPrice' },
+        },
       },
       {
         $project: {
-          _id:0,
-          arr:1, 
-          tot:1
-        } 
+          _id: 0,
+          arr: 1,
+          tot: 1,
+        },
       },
       {
-        $unwind: "$arr"
+        $unwind: '$arr',
       },
       {
         $project: {
-          
-          per:{$multiply:[{$divide:["$arr","$tot"]},100]
-        }
-      }
-      },{
-        $limit: 7
-      }
-    ]).toArray()
+
+          per: { $multiply: [{ $divide: ['$arr', '$tot'] }, 100] },
+        },
+      }, {
+        $limit: 7,
+      },
+    ]).toArray();
     console.log(result);
-    resolve(result)
-})
+    resolve(result);
+  });
 }
 module.exports = {
   getDailyOrder,
