@@ -423,6 +423,8 @@ function revenueGraph() {
           per:{$multiply:[{$divide:["$arr","$tot"]},100]
         }
       }
+      },{
+        $limit: 7
       }
     ]).toArray()
     console.log(result);
