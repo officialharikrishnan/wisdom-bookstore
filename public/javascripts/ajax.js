@@ -145,3 +145,47 @@ function cancelOrder(id) {
   });
 }
 
+function paymentFailed(details) {
+  const DNDALERT = new DNDAlert({
+    title: 'Alert',
+    message: details,
+    type: 'info',
+    html: false,
+    buttons: [
+      {
+        text: 'Yes',
+        type: 'primary',
+        onClick: () => {
+          location.href = '/home'
+        },
+      },
+      {
+        text: 'Close',
+        onClick: (bag) => {
+          bag.CLOSE_MODAL();
+        },
+      },
+    ],
+    closeBackgroundClick: true,
+    portalElement: document.querySelector('body'),
+    portalOverflowHidden: true,
+    textAlign: 'center',
+    theme: 'white',
+    onOpen: (bag) => {
+      console.log('Modal Opened');
+      console.log(bag.PROPERTIES);
+    },
+    onClose: (bag) => {
+      console.log('Modal Closed');
+      console.log(bag);
+    },
+    opacity: 1,
+    autoCloseDuration: 15000,
+    draggable: true,
+    animationStatus: true,
+    closeIcon: false,
+    sourceControlWarning: true,
+
+  });
+}
+
