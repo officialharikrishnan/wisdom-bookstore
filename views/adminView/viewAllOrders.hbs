@@ -1,7 +1,7 @@
 <div class="page-align" id="footer">
     <h1>Orders</h1>
     {{message}}
-    <table class="table table-bordered border-primary mt-5">
+    <table class="table table-bordered border-primary mt-5" id="orders">
         <thead>
             <tr>
                 <th scope="col">User</th>
@@ -48,3 +48,17 @@
 
 
 </div>
+  <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+  <script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>
+  <script>
+      $(document).ready(function () {
+        $('#orders').DataTable({
+            responsive: true,
+            dom: 'Pfrtip'
+        });
+      });
+  
+  
+  
+  </script>

@@ -200,10 +200,6 @@
                 "image": "https://example.com/your_logo",
                 "order_id": order.id , //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (response) {
-                    alert(response.razorpay_payment_id);
-                    alert(response.razorpay_order_id);
-                    alert(response.razorpay_signature)
-
                     verifyPayment(response, order)
                 },
                 "prefill": {
@@ -238,7 +234,12 @@
                     payment,
                     order
                 },
-                method: 'post'
+                method: 'post',
+                success:(response)=>{
+                    if(response.status){
+                        location.href = '/order-success'
+                    }
+                }
             })
         }
     </script>

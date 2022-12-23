@@ -4,8 +4,6 @@
 <head>
   <title>{{title}}</title>
 <link href="https://demo.dashboardpack.com/architectui-html-free/main.css" rel="stylesheet"></head>
- <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
   <link rel='stylesheet' href='/stylesheets/style.css' />
   <link rel="stylesheet" href='/stylesheets/assets/css/bootstrap.min.css'>
@@ -20,8 +18,6 @@
   <link rel="stylesheet" href="/stylesheets/assets/css/slick.css">
   <link rel="stylesheet" href="/stylesheets/assets/css/style.css">
   <link rel="stylesheet" href="/stylesheets/assets/css/responsive.css">
-
-
   {{!-- admin --}}
   <!-- Google Fonts -->
   <link href="https://fonts.gstatic.com" rel="preconnect">
@@ -52,31 +48,32 @@
   {{#if user}}
   {{>footer}}
   {{/if}}
-
+{{#if user}}
+    <script src="/stylesheets/assets/js/vendor/jquery-1.12.4.min.js"></script>
+{{/if}}
 
   {{!--
   <script data-cfasync="false" src="../../../cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
   --}}
-  <script src="/stylesheets/assets/js/vendor/modernizr-3.5.0.min.js"></script>
-  <script src="/stylesheets/assets/js/vendor/jquery-1.12.4.min.js"></script>
-  <script src="/stylesheets/assets/js/popper.min.js"></script>
-  <script src="/stylesheets/assets/js/bootstrap.min.js"></script>
-  <script src="/stylesheets/assets/js/owl.carousel.min.js"></script>
-  <script src="/stylesheets/assets/js/isotope.pkgd.min.js"></script>
-  <script src="/stylesheets/assets/js/one-page-nav-min.js"></script>
-  <script src="/stylesheets/assets/js/slick.min.js"></script>
-  <script src="/stylesheets/assets/js/jquery.meanmenu.min.js"></script>
-  <script src="/stylesheets/assets/js/ajax-form.js"></script>
-  <script src="/stylesheets/assets/js/wow.min.js"></script>
-  <script src="/stylesheets/assets/js/jquery.scrollUp.min.js"></script>
-  <script src="/stylesheets/assets/js/imagesloaded.pkgd.min.js"></script>
-  <script src="/stylesheets/assets/js/jquery.magnific-popup.min.js"></script>
-  <script src="/stylesheets/assets/js/plugins.js"></script>
-  <script src="/stylesheets/assets/js/swiper-bundle.min.js"></script>
-  <script src="/stylesheets/assets/js/countdown.js"></script>
-  <script src="/stylesheets/assets/js/main.js"></script>
+    <script src="/stylesheets/assets/js/vendor/modernizr-3.5.0.min.js"></script>
+    <script src="/stylesheets/assets/js/popper.min.js"></script>
+    <script src="/stylesheets/assets/js/bootstrap.min.js"></script>
+    <script src="/stylesheets/assets/js/owl.carousel.min.js"></script>
+    <script src="/stylesheets/assets/js/isotope.pkgd.min.js"></script>
+    <script src="/stylesheets/assets/js/one-page-nav-min.js"></script>
+    <script src="/stylesheets/assets/js/slick.min.js"></script>
+    <script src="/stylesheets/assets/js/jquery.meanmenu.min.js"></script>
+    <script src="/stylesheets/assets/js/ajax-form.js"></script>
+    <script src="/stylesheets/assets/js/wow.min.js"></script>
+    <script src="/stylesheets/assets/js/jquery.scrollUp.min.js"></script>
+    <script src="/stylesheets/assets/js/imagesloaded.pkgd.min.js"></script>
+    <script src="/stylesheets/assets/js/jquery.magnific-popup.min.js"></script>
+    <script src="/stylesheets/assets/js/plugins.js"></script>
+    <script src="/stylesheets/assets/js/swiper-bundle.min.js"></script>
+    <script src="/stylesheets/assets/js/countdown.js"></script>
+    <script src="/stylesheets/assets/js/main.js"></script>
 
-
+ 
 
 
   
@@ -101,7 +98,7 @@
 
 {{!-- ajax --}}
 <script src="/javascripts/ajax.js"></script>
-<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+{{!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> --}}
 
 {{!-- crop --}}
 <script defer src="https://cdn.crop.guide/loader/l.js?c=TCRBTD"></script>
