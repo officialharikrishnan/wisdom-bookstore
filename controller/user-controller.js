@@ -22,7 +22,7 @@ const jwtotpuser = { name: '', id: '' };
 function landingPage(req, res) {
   getAllBooks().then((data) => {
     console.log(data);
-    res.render('userView/landingPage', { data });
+    res.render('userView/landingPage', { data, landing:true});
   })
     .catch(() => {
       console.log('failed to load books');
