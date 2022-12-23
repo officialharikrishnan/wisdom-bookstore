@@ -565,6 +565,7 @@ function OrderStatusChange(orderId){
     db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(orderId)},{
       $set:{status:'placed'}
     })
+    resolve()
   })
 }
 

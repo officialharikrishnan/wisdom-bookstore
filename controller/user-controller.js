@@ -221,6 +221,7 @@ async function checkoutFormSubmit(req, res) {
           res.json({cod:true})
         }else{
       // code for online payment
+      successAmount=total
       generateRazorpay(orderId,total).then((order)=>[
           res.json({cod:false,order})
       ])
@@ -236,6 +237,7 @@ function verifyPayment(req,res){
   paymentVerification(req.body).then(()=>{
     console.log("successs");
     OrderStatusChange(req.body['order[receipt]']).then(()=>{
+      mode='Payment Successfully completed'
       res.json({status:true})
     })
   }).catch(()=>{

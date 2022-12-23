@@ -169,7 +169,7 @@
             </div>
         </div>
     </div>
-
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
     <script>
 
 
@@ -236,7 +236,7 @@
                 },
                 method: 'post',
                 success:(response)=>{
-                    if(response.status){
+                    if(response){
                         location.href = '/order-success'
                     }
                 }
