@@ -401,6 +401,9 @@ function revenueGraph() {
   return new Promise(async (resolve, reject) => {
     const result = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
       {
+        $match: { date: new Date().toDateString },
+      },
+      {
         $group: {
           _id: null,
           arr: { $push: '$totalPrice' },

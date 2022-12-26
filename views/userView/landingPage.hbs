@@ -38,14 +38,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-6 d-flex justify-content-center">
+                    <div class=" drp col-xl-4 col-lg-6 col-md-8 col-sm-6 d-flex justify-content-end">
                         <div class="gota_top pl-40 gota_top_bg">
-                            <div class="gota_lang gota_lang_3 d-flex align-items-center justify-content-end">
-                                <div class="dropdown">
-                                   <a href="/login"><button class="btn btn-secondary" >
+                            <div class="gota_lang gota_lang_3 d-flex justify-content-end">
+                                <ul class="d-none d-lg-block">
+                                </ul>
+                                <div class="drp dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button"
+                                        id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
+                                        aria-expanded="false">
                                         Login
                                     </button>
-                                    </a> 
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                                        <a class="dropdown-item" href="/account">Account</a>
+                                        <a class="dropdown-item" href="/view-orders">Orders</a>
+                                        <a class="dropdown-item gota_cart gota_cart_3 gota_cart_4" href="#">Cart</a>
+                                        <a class="dropdown-item" href="/logout">Logout</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -63,19 +72,27 @@
                             <div class="main-menu main-menu-3">
                                 <nav id="mobile-menu">
                                     <ul>
-                                        <li class=""><a href="index.html">New books </a>
+                                        <li class="user-info"><a href="/login"><h3 class="text-white">Login</h3></a>
+                                        <li class="user-info"><a href="/account">Account</a>
+                                        <li class="user-info"><a href="/view-orders">Orders</a>
+                                        <li class="user-info"><a href="/cart">Cart</a>
+                                        <li class=""><a href="/shop-books">Shop</a>
 
                                         </li>
-                                        <li class="position-static"><a href="shop.html">Special offers</a>
+                                        <li class="position-static"><a href="">Special offers</a>
 
                                         </li>
-                                        <li class="position-static"><a href="about.html">Top selling</a>
+                                        <li class="position-static"><a href="">Top selling</a>
 
                                         </li>
-                                        <li class=""><a href="blog.html">Kids</a>
+                                        <li class=""><a href="">Kids</a>
 
-                                        <li class=""><a href="about.html">Top 10</a>
+                                        <li class=""><a href="">Top 10</a>
                                         </li>
+
+                                        <li class="user-info"><a href="/logout">logout</a>
+
+
                                     </ul>
                                 </nav>
                             </div>

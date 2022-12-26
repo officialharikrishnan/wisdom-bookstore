@@ -4,7 +4,8 @@ const {
   doEditBook, removeBook, getBanner, category, addCategory,
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
   viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers,
-  getDailyOrder, getDailyRevenue, weeklyOrders, yearlyOrders, getWeeklyRevenue, getYearlyRevenue, revenueGraph,
+  getDailyOrder, getDailyRevenue, weeklyOrders, yearlyOrders, getWeeklyRevenue,
+  getYearlyRevenue, revenueGraph,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 require('dotenv').config();
@@ -90,11 +91,12 @@ async function adminDashboard(req, res) {
     const gr5 = parseInt(graph[4].per);
     const gr6 = parseInt(graph[5].per);
     const gr7 = parseInt(graph[6].per);
-
+    const currentDate = new Date().toISOString().substring(0, 10);
     res.render('adminView/dashboard', {
       admin: true,
       report,
       users: users.length,
+      currentDate,
       revenReport,
       salesTitle,
       revenueTitle,

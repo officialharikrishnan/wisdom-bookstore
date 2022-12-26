@@ -195,17 +195,17 @@
                 "key": "rzp_test_Sy2vxgrKq0I75D", // Enter the Key ID generated from the Dashboard
                 "amount": order.amount, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
                 "currency": "INR",
-                "name": "Acme Corp",
-                "description": "Test Transaction",
-                "image": "https://example.com/your_logo",
+                "name": "Wisdom",
+                "description": "Buy books",
+                "image": "/images/book.png",
                 "order_id": order.id , //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (response) {
                     verifyPayment(response, order)
                 },
                 "prefill": {
-                    "name": "Gaurav Kumar",
-                    "email": "gaurav.kumar@example.com",
-                    "contact": "9999999999"
+                    "name": "Wisdom",
+                    "email": "wisdom@gmail.com",
+                    "contact": "1234567890"
                 },
                 "notes": {
                     "address": "Razorpay Corporate Office"

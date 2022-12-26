@@ -153,18 +153,12 @@ function paymentFailed(details) {
     html: false,
     buttons: [
       {
-        text: 'Yes',
+        text: 'OK',
         type: 'primary',
         onClick: () => {
           location.href = '/home'
         },
-      },
-      {
-        text: 'Close',
-        onClick: (bag) => {
-          bag.CLOSE_MODAL();
-        },
-      },
+      }
     ],
     closeBackgroundClick: true,
     portalElement: document.querySelector('body'),

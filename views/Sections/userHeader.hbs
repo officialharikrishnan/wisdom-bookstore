@@ -38,12 +38,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-xl-4 col-lg-6 col-md-8 col-sm-6 d-flex justify-content-end">
+                    <div class=" drp col-xl-4 col-lg-6 col-md-8 col-sm-6 d-flex justify-content-end">
                         <div class="gota_top pl-40 gota_top_bg">
                             <div class="gota_lang gota_lang_3 d-flex justify-content-end">
                                 <ul class="d-none d-lg-block">
                                 </ul>
-                                <div class="dropdown">
+                                <div class="drp dropdown">
                                     <button class="btn btn-secondary dropdown-toggle" type="button"
                                         id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true"
                                         aria-expanded="false">
@@ -72,6 +72,10 @@
                             <div class="main-menu main-menu-3">
                                 <nav id="mobile-menu">
                                     <ul>
+                                        <li class="user-info"><a href=""><h3 class="text-white">{{user}}</h3></a>
+                                        <li class="user-info"><a href="/account">Account</a>
+                                        <li class="user-info"><a href="/view-orders">Orders</a>
+                                        <li class="user-info"><a href="/cart">Cart</a>
                                         <li class=""><a href="/shop-books">Shop</a>
 
                                         </li>
@@ -85,6 +89,10 @@
 
                                         <li class=""><a href="">Top 10</a>
                                         </li>
+
+                                        <li class="user-info"><a href="/logout">logout</a>
+
+
                                     </ul>
                                 </nav>
                             </div>
@@ -98,10 +106,13 @@
 <!-- header area end -->
 <div class="fix">
     <div class="side-info">
+
         <button class="side-info-close"><i class="fal fa-times"></i></button>
         <div class="side-info-content">
-            <div class="mobile-menu"></div>
+            <div class="mobile-menu">
+            </div>
             <div class="contact-infos mb-30">
+
                 <div class="contact-list mb-30">
                     <h4>Office Address</h4>
                     <p>123/A, Miranda City Likaoli
@@ -154,7 +165,7 @@
             </div>
             <div class="cart-bottom">
                 <div class="cart-bottom__text">
-                    
+
                     <span>Subtotal:</span>
                     <span class="end">₹{{total}}</span>
                     <a href="/cart">view cart</a>

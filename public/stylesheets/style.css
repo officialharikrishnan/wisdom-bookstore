@@ -9,6 +9,10 @@ body{
   
   
 }
+footer{
+  width: 100%;
+  background-color: black;
+}
 .shipping{
   background-color: rgb(198, 197, 197);
   border: none;
@@ -535,4 +539,10 @@ tr:nth-child(odd){
 
 img {
 	max-width: 100%;
+}
+.drp-btn{
+  background-color: transparent;
+  border: none;
+  font-size: large;
+  font-weight: 600;
 }

@@ -19,9 +19,11 @@
                 <td>₹{{this.totalPrice}}</td>
                 <td>{{this.paymentMethod}}</td>
                 <td>
-                    <p class="badge badge-success">{{this.status}}</p> <br>
                     {{#if this.btnStatus}}
+                    <p class="badge badge-success">{{this.status}}</p> <br>
                         <p class="cancel badge badge-danger" onclick="return cancelOrder('{{this._id}}')">Cancel Order</p>
+                        {{else}}
+                    <p class="badge badge-secondary">{{this.status}}</p> <br>
                     {{/if}}
                 </td>
                <td><a href="/view-user-order-product/{{this._id}}"><button class="btn btn-secondary">ViewProducts</button></a></td>

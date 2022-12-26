@@ -7,9 +7,9 @@ const {
   changeBookQuantity, loadCurrentAddress, getAccountInfo,
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
-  editAddress, categoryUser, filterByCategory, generateRazorpay, paymentVerification, OrderStatusChange,
+  editAddress, categoryUser, filterByCategory, generateRazorpay,
+  paymentVerification, OrderStatusChange,
 } = require('../model/user-helpers');
-
 
 let number;
 let filterStatus = false;
@@ -22,7 +22,7 @@ const jwtotpuser = { name: '', id: '' };
 function landingPage(req, res) {
   getAllBooks().then((data) => {
     console.log(data);
-    res.render('userView/landingPage', { data, landing:true});
+    res.render('userView/landingPage', { data, landing: true });
   })
     .catch(() => {
       console.log('failed to load books');
@@ -213,40 +213,37 @@ async function checkoutFormSubmit(req, res) {
     });
   } else {
     const status = req.body.payment === 'COD' ? 'placed' : 'pending';
-      placeOrder(decode.value.id, product, req.body, status, total).then((orderId) => {
-        removeCartAfterOrder(decode.value.id);
-        if(req.body.payment === 'COD'){
-          mode='Order placed successfully'
-          successAmount=total
-          res.json({cod:true})
-        }else{
+    placeOrder(decode.value.id, product, req.body, status, total).then((orderId) => {
+      removeCartAfterOrder(decode.value.id);
+      if (req.body.payment === 'COD') {
+        mode = 'Order placed successfully';
+        successAmount = total;
+        res.json({ cod: true });
+      } else {
       // code for online payment
-      successAmount=total
-      generateRazorpay(orderId,total).then((order)=>[
-          res.json({cod:false,order})
-      ])
+        successAmount = total;
+        generateRazorpay(orderId, total).then((order) => [
+          res.json({ cod: false, order }),
+        ]);
+      }
+    }).catch(() => {
 
-        }
-      }).catch(() => {
-
-      });
+    });
   }
 }
-function verifyPayment(req,res){
-  
-  paymentVerification(req.body).then(()=>{
-    console.log("successs");
-    OrderStatusChange(req.body['order[receipt]']).then(()=>{
-      mode='Payment Successfully completed'
-      res.json({status:true})
-    })
-  }).catch(()=>{
-    res.json({status:false})
-  })
+function verifyPayment(req, res) {
+  paymentVerification(req.body).then(() => {
+    console.log('successs');
+    OrderStatusChange(req.body['order[receipt]']).then(() => {
+      mode = 'Payment Successfully Completed';
+      res.json({ status: true });
+    });
+  }).catch(() => {
+    res.json({ status: false });
+  });
 }
-function orderSuccess(req,res){
-        res.render('userView/order-success',{mode,successAmount});
-
+function orderSuccess(req, res) {
+  res.render('userView/order-success', { mode, successAmount });
 }
 async function getProfile(req, res) {
   const decode = tokenVerify(req);
@@ -353,7 +350,6 @@ async function filterBook(req, res) {
     });
   }
 }
-
 
 module.exports = {
   shopBooks,

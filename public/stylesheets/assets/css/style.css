@@ -7136,6 +7136,9 @@ input:-ms-input-placeholder {
   cursor: pointer;
 }
 
+#mobile-menu li.user-info{
+  display: none
+}
 .side-info {
   background: #152136;
   width: 300px;
@@ -7162,6 +7165,9 @@ input:-ms-input-placeholder {
   margin-bottom: 20px;
 }
 
+.side-info.info-open .user-info{
+  display: inline;
+}
 .side-info-content h1 {
   color: #fff;
   font-size: 29px;
@@ -7180,7 +7186,11 @@ input:-ms-input-placeholder {
   opacity: 0;
   visibility: hidden;
 }
-
+@media screen and (max-width:995px) {
+  .drp{
+    display: none
+  }
+}
 .offcanvas-overlay.overlay-open {
   opacity: 0.5;
   visibility: visible;
