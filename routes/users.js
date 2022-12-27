@@ -27,8 +27,8 @@ router.get('/checkout', authorization, checkoutForm);
 router.get('/get-current-address', authorization, currentAddress);
 router.get('/account', authorization, getProfile);
 router.post('/checkout-submit', authorization, checkoutFormSubmit);
-router.post('/verify-payment', verifyPayment)
-router.get('/order-success',authorization,orderSuccess)
+router.post('/verify-payment', verifyPayment);
+router.get('/order-success', authorization, orderSuccess);
 router.get('/view-orders', authorization, viewOrders);
 router.get('/view-user-order-product/:id', authorization, viewOrderProduct);
 router.post('/cancel-order/', authorization, cancelOrder);

@@ -495,6 +495,7 @@ function editAddress(userId, data) {
   return new Promise((resolve, reject) => {
     db.get().collection(collections.USER_COLLECTION).updateOne({ _id: ObjectId(userId) }, {
       $set: {
+        username: data.name,
         'address.name': data.name,
         'address.street': data.street,
         'address.street2': data.street2,

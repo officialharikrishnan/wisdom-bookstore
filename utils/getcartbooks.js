@@ -3,9 +3,7 @@ const { tokenVerify } = require('./token');
 
 function cartBooks(req) {
   const decode = tokenVerify(req);
-  return getCart(decode.value.id).then((cart) => {
-    return cart
-  })
+  return getCart(decode.value.id).then((cart) => cart)
     .catch(() => {
       console.log('error to get cart');
     });
