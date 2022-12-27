@@ -4,6 +4,7 @@ const crypto = require('crypto');
 const { ObjectId } = require('mongodb');
 const collections = require('./dbConnection/collection');
 const db = require('./dbConnection/connection');
+const { deliveryStatus } = require('../controller/admin-controller');
 
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
@@ -304,6 +305,8 @@ function getCartProducts(userId) {
   });
 }
 function placeOrder(userId, product, order, status, total) {
+  console.log(product,">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+  product.deliveryStatus='Preparing'
   console.log(userId, order, status);
   const orderObj = {
     user: ObjectId(userId),
@@ -322,11 +325,14 @@ function placeOrder(userId, product, order, status, total) {
     date: new Date().toDateString(),
     fullDate: new Date(),
     status,
-    deliveryStatus: 'Preparing',
     btnStatus: true,
   };
   return new Promise((resolve, reject) => {
-    db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj).then((res) => {
+    db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj)
+    .then((res) => {
+      db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(res.insertedId)},{
+        $set:{'product.$[].cartItem.deliveryStatus':'Preparing'}
+      },{multi:true})
       resolve(res.insertedId);
     })
       .catch(() => {

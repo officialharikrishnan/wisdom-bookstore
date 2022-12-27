@@ -165,6 +165,7 @@ function addCategory(datas) {
     }
   }).catch((err) => {
     console.log(err);
+    reject()
   });
 }
 function removeCategory(id) {
@@ -241,8 +242,10 @@ function viewSingleOrder(orderId) {
       },
       {
         $project: {
+          _id:1,
           product: 1,
           deliveryDetails: 1,
+          deliveryStatus:1,
         },
       },
       {
@@ -260,7 +263,7 @@ function viewSingleOrder(orderId) {
         $unwind: '$orders',
       },
     ]).toArray();
-    console.log(singleOrder);
+    console.log(singleOrder,">>>>>>single<<<<<<<<<<");
     resolve(singleOrder);
   });
 }
@@ -282,13 +285,13 @@ function cancelOrderAdminSubmit(orderId) {
       });
   });
 }
-function deliveryStatusChange(orderId, status) {
-  console.log(orderId, status);
+function deliveryStatusChange(orderId,proId, status) {
+  console.log(orderId,proId , status);
   return new Promise(async (resolve, reject) => {
     await db.get().collection(collections.ORDER_COLLECTION)
-      .updateOne({ _id: ObjectId(orderId) }, {
+      .updateOne({ _id: ObjectId(orderId),product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }, {
         $set: {
-          deliveryStatus: status,
+         'product.$.cartItem.deliveryStatus': status,
         },
       }).then(() => {
         resolve();

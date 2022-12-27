@@ -202,6 +202,7 @@ async function checkoutFormSubmit(req, res) {
   if (cart) {
     total = await getTotalPrice(req);
     product = await getOrderProductToOrder(decode.value.id);
+    
   }
   if (!req.body.name || !req.body.street || !req.body.postcode) {
     res.render('userView/checkout', {

@@ -9,7 +9,6 @@
                 <th scope="col">Total Price</th>
                 <th scope="col">Method</th>
                 <th scope="col">Status</th>
-                <th scope="col">Shipping Status</th>
                 <th>View</th>
             </tr>
         </thead>
@@ -29,24 +28,7 @@
                     <p class="badge badge-secondary">{{this.status}}</p> <br>
                     {{/if}}
                 </td>
-                <td>
-                    {{#if this.btnStatus}}
-                    <form action="/admin/delivery-status" method="post">
-                    <input type="text" value="{{this._id}}" name="id" hidden>
-                    <h6 class="badge badge-info">{{this.deliveryStatus}}</h6><br>
-
-                        <select class="shipping" name="status">
-                            <option value="Preparing">Preparing</option>
-                            <option value="Shipped">Shipped</option>
-                            <option value="Delivered">Delivered</option>
-                        </select>
-                        
-                        <input class="shipping" type="submit" value="Change">
-                    </form>
-                    {{else}}
-                    <p class="badge badge-secondary">{{this.status}}</p> <br>
-                    {{/if}}
-                </td>
+                
                 <td><a href="/admin/view-order-product/{{this._id}}"><button class="btn btn-secondary">ViewProducts</button></a></td>
             </tr>
             {{/each}}

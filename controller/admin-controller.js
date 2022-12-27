@@ -211,6 +211,7 @@ function viewCategory(req, res) {
     btnstatus.route = 'add-category';
     res.render('adminView/viewCategory', {
       admin: true, categorydata, error, btnstatus,
+      edit:true
     });
   });
 }
@@ -220,7 +221,6 @@ function addNewCategory(req, res) {
     res.redirect('/admin/category');
   } else {
     addCategory(req.body.name).then(() => {
-      error = '';
       res.redirect('/admin/category');
     }).catch(() => {
       error = 'Category already exists';
@@ -274,8 +274,8 @@ function cancelOrderAdmin(req, res) {
 }
 function deliveryStatus(req, res) {
   console.log('called');
-  deliveryStatusChange(req.body.id, req.body.status).then(() => {
-    res.redirect('/admin/getallorders');
+  deliveryStatusChange(req.body.orderid,req.body.id, req.body.status).then(() => {
+    res.redirect(req.get('referer'));
   }).catch(() => {
     console.log('failed to change delivery status');
   });

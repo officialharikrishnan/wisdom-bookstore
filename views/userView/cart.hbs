@@ -2,6 +2,7 @@
      <div class="f_cart_area pt-110 mb-100">
         <div class="container">
             <div class="row">
+                {{#if cart}}
                 <div class="col-xl-8 col-lg-8 col-md-12">
                     <div class="cart_table">
                         <table>
@@ -13,7 +14,7 @@
                                 {{!-- <td>Total</td> --}}
                                 
                                </tr>
-                            <tbody>{{#if cart}}
+                            <tbody>
                                 {{#each cart}}
                                 
                                 <tr class="max-width-set">
@@ -44,18 +45,8 @@
                                     </td> --}}
                                 </tr>
                                 {{/each }}
-                                {{else}}
-                                <tr>
-                                    <td>
-                                        No Items
-                                    </td>
-                                    <td></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-                                {{/if}}
+                                
                             </tbody>
-                                {{#if cart}}
                             <tfoot>
                                 <tr class="design-footer">
                                     <td>
@@ -67,7 +58,6 @@
                                 </tr>
 
                             </tfoot>
-                            {{/if}}
                         </table>
                     </div>
                 </div>
@@ -96,6 +86,13 @@
                       </table>
                     </div>
                 </div>
+                {{else}}
+                <div class="text-center">
+
+                <h3>No Items</h3>
+                <a href="/shop-books">Add books to cart</a>
+                </div>
+                {{/if}}
             </div>
         </div>
     </div>

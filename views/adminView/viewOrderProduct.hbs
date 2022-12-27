@@ -8,6 +8,8 @@
                 <th scope="col">Address</th>
                 <th scope="col">Quantity</th>
                 <th scope="col">Price</th>
+                <th scope="col">Price</th>
+
             </tr>
         </thead>
         <tbody>
@@ -20,6 +22,25 @@
                 </td>
                 <td>{{this.product.quantity}}</td>
                 <td>₹{{this.product.cartItem.price}}</td>
+                 <td>
+                    {{!-- {{#if this.btnStatus}} --}}
+                    <form action="/admin/delivery-status" method="post">
+                    <input type="text" value="{{this.orders._id}}" name="id" hidden>
+                    <input type="text" value="{{this._id}}" name="orderid" hidden>
+                    <h6 class="badge badge-info">{{this.product.cartItem.deliveryStatus}}</h6><br>
+
+                        <select class="shipping" name="status">
+                            <option value="Preparing">Preparing</option>
+                            <option value="Shipped">Shipped</option>
+                            <option value="Delivered">Delivered</option>
+                        </select>
+                        
+                        <input class="shipping" type="submit" value="Change">
+                    </form>
+                    {{!-- {{else}} --}}
+                    <p class="badge badge-secondary">{{this.status}}</p> <br>
+                    {{!-- {{/if}} --}}
+                </td>
             </tr>
             {{/each}}
         </tbody>

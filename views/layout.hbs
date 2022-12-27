@@ -102,7 +102,9 @@
 
 {{!-- ajax --}}
 <script src="/javascripts/ajax.js"></script>
-{{!-- <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script> --}}
+{{#if edit}}
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+{{/if}}
 
 {{!-- crop --}}
 <script defer src="https://cdn.crop.guide/loader/l.js?c=TCRBTD"></script>

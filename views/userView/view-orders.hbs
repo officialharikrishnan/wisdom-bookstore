@@ -7,6 +7,7 @@
                 <th scope="col">Author Name</th>
                 <th scope="col">Price <sub>/One</sub></th>
                 <th scope="col">Qty</th>
+                <th scope="col">Shipping Status</th>
             </tr>
         </thead>
         <tbody>
@@ -23,6 +24,7 @@
                 <td>{{this.orders.authorname}}</td>
                 <td>{{this.product.cartItem.price}}</td>
                 <td>{{this.product.quantity}}</td>
+                <td> <p class="badge badge-secondary">{{this.product.cartItem.deliveryStatus}}</p></td>
             </tr>
             {{/each}}
         </tbody>

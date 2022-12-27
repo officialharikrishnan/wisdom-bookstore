@@ -8,7 +8,6 @@
                 <th scope="col">Method</th>
                 <th scope="col">Status</th>
                 <th scope="col">View products</th>
-                <th scope="col">Delivery Status</th>
             </tr>
         </thead>
         <tbody>
@@ -27,7 +26,6 @@
                     {{/if}}
                 </td>
                <td><a href="/view-user-order-product/{{this._id}}"><button class="btn btn-secondary">ViewProducts</button></a></td>
-               <td> <p class="badge badge-secondary">{{this.deliveryStatus}}</p></td>
             </tr>
             {{/each}}
         </tbody>

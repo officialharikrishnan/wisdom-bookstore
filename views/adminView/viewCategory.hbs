@@ -1,12 +1,12 @@
 <div class="page-align" id="footer">
     <form action="/admin/{{btnstatus.route}}" method="post">
-        <div class="row mb-3">
-            <label for="inputEmail" class="col-sm-2 col-form-label">{{btnstatus.text}}</label>
-            <div class="col-sm-5">
+        <div class="row">
+            <label for="inputEmail" class="col-sm-2 col-form-label mt-2">{{btnstatus.text}}</label>
+            <div class="col-sm-5 mt-3">
                 <input type="text" name="name" class="form-control">
 
             </div>
-            <div class="col-sm-5">
+            <div class="col-sm-5 mt-1">
                 <button class="btn btn-secondary" type="submit">{{btnstatus.btn}}</button><br>
                 {{#if btnstatus.link}}
                 <a class="badge badge-secondary" href="/admin/category">Go to Add category form</a>
