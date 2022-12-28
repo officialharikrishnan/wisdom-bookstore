@@ -5,7 +5,7 @@ const {
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
   viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers,
   getDailyOrder, getDailyRevenue, weeklyOrders, yearlyOrders, getWeeklyRevenue,
-  getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons,
+  getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons, romoveCoupon, editCoupon, editCouponSubmit,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 const voucher_codes = require('voucher-code-generator');
@@ -290,14 +290,11 @@ function addCoupon(req,res){
   res.render('adminView/addCoupon',{admin:true})
 }
 function codeGenerator(req,res){
-console.log("called  >>>>>>>>>>>>>>>>>>>>>");
-
    var code = voucher_codes.generate({
     length: 6,
     count: 1,
     charset: "012345ABCDE"
 });
-console.log(code,">>>>>>>>>>>>>>>>>>>>>");
 res.json(code[0])
 }
 function addCouponSubmit(req,res){
@@ -305,7 +302,25 @@ function addCouponSubmit(req,res){
     res.redirect(req.get('referer'));
   })
 }
+function deleteCoupon(req,res){
+  romoveCoupon(req.params.id).then(()=>{
+    res.redirect(req.get('referer'));
+  })
+}
+function couponEdit(req,res){
+  editCoupon(req.params.id).then((coupon)=>{
+  res.render('adminView/editCoupon',{admin:true, coupon})
+  })
+}
+function couponEditSubmit(req,res){
+  editCouponSubmit(req.params.id,req.body).then(()=>{
+    res.redirect('/admin/coupon')
+  })
+}
 module.exports = {
+  couponEditSubmit,
+  couponEdit,
+  deleteCoupon,
   addCouponSubmit,
   codeGenerator,
   addCoupon,

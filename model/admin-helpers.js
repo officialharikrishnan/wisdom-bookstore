@@ -454,7 +454,37 @@ function getAllCoupons(){
     }
   })
 }
+function romoveCoupon(id){
+  return new Promise((resolve,reject)=>{
+    db.get().collection(collections.COUPON_COLLECTION).deleteOne({_id:ObjectId(id)})
+    resolve()
+  })
+}
+function editCoupon(id){
+  return new Promise(async(resolve,reject)=>{
+    const coupon = await db.get().collection(collections.COUPON_COLLECTION).findOne({_id:ObjectId(id)})
+    resolve(coupon)
+  })
+}
+function editCouponSubmit(id,data){
+  return new Promise((resolve,reject)=>{
+    db.get().collection(collections.COUPON_COLLECTION).updateOne({_id:ObjectId(id)},{
+      $set:{
+        name:data.name,
+        code:data.code,
+        startDate:data.startDate,
+        endDate:data.endDate,
+        percentage:data.percentage,
+        limit:data.limit
+      }
+    })
+    resolve()
+  })
+}
 module.exports = {
+  editCouponSubmit,
+  editCoupon,
+  romoveCoupon,
   getAllCoupons,
   createCoupon,
   getDailyOrder,

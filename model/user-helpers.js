@@ -305,7 +305,6 @@ function getCartProducts(userId) {
   });
 }
 function placeOrder(userId, product, order, status, total) {
-  console.log(product,">>>>>>>>>>>>>>>>>>>>>>>>>>>>");
   product.deliveryStatus='Preparing'
   console.log(userId, order, status);
   const orderObj = {

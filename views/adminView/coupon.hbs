@@ -9,6 +9,7 @@
                     <th scope="col">Starts</th>
                     <th scope="col">Expires</th>
                     <th scope="col">Limit Amount</th>
+                    <th scope="col">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -20,6 +21,10 @@
                     <td>{{this.startDate}}</td>
                     <td>{{this.endDate}}</td>
                     <td>₹{{this.limit}}</td>    
+                    <td>
+                        <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
+                        <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
+                    </td>    
                   </tr>
                   {{/each}}
                 </tbody>
