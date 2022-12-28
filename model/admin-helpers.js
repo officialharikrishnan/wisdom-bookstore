@@ -436,7 +436,27 @@ function revenueGraph() {
     resolve(result);
   });
 }
+function createCoupon(coupon){
+  coupon.limit = parseInt(coupon.limit)
+  coupon.percentage = parseInt(coupon.percentage)
+  return new Promise((resolve, reject)=>{
+    db.get().collection(collections.COUPON_COLLECTION).insertOne(coupon)
+    resolve()
+  })
+}
+function getAllCoupons(){
+  return new Promise(async(resolve,reject)=>{
+    const coupons = await db.get().collection(collections.COUPON_COLLECTION).find().toArray()
+    if(coupons.length !=0){
+      resolve(coupons)
+    }else{
+      reject()
+    }
+  })
+}
 module.exports = {
+  getAllCoupons,
+  createCoupon,
   getDailyOrder,
   deliveryStatusChange,
   cancelOrderAdminSubmit,

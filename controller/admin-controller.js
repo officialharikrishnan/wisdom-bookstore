@@ -5,9 +5,10 @@ const {
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
   viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers,
   getDailyOrder, getDailyRevenue, weeklyOrders, yearlyOrders, getWeeklyRevenue,
-  getYearlyRevenue, revenueGraph,
+  getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
+const voucher_codes = require('voucher-code-generator');
 require('dotenv').config();
 
 let error;
@@ -280,8 +281,35 @@ function deliveryStatus(req, res) {
     console.log('failed to change delivery status');
   });
 }
+function getCoupon(req,res){
+  getAllCoupons().then((coupons)=>{
+    res.render('adminView/coupon',{admin:true,coupons})
+  })
+}
+function addCoupon(req,res){
+  res.render('adminView/addCoupon',{admin:true})
+}
+function codeGenerator(req,res){
+console.log("called  >>>>>>>>>>>>>>>>>>>>>");
 
+   var code = voucher_codes.generate({
+    length: 6,
+    count: 1,
+    charset: "012345ABCDE"
+});
+console.log(code,">>>>>>>>>>>>>>>>>>>>>");
+res.json(code[0])
+}
+function addCouponSubmit(req,res){
+  createCoupon(req.body).then(()=>{
+    res.redirect(req.get('referer'));
+  })
+}
 module.exports = {
+  addCouponSubmit,
+  codeGenerator,
+  addCoupon,
+  getCoupon,
   deliveryStatus,
   cancelOrderAdmin,
   viewOrderProduct,

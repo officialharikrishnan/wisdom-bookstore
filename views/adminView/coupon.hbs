@@ -1,0 +1,27 @@
+<section class="page-align" id="footer">
+    <a href="/admin/addcoupon"><button class="btn btn-success">Add Coupon</button></a>
+     <table class="table table-bordered " id="example">
+                <thead>
+                  <tr>
+                    <th scope="col">Code</th>
+                    <th scope="col">Name</th>
+                    <th scope="col">Percentage</th>
+                    <th scope="col">Starts</th>
+                    <th scope="col">Expires</th>
+                    <th scope="col">Limit Amount</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {{#each coupons}}
+                  <tr>
+                    <td>{{this.code}}</td>
+                    <td>{{this.name}}</td>
+                    <td>{{this.percentage}}%</td>
+                    <td>{{this.startDate}}</td>
+                    <td>{{this.endDate}}</td>
+                    <td>₹{{this.limit}}</td>    
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+</section>

@@ -4,7 +4,7 @@ const {
   stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook,
   bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory,
   addNewCategory, editCategory, editcategorySubmit, adminLogout, getAllOrders,
-  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport, revenueReport,
+  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport, revenueReport, getCoupon, addCoupon, codeGenerator, addCouponSubmit,
 } = require('../controller/admin-controller');
 const { adminAuthorization } = require('../middlewares/tokenAuthentication');
 
@@ -35,5 +35,9 @@ router.get('/getallorders', adminAuthorization, getAllOrders);
 router.get('/view-order-product/:id', viewOrderProduct);
 router.post('/delivery-status', deliveryStatus);
 router.get('/cancel-order/:id', cancelOrderAdmin);
+router.get('/coupon',getCoupon)
+router.get('/addcoupon',addCoupon)
+router.get('/generatecode',codeGenerator)
+router.post('/addcouponsubmit',addCouponSubmit)
 router.get('/logout', adminLogout);
 module.exports = router;
