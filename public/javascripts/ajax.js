@@ -30,6 +30,24 @@ function filter(cat) {
   });
 }
 
+function addtocart(id) {
+  $.ajax({
+    url: '/add-to-cart',
+    data: {
+      data: id,
+    },
+    method: 'post',
+    success: (response) => {
+      cartAlert()
+      setTimeout(()=>{
+        location.reload();
+
+      },2000)
+      
+    },
+  });
+}
+
 function deleteCat(cat) {
   $.ajax({
     url: '/admin/delete-category',
@@ -183,3 +201,34 @@ function paymentFailed(details) {
   });
 }
 
+
+function cartAlert() {
+  const DNDALERT = new DNDAlert({
+    title: 'Alert',
+    message:
+        'Are you sure want to cancel this order',
+    type: 'success',
+    html: false,
+    
+    closeBackgroundClick: true,
+    portalElement: document.querySelector('body'),
+    portalOverflowHidden: true,
+    textAlign: 'center',
+    theme: 'white',
+    onOpen: (bag) => {
+      console.log('Modal Opened');
+      console.log(bag.PROPERTIES);
+    },
+    onClose: (bag) => {
+      console.log('Modal Closed');
+      console.log(bag);
+    },
+    opacity: 1,
+    autoCloseDuration: 1500,
+    draggable: true,
+    animationStatus: true,
+    closeIcon: false,
+    sourceControlWarning: true,
+
+  });
+}

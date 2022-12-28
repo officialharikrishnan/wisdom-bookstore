@@ -37,7 +37,7 @@
                         {{#if book.availability}}
                         <div class="viewcontent__action single_action pt-30" >
 
-                            <span ><a href="/add-to-cart/{{book._id}}" id="cart">+ add to cart</a></span>
+                            <span ><a onclick="return addtocart('{{book._id}}')">+ add to cart</a></span>
                             <span><i class="fal fa-heart"></i></span>
                         </div>
                         {{else}}

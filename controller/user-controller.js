@@ -157,9 +157,9 @@ function logout(req, res) {
     .redirect('/');
 }
 function cartAdd(req, res) {
-  console.log(req.params.id);
+  console.log(req.body.data);
   const decode = tokenVerify(req);
-  addToCart(req.params.id, decode.value.id).then(() => {
+  addToCart(req.body.data, decode.value.id).then(() => {
     res.redirect(req.get('referer'));
   });
 }
