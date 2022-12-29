@@ -77,10 +77,11 @@
                         </tr>
                         <tr class="design-footer">
                             <td>
-                                <input type="text" placeholder="Coupon Code" id="code">
+                                <input type="text" placeholder=" Coupon Code" id="code">
                                 <p id="error" style="color: red;"></p>
                             </td>
-                            <td><button onclick="checkCoupon()" style="background-color: rgb(215, 215, 215);">Apply Coupon</button></td>
+                            <td><input type="button" onclick="checkCoupon()"
+                                    style="background-color: rgb(215, 215, 215);" value="Apply Coupon"></td>
                         </tr>
                         <tr class="first-child-2">
                             <td>Total</td>
@@ -217,6 +218,11 @@
                 },
                 "theme": {
                     "color": "#3399cc"
+                },
+                "modal": {
+                    "ondismiss": function () {
+                        razorpayClose()
+                    }
                 }
             };
             var rzp1 = new Razorpay(options);
@@ -224,6 +230,7 @@
                 paymentFailed(response.error.description)
             });
             rzp1.open();
+
         }
         function verifyPayment(payment, order) {
             console.log(payment, order)
@@ -252,7 +259,7 @@
                 method: 'post',
                 success: (response => {
                     if (response.status) {
-                        document.getElementById('offer').innerHTML = '₹'+response.offerPrice
+                        document.getElementById('offer').innerHTML = '₹' + response.offerPrice
                     } else {
                         document.getElementById('error').innerHTML = 'Enter valied <br> coupon code'
                     }

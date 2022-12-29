@@ -232,3 +232,41 @@ function cartAlert() {
 
   });
 }
+
+function razorpayClose() {
+  const DNDALERT = new DNDAlert({
+    title: 'Alert',
+    message: 'Payment failed! ,Your order is now on pending',
+    type: 'info',
+    html: false,
+    buttons: [
+      {
+        text: 'OK',
+        type: 'primary',
+        onClick: () => {
+          location.href = '/home'
+        },
+      }
+    ],
+    closeBackgroundClick: true,
+    portalElement: document.querySelector('body'),
+    portalOverflowHidden: true,
+    textAlign: 'center',
+    theme: 'white',
+    onOpen: (bag) => {
+      console.log('Modal Opened');
+      console.log(bag.PROPERTIES);
+    },
+    onClose: (bag) => {
+      console.log('Modal Closed');
+      console.log(bag);
+    },
+    opacity: 1,
+    autoCloseDuration: 15000,
+    draggable: true,
+    animationStatus: true,
+    closeIcon: false,
+    sourceControlWarning: true,
+
+  });
+}
