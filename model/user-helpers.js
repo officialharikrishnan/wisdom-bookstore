@@ -307,6 +307,7 @@ function getCartProducts(userId) {
 function placeOrder(userId, product, order, status, total) {
   product.deliveryStatus='Preparing'
   console.log(userId, order, status);
+  
   const orderObj = {
     user: ObjectId(userId),
     deliveryDetails: {

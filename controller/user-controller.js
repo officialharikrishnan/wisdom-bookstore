@@ -195,7 +195,7 @@ async function currentAddress(req, res) {
 }
 async function checkoutFormSubmit(req, res) {
   const decode = tokenVerify(req);
-
+  console.log(req.body);
   const cart = await getCartProducts(decode.value.id);
   let total;
   let product;
@@ -217,13 +217,24 @@ async function checkoutFormSubmit(req, res) {
     placeOrder(decode.value.id, product, req.body, status, total).then((orderId) => {
       removeCartAfterOrder(decode.value.id);
       if (req.body.payment === 'COD') {
+        if(req.body.offerPrice == ''){
+          finalPrice = total
+        }else{
+          finalPrice = req.body.offerPrice
+        }
+          successAmount = finalPrice;
         mode = 'Order placed successfully';
-        successAmount = total;
         res.json({ cod: true });
       } else {
       // code for online payment
-        successAmount = total;
-        generateRazorpay(orderId, total).then((order) => [
+      let finalPrice;
+      if(req.body.offerPrice == ''){
+        finalPrice = total
+      }else{
+        finalPrice = req.body.offerPrice
+      }
+        successAmount = finalPrice;
+        generateRazorpay(orderId, finalPrice).then((order) => [
           res.json({ cod: false, order }),
         ]);
       }

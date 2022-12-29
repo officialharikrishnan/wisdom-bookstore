@@ -1,60 +1,102 @@
 <section class="page-align" id="footer">
     <h2>Add new Coupon</h2>
-   <form action="/admin/addcouponsubmit" method="post">
-                <div class="row mb-3 mt-5">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">Coupon Name</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" id="inputText" name="name">
-                  </div>
+    <form action="/admin/addcouponsubmit" method="post">
+        <div class="row mb-3">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Offer Type</label>
+            <div class="col-sm-10">
+                <select class="form-select" name="type" id="select" onchange="return selector()"
+                    aria-label="Default select example">
+                    <option value="normal" selected>Normal</option>
+                    <option value="product">Product</option>
+                    <option value="category">Category</option>
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3" id="category" style="display: none;">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Category</label>
+            <div class="col-sm-10">
+                <select class="form-select" name="category" id="category" onchange="return selector()"
+                    aria-label="Default select example">
+                    <option selected>Select Category</option>
+                    {{#each data}}
+                    <option value="{{this.name}}">{{this.name}}</option>
+                    {{/each}}
+                </select>
+            </div>
+        </div>
+        <div class="row mb-3 mt-5" id="normal-1">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Coupon Name</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="inputText" name="name">
+            </div>
+        </div>
+        <div class="row mb-3" id="normal-2">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Coupon Code/ID</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" name="code" id="id">
+                <p onclick="codeGenerator()" class="badge badge-secondary">generate Code</p>
+            </div>
+        </div>
+
+
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">Start Date</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="startDate">
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="inputPassword3" class="col-sm-2 col-form-label">End Date</label>
+            <div class="col-sm-10">
+                <input type="date" class="form-control" name="endDate">
+            </div>
+        </div>
+        <div class="row mb-3 mt-5">
+            <label for="inputEmail3" class="col-sm-2 col-form-label">Percentage</label>
+            <div class="col-sm-10">
+                <input type="number" onKeyPress="if(this.value.length==2) return false;" class="form-control"
+                    name="percentage">
+            </div>
+            <div class="row mb-3 mt-5">
+                <label for="inputEmail3" class="col-sm-2 col-form-label">Purchase Limit Amount</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" name="limit">
                 </div>
-                <div class="row mb-3">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">Coupon Code/ID</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control" name="code" id="id">
-                    <p onclick="codeGenerator()" class="badge badge-secondary">generate Code</p>
-                  </div>
-                </div>
-                <div class="row mb-3">
-                  <label for="inputPassword3" class="col-sm-2 col-form-label">Start Date</label>
-                  <div class="col-sm-10">
-                    <input type="date" class="form-control" name="startDate">
-                  </div>
-                </div>
-                 <div class="row mb-3">
-                  <label for="inputPassword3" class="col-sm-2 col-form-label">End Date</label>
-                  <div class="col-sm-10">
-                    <input type="date" class="form-control" name="endDate">
-                  </div>
-                </div>
-                <div class="row mb-3 mt-5">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">Percentage</label>
-                  <div class="col-sm-10">
-                    <input type="number"  onKeyPress="if(this.value.length==2) return false;" class="form-control"  name="percentage">
-                  </div>
-                 <div class="row mb-3 mt-5">
-                  <label for="inputEmail3" class="col-sm-2 col-form-label">Purchase Limit Amount</label>
-                  <div class="col-sm-10">
-                    <input type="text" class="form-control"  name="limit">
-                  </div>
-                
+
 
                 <div class="text-center">
-                  <button type="submit" class="btn btn-primary">Create</button>
+                    <button type="submit" class="btn btn-primary">Create</button>
                 </div>
-              </form>
+    </form>
 </section>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
-    function codeGenerator(){
+    function codeGenerator() {
 
         $.ajax({
-            url:'/admin/generatecode',
-            method:'get',
-            success:(response => {
-            document.getElementById('id').value = response
+            url: '/admin/generatecode',
+            method: 'get',
+            success: (response => {
+                document.getElementById('id').value = response
 
             })
         })
-    
+
+    }
+    function selector() {
+        const selection = document.getElementById('select').value
+        console.log(selection)
+        if (selection == 'category') {
+            document.getElementById('normal-1').style.display = 'none'
+            document.getElementById('normal-2').style.display = 'none'
+            document.getElementById('category').style.display = 'flex'
+        } else if (selection == 'product') {
+            document.getElementById('normal-1').style.display = 'none'
+            document.getElementById('normal-2').style.display = 'none'
+        }else if(selection == 'normal'){
+            document.getElementById('normal-1').style.display = 'flex'
+            document.getElementById('normal-2').style.display = 'flex'
+            document.getElementById('category').style.display = 'none'
+        }
     }
 </script>

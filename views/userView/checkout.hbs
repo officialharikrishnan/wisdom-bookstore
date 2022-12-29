@@ -6,6 +6,7 @@
                 <p class="error">{{error}}</p>
                 <div class="checkout_form mb-100">
                     <form action="" method="" id="checkout-form">
+                        <input type="text" id="amount" name="offerPrice" hidden>
                         <div class="row mb-30">
                             <div class="col-xl-12 col-lg-12 col-md-12">
                                 <div class="checkout__wrap">
@@ -260,6 +261,7 @@
                 success: (response => {
                     if (response.status) {
                         document.getElementById('offer').innerHTML = '₹' + response.offerPrice
+                        document.getElementById('amount').value = response.offerPrice
                     } else {
                         document.getElementById('error').innerHTML = 'Enter valied <br> coupon code'
                     }

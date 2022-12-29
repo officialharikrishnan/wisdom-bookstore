@@ -283,11 +283,14 @@ function deliveryStatus(req, res) {
 }
 function getCoupon(req,res){
   getAllCoupons().then((coupons)=>{
+    console.log(coupons);
     res.render('adminView/coupon',{admin:true,coupons})
   })
 }
 function addCoupon(req,res){
-  res.render('adminView/addCoupon',{admin:true})
+  category().then((data) => {
+    res.render('adminView/addCoupon',{admin:true,data})
+  });
 }
 function codeGenerator(req,res){
    var code = voucher_codes.generate({

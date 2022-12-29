@@ -448,9 +448,11 @@ function createCoupon(coupon){
 }
 function getAllCoupons(){
   return new Promise(async(resolve,reject)=>{
-    const coupons = await db.get().collection(collections.COUPON_COLLECTION).find().toArray()
-    if(coupons.length !=0){
-      resolve(coupons)
+    const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'normal'}).toArray()
+    const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'category'}).toArray()
+    const productCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'product'}).toArray()
+    if(normalCoupons.length !=0){
+      resolve({normalCoupons,categoryCoupons,productCoupons})
     }else{
       reject()
     }

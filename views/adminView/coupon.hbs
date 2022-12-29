@@ -1,8 +1,20 @@
 <section class="page-align" id="footer">
     <a href="/admin/addcoupon"><button class="btn btn-success">Add Coupon</button></a>
-     <table class="table table-bordered " id="example">
-                <thead>
-                  <tr>
+    <div class="row mb-3">
+        <label for="inputEmail3" class="col-sm-2 col-form-label">Offer Type</label>
+        <div class="col-sm-10">
+            <select class="form-select" name="type" id="select" onchange="return couponView()"
+                aria-label="Default select example">
+                <option value="normal" selected>Normal</option>
+                <option value="product">Product</option>
+                <option value="category">Category</option>
+            </select>
+        </div>
+    </div>
+    <div id="normal">
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
                     <th scope="col">Code</th>
                     <th scope="col">Name</th>
                     <th scope="col">Percentage</th>
@@ -10,23 +22,102 @@
                     <th scope="col">Expires</th>
                     <th scope="col">Limit Amount</th>
                     <th scope="col">Action</th>
-                  </tr>
-                </thead>
-                <tbody>
-                    {{#each coupons}}
-                  <tr>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each coupons.normalCoupons}}
+                <tr>
                     <td>{{this.code}}</td>
                     <td>{{this.name}}</td>
                     <td>{{this.percentage}}%</td>
                     <td>{{this.startDate}}</td>
                     <td>{{this.endDate}}</td>
-                    <td>₹{{this.limit}}</td>    
+                    <td>₹{{this.limit}}</td>
                     <td>
                         <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
                         <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
-                    </td>    
-                  </tr>
-                  {{/each}}
-                </tbody>
-              </table>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div id="category">
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th scope="col">Category</th>
+                    <th scope="col">Percentage</th>
+                    <th scope="col">Starts</th>
+                    <th scope="col">Expires</th>
+                    <th scope="col">Limit Amount</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each coupons.categoryCoupons}}
+                <tr>
+                    <td>{{this.category}}</td>
+                    <td>{{this.percentage}}%</td>
+                    <td>{{this.startDate}}</td>
+                    <td>{{this.endDate}}</td>
+                    <td>₹{{this.limit}}</td>
+                    <td>
+                        <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
+                        <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
+    <div id="product">
+        <table class="table table-bordered ">
+            <thead>
+                <tr>
+                    <th scope="col">Product</th>
+                    <th scope="col">Percentage</th>
+                    <th scope="col">Starts</th>
+                    <th scope="col">Expires</th>
+                    <th scope="col">Limit Amount</th>
+                    <th scope="col">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#each coupons.productCoupons}}
+                <tr>
+                    <td>{{this.percentage}}%</td>
+                    <td>{{this.startDate}}</td>
+                    <td>{{this.endDate}}</td>
+                    <td>₹{{this.limit}}</td>
+                    <td>
+                        <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
+                        <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
+                    </td>
+                </tr>
+                {{/each}}
+            </tbody>
+        </table>
+    </div>
 </section>
+<script>
+    document.getElementById('category').style.display = 'none'
+    document.getElementById('normal').style.display = 'flex'
+    document.getElementById('product').style.display = 'none'
+    function couponView() {
+        const selection = document.getElementById('select').value
+        if (selection == 'normal') {
+            document.getElementById('category').style.display = 'none'
+            document.getElementById('normal').style.display = 'flex'
+            document.getElementById('product').style.display = 'none'
+        } else if (selection == 'category') {
+            document.getElementById('category').style.display = 'flex'
+            document.getElementById('normal').style.display = 'none'
+            document.getElementById('product').style.display = 'none'
+        } else if (selection == 'product') {
+            document.getElementById('category').style.display = 'none'
+            document.getElementById('normal').style.display = 'none'
+            document.getElementById('product').style.display = 'flex'
+        }
+    }
+</script>
