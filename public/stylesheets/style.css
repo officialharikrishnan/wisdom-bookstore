@@ -546,3 +546,6 @@ img {
   font-size: large;
   font-weight: 600;
 }
+#code{
+  text-transform: lowercase;
+}

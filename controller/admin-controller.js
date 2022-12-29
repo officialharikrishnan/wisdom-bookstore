@@ -10,6 +10,7 @@ const {
 const { adminTokenGenerator } = require('../utils/token');
 const voucher_codes = require('voucher-code-generator');
 require('dotenv').config();
+const pdfService = require('../utils/pdf-service')
 
 let error;
 const btnstatus = {};
@@ -320,7 +321,18 @@ function couponEditSubmit(req,res){
     res.redirect('/admin/coupon')
   })
 }
+function pdfReport(req,res){
+  const stream = res.writeHead(200,{
+    'Content-Type' : 'application/pdf',
+    'Content-Disposition' : 'attachment;filename=report.pdf'
+  })
+  pdfService.buildPdf(
+    (chunk) => stream.write(chunk),
+    () => stream.end()
+  )
+}
 module.exports = {
+  pdfReport,
   couponEditSubmit,
   couponEdit,
   deleteCoupon,

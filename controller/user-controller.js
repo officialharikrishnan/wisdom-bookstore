@@ -10,7 +10,6 @@ const {
   editAddress, categoryUser, filterByCategory, generateRazorpay,
   paymentVerification, OrderStatusChange, couponManage,
 } = require('../model/user-helpers');
-
 let number;
 let filterStatus = false;
 let books;
@@ -369,6 +368,8 @@ async function checkCoupon(req,res){
     res.json({status:false})
   })
 }
+
+
 module.exports = {
   checkCoupon,
   shopBooks,

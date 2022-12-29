@@ -5,7 +5,6 @@ const { ObjectId } = require('mongodb');
 const collections = require('./dbConnection/collection');
 const db = require('./dbConnection/connection');
 const { deliveryStatus } = require('../controller/admin-controller');
-
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
@@ -604,6 +603,7 @@ function couponManage(C_code,total){
     
   })
 }
+
 module.exports = {
   couponManage,
   filterByCategory,
