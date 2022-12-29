@@ -439,6 +439,8 @@ function revenueGraph() {
 function createCoupon(coupon){
   coupon.limit = parseInt(coupon.limit)
   coupon.percentage = parseInt(coupon.percentage)
+  coupon.isoDateStart= new Date(coupon.startDate)
+  coupon.isoDateEnd= new Date(coupon.endDate)
   return new Promise((resolve, reject)=>{
     db.get().collection(collections.COUPON_COLLECTION).insertOne(coupon)
     resolve()
@@ -467,6 +469,8 @@ function editCoupon(id){
   })
 }
 function editCouponSubmit(id,data){
+  data.percentage=parseInt(data.percentage)
+  data.limit=parseInt(data.limit)
   return new Promise((resolve,reject)=>{
     db.get().collection(collections.COUPON_COLLECTION).updateOne({_id:ObjectId(id)},{
       $set:{

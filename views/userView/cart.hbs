@@ -47,17 +47,6 @@
                                 {{/each }}
                                 
                             </tbody>
-                            <tfoot>
-                                <tr class="design-footer">
-                                    <td>
-                                        <input type="text" placeholder="Coupon Code">
-                                    </td>
-                                    <td><button type="submit">Apply Coupon</button></td>
-                                    <td></td>
-                                    <td></td>
-                                </tr>
-
-                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -68,6 +57,7 @@
                           <tr class="first-child">
                               <td>Subtotal</td>
                               <td>₹{{total}}</td>
+                              <td id="offer-apply"></td>
                           </tr>
                           <tr class="first-child lastchild">
                               <td>Shipping</td>
@@ -76,7 +66,7 @@
                           </tr>
                           <tr class="first-child">
                               <td>Total</td>
-                              <td>₹{{total}}</td>
+                              <td id="offer">₹{{total}}</td>
                           </tr>
                           <tr>   
                               <td colspan="2">
@@ -97,4 +87,6 @@
         </div>
     </div>
 </div>
-
+<script>
+    
+</script> 

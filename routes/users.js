@@ -4,7 +4,7 @@ const {
   otpManager, sendOtp, veryfyOtp, logout, viewProduct, cartPage, cartAdd,
   changeQuantity, checkoutForm, currentAddress,
   checkoutFormSubmit, getProfile, viewOrders, cancelOrder, viewOrderProduct,
-  editAccount, editAccountSubmit, shopBooks, filterBook, orderSuccess, verifyPayment,
+  editAccount, editAccountSubmit, shopBooks, filterBook, orderSuccess, verifyPayment, checkCoupon,
 } = require('../controller/user-controller');
 const { authorization, landingAuthorization } = require('../middlewares/tokenAuthentication');
 
@@ -36,6 +36,7 @@ router.get('/edit-account', authorization, editAccount);
 router.post('/edit-address', authorization, editAccountSubmit);
 router.get('/shop-books', authorization, shopBooks);
 router.post('/filter-book', authorization, filterBook);
+router.post('/checkcoupon',authorization,checkCoupon) 
 router.get('/logout', logout);
 
 module.exports = router;

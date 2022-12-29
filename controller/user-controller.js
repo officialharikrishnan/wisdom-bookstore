@@ -8,7 +8,7 @@ const {
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
   editAddress, categoryUser, filterByCategory, generateRazorpay,
-  paymentVerification, OrderStatusChange,
+  paymentVerification, OrderStatusChange, couponManage,
 } = require('../model/user-helpers');
 
 let number;
@@ -345,14 +345,21 @@ async function filterBook(req, res) {
   } else {
     filterStatus = true;
     filterByCategory(req.body.data).then((book) => {
-      console.log('boooooooks', books, '///////////////');
       books = book;
       res.redirect('/shop-books');
     });
   }
 }
-
+async function checkCoupon(req,res){
+  const total = await getTotalPrice(req);
+  couponManage(req.body.data,total).then((offerPrice)=>{
+    res.json({offerPrice,status:true})
+  }).catch(()=>{
+    res.json({status:false})
+  })
+}
 module.exports = {
+  checkCoupon,
   shopBooks,
   filterBook,
   editAccountSubmit,

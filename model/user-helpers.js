@@ -575,14 +575,42 @@ function OrderStatusChange(orderId) {
     resolve();
   });
 }
-
+function couponManage(C_code,total){
+  console.log(">>>>>>>>>>>>>>>>>",total);
+  return new Promise(async(resolve,reject)=>{
+    const coupon = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
+      {
+        $match:{$and:[{code:C_code},
+          {limit:{$gte:total}},
+          {isoDateStart:{$lte: new Date()}},
+          {isoDateEnd:{$gte: new Date()}}
+        ]}
+      },
+      {
+        $project:{
+          _id:null,
+          offerAmount:{$subtract:[total,{$divide:[{$multiply:[total,'$percentage']},100]}]}
+        }
+      }
+      
+    ]).toArray()
+    console.log('>>>>>>>>>>.',coupon);
+    if(coupon.length !=0){
+      resolve(coupon[0]?.offerAmount)
+    }else{
+      reject()
+    }
+    
+  })
+}
 module.exports = {
+  couponManage,
   filterByCategory,
   editAddress,
   categoryUser,
   viewSingleUserOrder,
   userAllOrders,
-  cancelOrderSubmit,
+  cancelOrderSubmit, 
   OrderHistory,
   getOrderProductToOrder,
   removeCartAfterOrder,

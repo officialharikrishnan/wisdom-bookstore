@@ -75,13 +75,16 @@
                             <td>Subtotal</td>
                             <td class="lightbluee">₹{{total}}</td>
                         </tr>
-                        <tr class="first-child lastchild">
-                            <td>Shipping</td>
-                            <td>Enter your address to view shipping options. </td>
+                        <tr class="design-footer">
+                            <td>
+                                <input type="text" placeholder="Coupon Code" id="code">
+                                <p id="error" style="color: red;"></p>
+                            </td>
+                            <td><button onclick="checkCoupon()" style="background-color: rgb(215, 215, 215);">Apply Coupon</button></td>
                         </tr>
                         <tr class="first-child-2">
                             <td>Total</td>
-                            <td class="lightbluee">₹{{total}}</td>
+                            <td class="lightbluee" id="offer">₹{{total}}</td>
                         </tr>
                     </table>
                     <div class="checkout__accordion mt-30">
@@ -169,7 +172,9 @@
             </div>
         </div>
     </div>
-<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+
     <script>
 
 
@@ -198,7 +203,7 @@
                 "name": "Wisdom",
                 "description": "Buy books",
                 "image": "/images/book.png",
-                "order_id": order.id , //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+                "order_id": order.id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
                 "handler": function (response) {
                     verifyPayment(response, order)
                 },
@@ -215,10 +220,10 @@
                 }
             };
             var rzp1 = new Razorpay(options);
-                rzp1.on('payment.failed', function (response) {
-                    paymentFailed(response.error.description)
-                });
-                rzp1.open();
+            rzp1.on('payment.failed', function (response) {
+                paymentFailed(response.error.description)
+            });
+            rzp1.open();
         }
         function verifyPayment(payment, order) {
             console.log(payment, order)
@@ -229,11 +234,29 @@
                     order
                 },
                 method: 'post',
-                success:(response)=>{
-                    if(response){
+                success: (response) => {
+                    if (response) {
                         location.href = '/order-success'
                     }
                 }
+            })
+        }
+        function checkCoupon() {
+            var code = document.getElementById('code').value
+            console.log(code)
+            $.ajax({
+                url: '/checkcoupon',
+                data: {
+                    data: code
+                },
+                method: 'post',
+                success: (response => {
+                    if (response.status) {
+                        document.getElementById('offer').innerHTML = '₹'+response.offerPrice
+                    } else {
+                        document.getElementById('error').innerHTML = 'Enter valied <br> coupon code'
+                    }
+                })
             })
         }
     </script>
