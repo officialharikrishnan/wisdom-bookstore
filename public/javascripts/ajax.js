@@ -1,6 +1,29 @@
 /* eslint-disable */
 
 function changeQuantity(cartId, proId, count, quantity) {
+  if(quantity == 1 && count == '-1'){
+    removeCartProduct(cartId, proId, count, quantity)
+  }else{
+    $.ajax({
+      url: '/change-product-quantity',
+      data: {
+        cart: cartId,
+        product: proId,
+        count,
+        quantity,
+      },
+      method: 'post',
+      success: () => {
+        // eslint-disable-next-line no-restricted-globals
+        location.reload();
+      },
+    });
+
+  }
+
+}
+
+function finalProduct(cartId, proId, count, quantity){
   $.ajax({
     url: '/change-product-quantity',
     data: {
@@ -206,7 +229,7 @@ function cartAlert() {
   const DNDALERT = new DNDAlert({
     title: 'Alert',
     message:
-        'Are you sure want to cancel this order',
+        'One Item Added to Cart',
     type: 'success',
     html: false,
     
@@ -247,6 +270,52 @@ function razorpayClose() {
           location.href = '/home'
         },
       }
+    ],
+    closeBackgroundClick: true,
+    portalElement: document.querySelector('body'),
+    portalOverflowHidden: true,
+    textAlign: 'center',
+    theme: 'white',
+    onOpen: (bag) => {
+      console.log('Modal Opened');
+      console.log(bag.PROPERTIES);
+    },
+    onClose: (bag) => {
+      console.log('Modal Closed');
+      console.log(bag);
+    },
+    opacity: 1,
+    autoCloseDuration: 15000,
+    draggable: true,
+    animationStatus: true,
+    closeIcon: false,
+    sourceControlWarning: true,
+
+  });
+}
+
+
+function removeCartProduct(cartId, proId, count, quantity) {
+  const DNDALERT = new DNDAlert({
+    title: 'Alert',
+    message:
+        'Are you sure want to remove this product',
+    type: 'info',
+    html: false,
+    buttons: [
+      {
+        text: 'Yes',
+        type: 'primary',
+        onClick: () => {
+          finalProduct(cartId, proId, count, quantity)
+        },
+      },
+      {
+        text: 'Close',
+        onClick: (bag) => {
+          bag.CLOSE_MODAL();
+        },
+      },
     ],
     closeBackgroundClick: true,
     portalElement: document.querySelector('body'),
