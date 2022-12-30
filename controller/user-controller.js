@@ -8,7 +8,7 @@ const {
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
   editAddress, categoryUser, filterByCategory, generateRazorpay,
-  paymentVerification, OrderStatusChange, couponManage,
+  paymentVerification, OrderStatusChange, couponManage, productReturn,
 } = require('../model/user-helpers');
 let number;
 let filterStatus = false;
@@ -368,9 +368,19 @@ async function checkCoupon(req,res){
     res.json({status:false})
   })
 }
+function returnItem(req,res){
+  const decode = tokenVerify(req);
+  console.log(req.body.data,decode.value.id);
+  productReturn(req.body.order,req.body.pro,decode.value.id).then(()=>{
+    res.json({status:true})
+  }).catch(()=>{
+    res.json({status:false})
+  })
+}
 
 
 module.exports = {
+  returnItem,
   checkCoupon,
   shopBooks,
   filterBook,

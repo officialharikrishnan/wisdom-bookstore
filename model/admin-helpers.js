@@ -287,11 +287,18 @@ function cancelOrderAdminSubmit(orderId) {
 }
 function deliveryStatusChange(orderId,proId, status) {
   console.log(orderId,proId , status);
+  let returnOption;
+  if(status == 'Delivered'){
+    returnOption = true
+  }else{
+    returnOption = false
+  }
   return new Promise(async (resolve, reject) => {
     await db.get().collection(collections.ORDER_COLLECTION)
       .updateOne({ _id: ObjectId(orderId),product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }, {
         $set: {
          'product.$.cartItem.deliveryStatus': status,
+         returnOption:returnOption
         },
       }).then(() => {
         resolve();

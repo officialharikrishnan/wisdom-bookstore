@@ -339,3 +339,67 @@ function removeCartProduct(cartId, proId, count, quantity) {
 
   });
 }
+
+function returnOrderProduct(orderId,proId) {
+  const DNDALERT = new DNDAlert({
+    title: 'Alert',
+    message:
+        'Are you sure want to return this product',
+    type: 'info',
+    html: false,
+    buttons: [
+      {
+        text: 'Yes',
+        type: 'primary',
+        onClick: () => {
+          returnProduct(orderId,proId)
+        },
+      },
+      {
+        text: 'Close',
+        onClick: (bag) => {
+          bag.CLOSE_MODAL();
+        },
+      },
+    ],
+    closeBackgroundClick: true,
+    portalElement: document.querySelector('body'),
+    portalOverflowHidden: true,
+    textAlign: 'center',
+    theme: 'white',
+    onOpen: (bag) => {
+      console.log('Modal Opened');
+      console.log(bag.PROPERTIES);
+    },
+    onClose: (bag) => {
+      console.log('Modal Closed');
+      console.log(bag);
+    },
+    opacity: 1,
+    autoCloseDuration: 15000,
+    draggable: true,
+    animationStatus: true,
+    closeIcon: false,
+    sourceControlWarning: true,
+
+  });
+}
+
+function returnProduct(orderId,proId){ 
+    $.ajax({
+      url:'/returnItem',
+      data:{
+        order:orderId,
+        pro:proId
+      },
+      method:'post',
+      success:(response => {
+        if(response.status){
+          location.reload()
+        }else{
+
+        }
+      })
+    })
+
+}

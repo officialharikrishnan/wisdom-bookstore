@@ -8,6 +8,7 @@
                 <th scope="col">Price <sub>/One</sub></th>
                 <th scope="col">Qty</th>
                 <th scope="col">Shipping Status</th>
+                <th scope="col">Return</th>
             </tr>
         </thead>
         <tbody>
@@ -25,8 +26,16 @@
                 <td>{{this.product.cartItem.price}}</td>
                 <td>{{this.product.quantity}}</td>
                 <td> <p class="badge badge-secondary">{{this.product.cartItem.deliveryStatus}}</p></td>
+
+                <td>
+                    {{#if this.returnOption}}
+                     <p class="badge badge-info" onclick="return returnOrderProduct('{{this._id}}','{{this.orders._id}}')" >Return Item</p>
+                     {{/if}}
+                </td>
             </tr>
             {{/each}}
         </tbody>
     </table>
+ 
+
 </div>

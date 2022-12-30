@@ -457,6 +457,7 @@ function viewSingleUserOrder(orderId) {
         $project: {
           product: 1,
           deliveryDetails: 1,
+          returnOption:1
         },
       },
       {
@@ -604,7 +605,24 @@ function couponManage(C_code,total){
   })
 }
 
+function productReturn(orderId,proId,userId){
+  console.log(proId,userId,orderId);
+  return new Promise((resolve,reject)=>{
+    db.get().collection(collections.ORDER_COLLECTION)
+    .updateOne({$and:[{_id:ObjectId(orderId)},{user:ObjectId(userId)},{product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }]},{
+     $set:{
+      'product.$.cartItem.deliveryStatus':'Return',
+      returnOption:false,
+      btnStatus:false,
+      status:'Return'
+     }
+    })
+    resolve()
+  })
+}
+
 module.exports = {
+  productReturn,
   couponManage,
   filterByCategory,
   editAddress,
