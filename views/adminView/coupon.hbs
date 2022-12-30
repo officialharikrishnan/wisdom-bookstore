@@ -12,6 +12,8 @@
         </div>
     </div>
     <div id="normal">
+        {{#if coupons.normalCoupons}}
+
         <table class="table table-bordered ">
             <thead>
                 <tr>
@@ -41,16 +43,17 @@
                 {{/each}}
             </tbody>
         </table>
+        {{else}}
+        <p class="coup">No Coupons</p>
+        {{/if}}
     </div>
     <div id="category">
+       {{#if coupons.categoryCoupons}}
         <table class="table table-bordered ">
             <thead>
                 <tr>
                     <th scope="col">Category</th>
                     <th scope="col">Percentage</th>
-                    <th scope="col">Starts</th>
-                    <th scope="col">Expires</th>
-                    <th scope="col">Limit Amount</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
@@ -59,9 +62,6 @@
                 <tr>
                     <td>{{this.category}}</td>
                     <td>{{this.percentage}}%</td>
-                    <td>{{this.startDate}}</td>
-                    <td>{{this.endDate}}</td>
-                    <td>₹{{this.limit}}</td>
                     <td>
                         <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
                         <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
@@ -70,8 +70,12 @@
                 {{/each}}
             </tbody>
         </table>
+       {{else}}
+       <p class="coup">No Category Coupons</p>
+       {{/if}}
     </div>
     <div id="product">
+        {{#if coupons.productCoupons}}
         <table class="table table-bordered ">
             <thead>
                 <tr>
@@ -98,6 +102,9 @@
                 {{/each}}
             </tbody>
         </table>
+        {{else}}
+        <p class="coup">No Product Coupons</p>
+        {{/if}}
     </div>
 </section>
 <script>

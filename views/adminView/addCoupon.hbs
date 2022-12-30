@@ -39,13 +39,13 @@
         </div>
 
 
-        <div class="row mb-3">
+        <div class="row mb-3" id="start">
             <label for="inputPassword3" class="col-sm-2 col-form-label">Start Date</label>
             <div class="col-sm-10">
                 <input type="date" class="form-control" name="startDate">
             </div>
         </div>
-        <div class="row mb-3">
+        <div class="row mb-3" id="end">
             <label for="inputPassword3" class="col-sm-2 col-form-label">End Date</label>
             <div class="col-sm-10">
                 <input type="date" class="form-control" name="endDate">
@@ -57,16 +57,19 @@
                 <input type="number" onKeyPress="if(this.value.length==2) return false;" class="form-control"
                     name="percentage">
             </div>
-            <div class="row mb-3 mt-5">
+            </div>
+            <div class="row mb-3 mt-5" id="limit">
                 <label for="inputEmail3" class="col-sm-2 col-form-label">Purchase Limit Amount</label>
                 <div class="col-sm-10">
                     <input type="text" class="form-control" name="limit">
                 </div>
 
-
+            </div>
                 <div class="text-center">
                     <button type="submit" class="btn btn-primary">Create</button>
                 </div>
+
+
     </form>
 </section>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
@@ -89,11 +92,14 @@
         if (selection == 'category') {
             document.getElementById('normal-1').style.display = 'none'
             document.getElementById('normal-2').style.display = 'none'
+            document.getElementById('start').style.display = 'none'
+            document.getElementById('end').style.display = 'none'
+            document.getElementById('limit').style.display = 'none'
             document.getElementById('category').style.display = 'flex'
         } else if (selection == 'product') {
             document.getElementById('normal-1').style.display = 'none'
             document.getElementById('normal-2').style.display = 'none'
-        }else if(selection == 'normal'){
+        } else if (selection == 'normal') {
             document.getElementById('normal-1').style.display = 'flex'
             document.getElementById('normal-2').style.display = 'flex'
             document.getElementById('category').style.display = 'none'

@@ -72,7 +72,9 @@
                             <div class="main-menu main-menu-3">
                                 <nav id="mobile-menu">
                                     <ul>
-                                        <li class="user-info"><a href=""><h3 class="text-white">{{user}}</h3></a>
+                                        <li class="user-info"><a href="">
+                                                <h3 class="text-white">{{user}}</h3>
+                                            </a>
                                         <li class="user-info"><a href="/account">Account</a>
                                         <li class="user-info"><a href="/view-orders">Orders</a>
                                         <li class="user-info"><a href="/cart">Cart</a>
@@ -154,7 +156,14 @@
                     </div>
                     <div class="add_cart_product__content">
                         <h5><a href="/view-product/{{this.book._id}}">{{this.book.bookname}}</a></h5>
-                        <h6>₹{{this.book.price}}</h6>
+                        <h6>
+                            {{#if this.book.offer}}
+                            <del> ₹{{this.book.price}}</del>
+                            ₹{{this.book.offer}}
+                            {{else}}
+                            ₹{{this.book.price}}
+                            {{/if}}
+                        </h6>
                         <p>Qty. {{this.quantity}}</p>
                     </div>
                 </div>
@@ -174,12 +183,12 @@
             </div>
         </div>
         {{else}}
-       <div class="text-center">
-         <h5>No items in cart</h5>
-        <br>
-        <br>
-        <a href="/shop-books">Add books to cart</a>
-       </div>
+        <div class="text-center">
+            <h5>No items in cart</h5>
+            <br>
+            <br>
+            <a href="/shop-books">Add books to cart</a>
+        </div>
         {{/if}}
     </div>
 </div>
