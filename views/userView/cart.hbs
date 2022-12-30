@@ -1,52 +1,58 @@
 <div class="">
-     <div class="f_cart_area pt-110 mb-100">
+    <div class="f_cart_area pt-110 mb-100">
         <div class="container">
             <div class="row">
                 {{#if cart}}
                 <div class="col-xl-8 col-lg-8 col-md-12">
                     <div class="cart_table">
                         <table>
-                            <tr> 
+                            <tr>
                                 <td>Product</td>
                                 <td>Name</td>
                                 <td>price</td>
                                 <td>Quantity</td>
                                 {{!-- <td>Total</td> --}}
-                                
-                               </tr>
+
+                            </tr>
                             <tbody>
                                 {{#each cart}}
-                                
+
                                 <tr class="max-width-set">
                                     <td>
                                         <img src="/book-image/{{this.book._id}}.jpg" alt="">
                                     </td>
                                     <td>{{this.book.bookname}}</td>
                                     <td>
-                                        ₹{{this.book.price}} 
+                                        {{#if this.book.offer}}
+                                        <del> ₹{{this.book.price}}</del>
+                                        ₹{{this.book.offer}}
+                                        {{else}}
+                                        ₹{{this.book.price}}
+                                        {{/if}}
                                     </td>
-                                
+
                                     <td>
                                         {{#if this.quantity}}
-                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',-1,'{{this.quantity}}')">-</button>
+                                        <button class="btn btn-secondary"
+                                            onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',-1,'{{this.quantity}}')">-</button>
                                         {{/if}}
                                         <span>{{this.quantity}}</span>
-                                        <button class="btn btn-secondary" onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',1,'{{this.quantity}}')">+</button>
-                                        
+                                        <button class="btn btn-secondary"
+                                            onclick="return changeQuantity('{{this._id}}','{{this.book._id}}',1,'{{this.quantity}}')">+</button>
+
                                         {{!-- <div class="viewcontent__action single_action pt-30">
-                                        <span><input type="number" placeholder="{{this.quantity}}"></span>
-                                    </div> --}}
+                                            <span><input type="number" placeholder="{{this.quantity}}"></span>
+                                        </div> --}}
                                     </td>
-                                     {{!-- <td>
+                                    {{!-- <td>
                                         ₹{{this.price}}
                                     </td>
                                     <td class="width-set">
-                                        <a href="javascript:void(0)"><i
-                                            class="fal fa-times-circle"></i></a>
+                                        <a href="javascript:void(0)"><i class="fal fa-times-circle"></i></a>
                                     </td> --}}
                                 </tr>
                                 {{/each }}
-                                
+
                             </tbody>
                         </table>
                     </div>
@@ -54,34 +60,34 @@
                 <div class="col-xl-4 col-lg-4 col-md-12">
                     <div class="cart__acount">
                         <h5>Cart totals</h5>
-                      <table>
-                          <tr class="first-child">
-                              <td>Subtotal</td>
-                              <td>₹{{total}}</td>
-                              <td id="offer-apply"></td>
-                          </tr>
-                          <tr class="first-child lastchild">
-                              <td>Shipping</td>
-                              <td>Enter your address to view shipping options <br>
-                                Calculate shipping</td>
-                          </tr>
-                          <tr class="first-child">
-                              <td>Total</td>
-                              <td id="offer">₹{{total}}</td>
-                          </tr>
-                          <tr>   
-                              <td colspan="2">
-                                  <a href="/checkout"><input type="submit" value="procced to checkout"></a>
-                              </td>
-                          </tr>
-                      </table>
+                        <table>
+                            <tr class="first-child">
+                                <td>Subtotal</td>
+                                <td>₹{{total}}</td>
+                                <td id="offer-apply"></td>
+                            </tr>
+                            <tr class="first-child lastchild">
+                                <td>Shipping</td>
+                                <td>Enter your address to view shipping options <br>
+                                    Calculate shipping</td>
+                            </tr>
+                            <tr class="first-child">
+                                <td>Total</td>
+                                <td id="offer">₹{{total}}</td>
+                            </tr>
+                            <tr>
+                                <td colspan="2">
+                                    <a href="/checkout"><input type="submit" value="procced to checkout"></a>
+                                </td>
+                            </tr>
+                        </table>
                     </div>
                 </div>
                 {{else}}
                 <div class="text-center">
 
-                <h3>No Items</h3>
-                <a href="/shop-books">Add books to cart</a>
+                    <h3>No Items</h3>
+                    <a href="/shop-books">Add books to cart</a>
                 </div>
                 {{/if}}
             </div>
@@ -89,5 +95,5 @@
     </div>
 </div>
 <script>
-    
-</script> 
+
+</script>

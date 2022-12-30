@@ -147,6 +147,7 @@ async function cartPage(req, res) {
   const decode = tokenVerify(req);
   const total = await getTotalPrice(req);
   const cart = await cartBooks(req);
+  console.log(cart);
   res.render('userView/cart', {
     user: decode.value.name, cart, total, page: 'CART',
   });

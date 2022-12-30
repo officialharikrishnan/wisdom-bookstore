@@ -201,7 +201,6 @@ function getCart(userId) {
         },
       },
     ]).toArray();
-    // console.log(">>>",cartItems[0].cartItem);
     if (cartItems) {
       resolve(cartItems);
     } else {
@@ -264,9 +263,25 @@ function getTotalAmount(userId) {
         },
       },
       {
+        "$set":{
+          "final":{
+            "$switch":{
+              "branches":
+              [{"case":{"$and":["$book.offer",{"$ne":["$book.price",""]}]},
+              "then":"$book.offer"},
+              {"case":{"$and":["$book.price",{"$ne":["$book.offer",""]}]},
+              "then":"$book.price"}
+            ],
+            "default":""
+            }
+          }
+        }
+      },
+ 
+      {
         $group: {
           _id: null,
-          total: { $sum: { $multiply: ['$quantity', '$book.price'] } },
+          total: { $sum: { $multiply: ['$quantity', '$final'] } },
         },
       },
     ]).toArray();

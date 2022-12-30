@@ -484,7 +484,7 @@ function getAllCoupons(){
     const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'normal'}).toArray()
     const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'category'}).toArray()
     const productCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'product'}).toArray()
-    if(normalCoupons.length !=0){
+    if(normalCoupons.length !=0 || categoryCoupons.length != 0){
       resolve({normalCoupons,categoryCoupons,productCoupons})
     }else{
       reject()

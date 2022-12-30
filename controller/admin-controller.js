@@ -287,6 +287,8 @@ function getCoupon(req,res){
   getAllCoupons().then((coupons)=>{
     console.log(coupons);
     res.render('adminView/coupon',{admin:true,coupons})
+  }).catch(()=>{
+    res.render('adminView/coupon',{admin:true})
   })
 }
 function addCoupon(req,res){
