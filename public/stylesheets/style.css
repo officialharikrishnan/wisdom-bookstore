@@ -547,5 +547,8 @@ img {
   font-weight: 600;
 }
 #code{
-  text-transform: lowercase;
+  text-transform: uppercase;
+}
+#id{
+  text-transform: uppercase;
 }

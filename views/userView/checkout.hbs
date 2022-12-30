@@ -11,7 +11,7 @@
                             <div class="col-xl-12 col-lg-12 col-md-12">
                                 <div class="checkout__wrap">
                                     <label>Name<span>*</span></label>
-                                    <input type="text" name="name" value="{{address.name}}">
+                                    <input type="text" name="name" id="name" >
                                 </div>
                             </div>
 
@@ -19,7 +19,7 @@
 
                         <div class="checkout__wrap">
                             <label>State<span>*</span></label>
-                            <select name="state" value="{{address.state}}">
+                            <select name="state" id="state">
                                 <option value="Kerala">Kerala</option>
                                 <option value="Tamil Nadu">Tamil Nadu</option>
                                 <option value="Maharashtra">Maharashtra</option>
@@ -30,30 +30,30 @@
                         </div>
                         <div class="checkout__wrap">
                             <label>Street address <span>*</span></label>
-                            <input class="mb-20" type="text" name="street" value="{{address.street}}"
+                            <input class="mb-20" type="text" name="street" id="street1" 
                                 placeholder="house number and street number">
-                            <input type="text" name="street2" placeholder="apartment,suite,unit,etc.(optional)">
+                            <input type="text" name="street2" placeholder="apartment,suite,unit,etc.(optional)" id="street2">
                         </div>
                         <div class="checkout__wrap">
                             <label>Town / City <span>*</span></label>
-                            <input type="text" name="city" value="{{address.city}}">
+                            <input type="text" name="city" id="city">
                         </div>
 
                         <div class="checkout__wrap">
                             <label>Postcode<span>*</span></label>
-                            <input type="text" name="postcode" value="{{address.postcode}}">
+                            <input type="text" name="postcode" id="postcode">
                         </div>
                         <div class="checkout__wrap">
                             <label>Phone <span>*</span></label>
-                            <input type="text" name="phone" value="{{address.phone}}">
+                            <input type="text" name="phone" id="phone">
                         </div>
                         <div class="checkout__wrap">
                             <label>Email address <span>*</span></label>
-                            <input type="email" name="email" value="{{address.email}}">
+                            <input type="email" name="email" id="email">
                         </div>
 
                         <div class="checkout__wrap-2 pt-20">
-                            <a href="/get-current-address"><button type="button"> Load current address</button></a>
+                            <button type="button" onclick="return getCurrentAddress()"> Load current address</button>
                         </div>
 
 
@@ -262,9 +262,26 @@
                     if (response.status) {
                         document.getElementById('offer').innerHTML = '₹' + response.offerPrice
                         document.getElementById('amount').value = response.offerPrice
+                        document.getElementById('error').innerHTML = ''
                     } else {
                         document.getElementById('error').innerHTML = 'Enter valied <br> coupon code'
                     }
+                })
+            })
+        }
+        function getCurrentAddress(){
+            $.ajax({
+                url:'/get-current-address',
+                method:'get',
+                success:(response =>{
+                    console.log(response)
+                    document.getElementById('name').value = response.name
+                    document.getElementById('street1').value = response.street
+                    document.getElementById('street2').value = response.street2
+                    document.getElementById('city').value = response.city
+                    document.getElementById('postcode').value = response.postcode
+                    document.getElementById('phone').value = response.phone ?? ''
+                    document.getElementById('email').value = response.email ?? ''
                 })
             })
         }

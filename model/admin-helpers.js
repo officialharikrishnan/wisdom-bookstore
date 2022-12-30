@@ -298,7 +298,7 @@ function deliveryStatusChange(orderId,proId, status) {
       .updateOne({ _id: ObjectId(orderId),product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }, {
         $set: {
          'product.$.cartItem.deliveryStatus': status,
-         returnOption:returnOption
+         'product.$.cartItem.returnOption':returnOption,
         },
       }).then(() => {
         resolve();
@@ -445,6 +445,7 @@ function revenueGraph() {
 }
 function createCoupon(coupon){
   coupon.limit = parseInt(coupon.limit)
+  coupon.code = coupon.code.toUpperCase()
   coupon.percentage = parseInt(coupon.percentage)
   coupon.isoDateStart= new Date(coupon.startDate)
   coupon.isoDateEnd= new Date(coupon.endDate)
@@ -480,6 +481,7 @@ function editCoupon(id){
 function editCouponSubmit(id,data){
   data.percentage=parseInt(data.percentage)
   data.limit=parseInt(data.limit)
+  data.code = data.code.toUpperCase()
   return new Promise((resolve,reject)=>{
     db.get().collection(collections.COUPON_COLLECTION).updateOne({_id:ObjectId(id)},{
       $set:{

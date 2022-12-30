@@ -79,6 +79,7 @@ async function adminDashboard(req, res) {
       salesTitle = 'Today';
       reports = await getDailyOrder();
       report = reports.length;
+      
     }
     if (!revenueStatus) {
       revenueTitle = 'Today';

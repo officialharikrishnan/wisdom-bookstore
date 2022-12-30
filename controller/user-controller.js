@@ -185,9 +185,11 @@ async function currentAddress(req, res) {
   const cart = await cartBooks(req);
 
   loadCurrentAddress(decode.value.id).then((address) => {
-    res.render('userView/checkout', {
-      user: decode.value.name, cart, total, address, page: 'CHECKOUT',
-    });
+    // res.render('userView/checkout', {
+    //   user: decode.value.name, cart, total, address, page: 'CHECKOUT',
+    // });
+    console.log(address);
+    res.json(address)
   }).catch(() => {
     console.log('address getting error');
   });
@@ -201,6 +203,11 @@ async function checkoutFormSubmit(req, res) {
   if (cart) {
     total = await getTotalPrice(req);
     product = await getOrderProductToOrder(decode.value.id);
+    if(req.body.offerPrice == ''){
+      finalPrice = total
+    }else{
+      finalPrice = req.body.offerPrice
+    }
     
   }
   if (!req.body.name || !req.body.street || !req.body.postcode) {
@@ -213,14 +220,10 @@ async function checkoutFormSubmit(req, res) {
     });
   } else {
     const status = req.body.payment === 'COD' ? 'placed' : 'pending';
-    placeOrder(decode.value.id, product, req.body, status, total).then((orderId) => {
+    placeOrder(decode.value.id, product, req.body, status, finalPrice).then((orderId) => {
       removeCartAfterOrder(decode.value.id);
       if (req.body.payment === 'COD') {
-        if(req.body.offerPrice == ''){
-          finalPrice = total
-        }else{
-          finalPrice = req.body.offerPrice
-        }
+
           successAmount = finalPrice;
         mode = 'Order placed successfully';
         res.json({ cod: true });

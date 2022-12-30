@@ -28,7 +28,7 @@
                 <td> <p class="badge badge-secondary">{{this.product.cartItem.deliveryStatus}}</p></td>
 
                 <td>
-                    {{#if this.returnOption}}
+                    {{#if this.product.cartItem.returnOption}}
                      <p class="badge badge-info" onclick="return returnOrderProduct('{{this._id}}','{{this.orders._id}}')" >Return Item</p>
                      {{/if}}
                 </td>

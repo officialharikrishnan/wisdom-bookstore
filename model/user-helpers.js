@@ -577,7 +577,7 @@ function OrderStatusChange(orderId) {
   });
 }
 function couponManage(C_code,total){
-  console.log(">>>>>>>>>>>>>>>>>",total);
+  C_code = C_code.toUpperCase()
   return new Promise(async(resolve,reject)=>{
     const coupon = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
       {
@@ -612,14 +612,13 @@ function productReturn(orderId,proId,userId){
     .updateOne({$and:[{_id:ObjectId(orderId)},{user:ObjectId(userId)},{product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }]},{
      $set:{
       'product.$.cartItem.deliveryStatus':'Return',
-      returnOption:false,
-      btnStatus:false,
-      status:'Return'
+      'product.$.cartItem.returnOption':false,
      }
     })
     resolve()
   })
 }
+
 
 module.exports = {
   productReturn,
