@@ -106,7 +106,14 @@
                                                                 <div class="product__name">
                                                                     <h4><a href="shop.html">{{this.bookname}}</a></h4>
                                                                     <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1">₹{{this.price}}</p>
+                                                                        <p class="p-absoulute pr-1">
+                                                                        {{#if this.offer}}
+                                                                       <del> ₹{{this.price}}</del>
+                                                                        ₹{{this.offer}}
+                                                                        {{else}}
+                                                                        ₹{{this.price}}
+                                                                        {{/if}}
+                                                                            </p>
                                                                         <a class="p-absoulute pr-2" onclick="return addtocart('{{this._id}}')">add to
                                                                             cart</a>
                                                                     </div>
@@ -170,7 +177,14 @@
                                                                     <h4><a href="shop.html">{{this.bookname}}</a>
                                                                     </h4>
                                                                     <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1">₹{{this.price}}</p>
+                                                                        <p class="p-absoulute pr-1">
+                                                                        {{#if this.offer}}
+                                                                       <del> ₹{{this.price}}</del>
+                                                                        ₹{{this.offer}}
+                                                                        {{else}}
+                                                                        ₹{{this.price}}
+                                                                        {{/if}}
+                                                                            </p>
                                                                         <a class="p-absoulute pr-2" onclick="return addtocart('{{this._id}}')">add to
                                                                             cart</a>
                                                                     </div>
@@ -236,7 +250,14 @@
                                                                 <div class="product__name">
                                                                     <h4><a href="shop.html">{{this.bookname}}</a></h4>
                                                                     <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1">₹{{this.price}}</p>
+                                                                        <p class="p-absoulute pr-1">
+                                                                        {{#if this.offer}}
+                                                                       <del> ₹{{this.price}}</del>
+                                                                        ₹{{this.offer}}
+                                                                        {{else}}
+                                                                        ₹{{this.price}}
+                                                                        {{/if}}
+                                                                            </p>
                                                                         <a class="p-absoulute pr-2" onclick="return addtocart('{{this._id}}')">add to
                                                                             cart</a>
                                                                     </div>
@@ -302,7 +323,14 @@
                                                                 <div class="product__name">
                                                                     <h4><a href="shop.html">{{this.bookname}}</a></h4>
                                                                     <div class="pro-price">
-                                                                        <p class="p-absoulute pr-1">₹{{this.price}}</p>
+                                                                        <p class="p-absoulute pr-1">
+                                                                        {{#if this.offer}}
+                                                                       <del> ₹{{this.price}}</del>
+                                                                        ₹{{this.offer}}
+                                                                        {{else}}
+                                                                        ₹{{this.price}}
+                                                                        {{/if}}
+                                                                            </p>
                                                                         <a class="p-absoulute pr-2" onclick="return addtocart('{{this._id}}')">add to
                                                                             cart</a>
                                                                     </div>
@@ -388,7 +416,14 @@
                                                                <div class="product__name">
                                                                 <h4><a href="shop.html">{{this.bookname}}</a></h4>
                                                                 <div class="pro-price">
-                                                                    <p class="p-absoulute pr-1"><span>₹{{this.price}}</p>
+                                                                    <p class="p-absoulute pr-1"><span>
+                                                                        {{#if this.offer}}
+                                                                       <del> ₹{{this.price}}</del>
+                                                                        ₹{{this.offer}}
+                                                                        {{else}}
+                                                                        ₹{{this.price}}
+                                                                        {{/if}}
+                                                                        </p>
                                                                     <a class="p-absoulute pr-2" onclick="return addtocart('{{this._id}}')">add to cart</a>
                                                                 </div>
                                                             </div>

@@ -449,8 +449,33 @@ function createCoupon(coupon){
   coupon.percentage = parseInt(coupon.percentage)
   coupon.isoDateStart= new Date(coupon.startDate)
   coupon.isoDateEnd= new Date(coupon.endDate)
-  return new Promise((resolve, reject)=>{
+  return new Promise(async(resolve, reject)=>{
     db.get().collection(collections.COUPON_COLLECTION).insertOne(coupon)
+    if(coupon.type == 'category'){
+     var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+        {
+          $match:{category:coupon.category}
+        },
+        {
+          $project:{price:1}
+        },
+  
+        {
+          $addFields:{
+            offer:{$subtract:['$price',{$divide:[{$multiply:['$price',coupon.percentage]},100]}]}
+
+          }
+        }
+      ]).forEach(element => {
+        db.get().collection(collections.PRODUCT_COLLECTION).updateMany({_id:element._id},{
+        $set:{
+          offer:element.offer
+        }
+      })
+
+      });
+    }
+
     resolve()
   })
 }
@@ -467,11 +492,14 @@ function getAllCoupons(){
   })
 }
 function romoveCoupon(id){
-  return new Promise((resolve,reject)=>{
-    db.get().collection(collections.COUPON_COLLECTION).deleteOne({_id:ObjectId(id)})
+  return new Promise(async(resolve,reject)=>{
+    const coupon =await  db.get().collection(collections.COUPON_COLLECTION).findOneAndDelete({_id:ObjectId(id)})
+    db.get().collection(collections.PRODUCT_COLLECTION).updateMany({category:coupon.value.category},{
+      $unset:{offer:1}
+    })
     resolve()
   })
-}
+} 
 function editCoupon(id){
   return new Promise(async(resolve,reject)=>{
     const coupon = await db.get().collection(collections.COUPON_COLLECTION).findOne({_id:ObjectId(id)})
@@ -496,6 +524,7 @@ function editCouponSubmit(id,data){
     resolve()
   })
 }
+
 module.exports = {
   editCouponSubmit,
   editCoupon,

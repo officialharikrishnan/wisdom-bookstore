@@ -65,7 +65,7 @@ function addtocart(id) {
       setTimeout(()=>{
         location.reload();
 
-      },2000)
+      },1500)
       
     },
   });
@@ -247,7 +247,7 @@ function cartAlert() {
       console.log(bag);
     },
     opacity: 1,
-    autoCloseDuration: 1500,
+    autoCloseDuration: 1000,
     draggable: true,
     animationStatus: true,
     closeIcon: false,
