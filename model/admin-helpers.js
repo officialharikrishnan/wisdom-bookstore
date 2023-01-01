@@ -510,6 +510,7 @@ function editCouponSubmit(id,data){
   data.percentage=parseInt(data.percentage)
   data.limit=parseInt(data.limit)
   data.code = data.code.toUpperCase()
+  console.log(data);
   return new Promise((resolve,reject)=>{
     db.get().collection(collections.COUPON_COLLECTION).updateOne({_id:ObjectId(id)},{
       $set:{
@@ -518,7 +519,9 @@ function editCouponSubmit(id,data){
         startDate:data.startDate,
         endDate:data.endDate,
         percentage:data.percentage,
-        limit:data.limit
+        limit:data.limit,
+        isoDateStart: new Date(data.startDate),
+        isoDateEnd: new Date(data.endDate)
       }
     })
     resolve()

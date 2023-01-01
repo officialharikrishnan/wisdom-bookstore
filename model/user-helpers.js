@@ -593,6 +593,7 @@ function OrderStatusChange(orderId) {
 }
 function couponManage(C_code,total){
   C_code = C_code.toUpperCase()
+  console.log(C_code,total);
   return new Promise(async(resolve,reject)=>{
     const coupon = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
       {
