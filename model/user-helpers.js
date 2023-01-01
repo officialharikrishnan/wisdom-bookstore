@@ -634,9 +634,19 @@ function productReturn(orderId,proId,userId){
     resolve()
   })
 }
-
+function getAllCoupons(){
+  return new Promise(async(resolve,reject)=>{
+    const offers =await db.get().collection(collections.COUPON_COLLECTION).find().toArray()
+    if(offers.length != 0){
+      resolve(offers)
+    }else{
+      reject()
+    }
+  })
+}
 
 module.exports = {
+  getAllCoupons,
   productReturn,
   couponManage,
   filterByCategory,

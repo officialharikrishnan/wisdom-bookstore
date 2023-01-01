@@ -1,0 +1,44 @@
+<section class="offer">
+    <div class="container blue-bg ">
+  <div class="col-md-8">
+    <h2 class="section-heading">Latest Coupon Codes and Deals</h2>
+    <div class="coupons-list">
+      <div class="store-offer-item shadow-box">
+        {{#each offers}}
+            {{#if this.caregoryOption}}
+        <div class="latest-coupon mt-5">
+          <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}%% Off On {{this.category}}</a></h3>
+           <div class="coupon-des">
+            Save with free shipping and free returns on all orders
+          </div>
+        </div>
+        <div class="coupon-detail coupon-button-type">
+          <a href="/shop-books" class="coupon-button coupon-code" data-aff-url="https://google.com">
+            <span class="code-text">SHOP</span>
+            <span class="get-code">Get Deal</span>
+          </a>
+          <div class="exp-text">Expires {{this.endDate}} <a title="Save This Coupon" href="#" class="coupon-save"><i class="glyphicon glyphicon-star"></i></a></div>
+        </div>
+          {{else}}
+            <div class="latest-coupon mt-5">
+          <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}%% Off On Every Book</a></h3>
+           <div class="coupon-des">
+            Save with free shipping and free returns on all orders
+            <h6 style="color: gray;">Coupon Code : {{this.code}}</h6>
+          </div>
+        </div>
+        <div class="coupon-detail coupon-button-type">
+          <a href="/shop-books" class="coupon-button coupon-code" data-aff-url="https://google.com">
+            <span class="code-text">SHOP</span>
+            <span class="get-code">Get Deal</span>
+          </a>
+          <div class="exp-text">Expires {{this.endDate}}<a title="Save This Coupon" href="#" class="coupon-save"><i class="glyphicon glyphicon-star"></i></a></div>
+        </div>
+          {{/if}}
+         
+        {{/each}}
+      </div>
+    </div>
+  </div>
+  
+</section>

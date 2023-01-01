@@ -8,7 +8,7 @@ const {
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
   editAddress, categoryUser, filterByCategory, generateRazorpay,
-  paymentVerification, OrderStatusChange, couponManage, productReturn,
+  paymentVerification, OrderStatusChange, couponManage, productReturn, getAllCoupons,
 } = require('../model/user-helpers');
 let number;
 let filterStatus = false;
@@ -381,9 +381,17 @@ function returnItem(req,res){
     res.json({status:false})
   })
 }
-
+function getOffers(req,res){
+  const decode = tokenVerify(req);
+  getAllCoupons().then((offers)=>{
+    res.render('userView/offers',{user: decode.value.name,offers})
+  }).catch(()=>{
+    res.render('userView/offers',{user: decode.value.name})
+  })
+}
 
 module.exports = {
+  getOffers,
   returnItem,
   checkCoupon,
   shopBooks,

@@ -449,6 +449,9 @@ function createCoupon(coupon){
   coupon.percentage = parseInt(coupon.percentage)
   coupon.isoDateStart= new Date(coupon.startDate)
   coupon.isoDateEnd= new Date(coupon.endDate)
+  if(coupon.type == 'category'){
+    coupon.categoryOption=true
+  }
   return new Promise(async(resolve, reject)=>{
     db.get().collection(collections.COUPON_COLLECTION).insertOne(coupon)
     if(coupon.type == 'category'){
