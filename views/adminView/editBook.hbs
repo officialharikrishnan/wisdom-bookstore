@@ -60,7 +60,10 @@
             <div class="row mb-3">
                 <label for="inputNumber" class="col-sm-2 col-form-label">File Upload</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="file"  name="Image" id="formFile">
+                    <input class="form-control" type="file"  name="Image" onchange="viewImage(event)">
+                </div>
+                <div class="book-image" style="padding-left: 40%;">
+                <img src="/book-image/{{book._id}}.jpg" style="width: 100px;"  alt="" id="imgView" >
                 </div>
             </div>
             <div class="row mb-3">
@@ -90,5 +93,8 @@
 <script>
     document.getElementById("myTextarea1").defaultValue = document.getElementById('aboutbook').value;
     document.getElementById("myTextarea2").defaultValue = document.getElementById('aboutauthor').value;
+   function viewImage(event){
+       document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])}
+
 
 </script>

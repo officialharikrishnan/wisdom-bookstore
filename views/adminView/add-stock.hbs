@@ -58,7 +58,10 @@
             <div class="row mb-3">
                 <label  class="col-sm-2 col-form-label">File Upload</label>
                 <div class="col-sm-10">
-                    <input class="form-control" type="file" name="Image" id="formFile" required>
+                    <input class="form-control" type="file" name="Image" onchange="viewImage(event)" required>
+                </div>
+                <div class="book-image"  style="width: 100px; margin-left:40%;">
+                    <img src="" id="imgView" alt="">
                 </div>
             </div>
             <div class="row mb-3">
@@ -83,3 +86,11 @@
         </form>
     </div>
 </section>
+
+<script>
+    const chooseFile = document.getElementById("choose-file");
+const imgPreview = document.getElementById("img-preview")
+
+ function viewImage(event){
+       document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])}
+</script>

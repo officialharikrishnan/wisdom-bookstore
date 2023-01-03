@@ -586,7 +586,7 @@ function paymentVerification(details) {
 function OrderStatusChange(orderId) {
   return new Promise((resolve, reject) => {
     db.get().collection(collections.ORDER_COLLECTION).updateOne({ _id: ObjectId(orderId) }, {
-      $set: { status: 'placed' },
+      $set: { status: 'Order placed' },
     });
     resolve();
   });

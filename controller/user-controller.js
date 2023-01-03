@@ -238,7 +238,7 @@ async function checkoutFormSubmit(req, res) {
       user: decode.value.name, cart, total, page: 'CHECKOUT', error: 'No items in cart',
     });
   } else {
-    const status = req.body.payment === 'COD' ? 'placed' : 'pending';
+    const status = req.body.payment === 'COD' ? 'Order Placed' : 'pending';
     placeOrder(decode.value.id, product, req.body, status, finalPrice).then((orderId) => {
       removeCartAfterOrder(decode.value.id);
       if (req.body.payment === 'COD') {

@@ -35,7 +35,7 @@ router.post('/cancel-order/', authorization, cancelOrder);
 router.get('/edit-account', authorization, editAccount);
 router.post('/edit-address', authorization, editAccountSubmit);
 router.get('/shop-books', shopBooks);
-router.post('/filter-book', authorization, filterBook);
+router.post('/filter-book', filterBook);
 router.post('/checkcoupon',authorization,checkCoupon) 
 router.post('/returnItem',authorization,returnItem)
 router.get('/offers',getOffers)
