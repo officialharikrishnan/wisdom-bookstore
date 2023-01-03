@@ -37,7 +37,7 @@
                     <td>₹{{this.limit}}</td>
                     <td>
                         <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
-                        <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
+                        <p onclick="return couponDelete('{{this._id}}')" class="badge badge-danger">Delete</p>
                     </td>
                 </tr>
                 {{/each}}
@@ -64,7 +64,7 @@
                     <td>{{this.percentage}}%</td>
                     <td>
                         <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
-                        <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
+                        <p onclick="return couponDelete('{{this._id}}')" class="badge badge-danger">Delete</p>
                     </td>
                 </tr>
                 {{/each}}
@@ -96,7 +96,7 @@
                     <td>₹{{this.limit}}</td>
                     <td>
                         <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
-                        <a href="/admin/deletecoupon/{{this._id}}" class="badge badge-danger">Delete</a>
+                        <p onclick="return couponDelete('{{this._id}}')" class="badge badge-danger">Delete</p>
                     </td>
                 </tr>
                 {{/each}}

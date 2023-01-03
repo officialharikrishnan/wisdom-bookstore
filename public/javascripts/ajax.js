@@ -22,7 +22,19 @@ function changeQuantity(cartId, proId, count, quantity) {
   }
 
 }
-
+function deleteCoupon(id){
+  console.log("called",id);
+  $.ajax({
+    url:'/admin/deletecoupon',
+    data:{
+      id:id
+    },
+    method:'post',
+    success:(response => {
+      location.reload()
+    })
+  })
+}
 function finalProduct(cartId, proId, count, quantity){
   $.ajax({
     url: '/change-product-quantity',
@@ -61,11 +73,16 @@ function addtocart(id) {
     },
     method: 'post',
     success: (response) => {
-      cartAlert()
-      setTimeout(()=>{
-        location.reload();
+      if(response.status){
 
-      },1500)
+        cartAlert()
+        setTimeout(()=>{
+          location.reload();
+          
+        },1500)
+      }else{
+        location.assign('/login')
+      }
       
     },
   });
@@ -353,6 +370,52 @@ function returnOrderProduct(orderId,proId) {
         type: 'primary',
         onClick: () => {
           returnProduct(orderId,proId)
+        },
+      },
+      {
+        text: 'Close',
+        onClick: (bag) => {
+          bag.CLOSE_MODAL();
+        },
+      },
+    ],
+    closeBackgroundClick: true,
+    portalElement: document.querySelector('body'),
+    portalOverflowHidden: true,
+    textAlign: 'center',
+    theme: 'white',
+    onOpen: (bag) => {
+      console.log('Modal Opened');
+      console.log(bag.PROPERTIES);
+    },
+    onClose: (bag) => {
+      console.log('Modal Closed');
+      console.log(bag);
+    },
+    opacity: 1,
+    autoCloseDuration: 15000,
+    draggable: true,
+    animationStatus: true,
+    closeIcon: false,
+    sourceControlWarning: true,
+
+  });
+}
+
+
+function couponDelete(id) {
+  const DNDALERT = new DNDAlert({
+    title: 'Alert',
+    message:
+        'Are you sure want to return this Coupon',
+    type: 'info',
+    html: false,
+    buttons: [
+      {
+        text: 'Yes',
+        type: 'primary',
+        onClick: () => {
+          deleteCoupon(id)
         },
       },
       {

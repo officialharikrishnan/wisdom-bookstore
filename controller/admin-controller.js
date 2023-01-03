@@ -306,12 +306,12 @@ res.json(code[0])
 }
 function addCouponSubmit(req,res){
   createCoupon(req.body).then(()=>{
-    res.redirect(req.get('referer'));
+    res.redirect('/admin/coupon');
   })
 }
 function deleteCoupon(req,res){
-  romoveCoupon(req.params.id).then(()=>{
-    res.redirect(req.get('referer'));
+  romoveCoupon(req.body.id).then(()=>{
+    res.json({status:true})
   })
 }
 function couponEdit(req,res){

@@ -40,7 +40,7 @@ router.get('/addcoupon',adminAuthorization,addCoupon)
 router.get('/generatecode',adminAuthorization,codeGenerator)
 router.post('/addcouponsubmit',adminAuthorization,addCouponSubmit)
 router.get('/editcoupon/:id',adminAuthorization,couponEdit)
-router.get('/deletecoupon/:id',adminAuthorization,deleteCoupon)
+router.post('/deletecoupon',adminAuthorization,deleteCoupon)
 router.post('/editcouponsubmit/:id',adminAuthorization, couponEditSubmit)
 router.get('/get-report',pdfReport)
 router.get('/logout', adminLogout);

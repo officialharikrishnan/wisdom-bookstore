@@ -1,13 +1,14 @@
 <section class="offer">
     <div class="container blue-bg ">
   <div class="col-md-8">
+        {{#if offers}}
     <h2 class="section-heading">Latest Coupon Codes and Deals</h2>
     <div class="coupons-list">
       <div class="store-offer-item shadow-box">
         {{#each offers}}
-            {{#if this.caregoryOption}}
+            {{#if this.categoryOption}}
         <div class="latest-coupon mt-5">
-          <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}%% Off On {{this.category}}</a></h3>
+          <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}% Off On {{this.category}}</a></h3>
            <div class="coupon-des">
             Save with free shipping and free returns on all orders
           </div>
@@ -21,7 +22,7 @@
         </div>
           {{else}}
             <div class="latest-coupon mt-5">
-          <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}%% Off On Every Book</a></h3>
+          <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}% Off On Every Book</a></h3>
            <div class="coupon-des">
             Save with free shipping and free returns on all orders
             <h6 style="color: gray;">Coupon Code : {{this.code}}</h6>
@@ -40,5 +41,8 @@
       </div>
     </div>
   </div>
+      {{else}}
+      <p class="text-center">No offers</p>
+      {{/if}}
   
 </section>

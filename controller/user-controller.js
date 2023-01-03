@@ -16,6 +16,7 @@ let books;
 let catg;
 let mode;
 let successAmount;
+let loginStat = false;
 const jwtotpuser = { name: '', id: '' };
 
 function landingPage(req, res) {
@@ -47,6 +48,7 @@ function signUpSubmit(req, res) {
     };
     userSignup(userData)
       .then(async (response) => {
+        loginStat = true
         const token = await tockenGenerator(response);
         res.cookie('wisdom', token, {
           httpOnly: true,
@@ -62,6 +64,7 @@ function otpManager(req, res) {
 function loginSubmit(req, res) {
   userLogin(req.body)
     .then(async (response) => {
+      loginStat = true
       const token = await tockenGenerator(response);
       res.cookie('wisdom', token, {
         httpOnly: true,
@@ -132,6 +135,7 @@ function veryfyOtp(req, res) {
     });
 }
 function viewProduct(req, res) {
+ if(loginStat){
   const decode = tokenVerify(req);
   viewBook(req.params.id).then(async (book) => {
     const cart = await cartBooks(req);
@@ -142,6 +146,15 @@ function viewProduct(req, res) {
   }).catch(() => {
     console.log('failed to load viewbook');
   });
+ }else{
+  viewBook(req.params.id).then(async (book) => {
+    res.render('userView/view-product', {
+       book,user:'Login'
+    });
+  }).catch(() => {
+    console.log('failed to load viewbook');
+  });
+ }
 }
 async function cartPage(req, res) {
   const decode = tokenVerify(req);
@@ -153,15 +166,20 @@ async function cartPage(req, res) {
   });
 }
 function logout(req, res) {
+  loginStat = false
   res.cookie('wisdom', '', { expiresIn: '0.1s' })
     .redirect('/');
 }
 function cartAdd(req, res) {
   console.log(req.body.data);
   const decode = tokenVerify(req);
+  if(loginStat){
   addToCart(req.body.data, decode.value.id).then(() => {
-    res.redirect(req.get('referer'));
+    res.json({status:true})
   });
+}else{
+  res.redirect('/login')
+}
 }
 function changeQuantity(req, res) {
   changeBookQuantity(req.body).then(() => {
@@ -322,7 +340,9 @@ function editAccountSubmit(req, res) {
   });
 }
 async function shopBooks(req, res) {
-  const decode = tokenVerify(req);
+
+  if(loginStat){
+    const decode = tokenVerify(req);
   const cart = await cartBooks(req);
   let category;
   await categoryUser().then((data) => {
@@ -344,6 +364,27 @@ async function shopBooks(req, res) {
       });
     });
   }
+  }else{
+    let category;
+    await categoryUser().then((data) => {
+      category = data;
+    });
+    if (filterStatus) {
+      catg = books[0].category;
+      res.render('userView/shopbook', {
+        user:'Login', books, catg, category, page: 'SHOP',
+      });
+    } else {
+      getAllBooks().then((book) => {
+        catg = 'all';
+  
+        books = book.all;
+        res.render('userView/shopbook', {
+          user: 'Login', catg, books, category, page: 'SHOP',
+        });
+      });
+  }
+}
 }
 async function filterBook(req, res) {
   // eslint-disable-next-line eqeqeq
@@ -368,7 +409,7 @@ async function checkCoupon(req,res){
   const total = await getTotalPrice(req);
   couponManage(req.body.data,total).then((offerPrice)=>{
     res.json({offerPrice,status:true})
-  }).catch(()=>{
+  }).catch((err)=>{
     res.json({status:false})
   })
 }
@@ -382,12 +423,21 @@ function returnItem(req,res){
   })
 }
 function getOffers(req,res){
-  const decode = tokenVerify(req);
-  getAllCoupons().then((offers)=>{
-    res.render('userView/offers',{user: decode.value.name,offers})
-  }).catch(()=>{
-    res.render('userView/offers',{user: decode.value.name})
-  })
+  if(loginStat){
+
+    const decode = tokenVerify(req);
+    getAllCoupons().then((offers)=>{
+      res.render('userView/offers',{user: decode.value.name,offers,page:'OFFERS'})
+    }).catch(()=>{
+      res.render('userView/offers',{user: decode.value.name,page: 'OFFERS'})
+    })
+  }else{
+    getAllCoupons().then((offers)=>{
+      res.render('userView/offers',{user: 'Login',offers,page:'OFFERS'})
+    }).catch(()=>{
+      res.render('userView/offers',{user: 'Login',page: 'OFFERS'})
+    })
+  }
 }
 
 module.exports = {

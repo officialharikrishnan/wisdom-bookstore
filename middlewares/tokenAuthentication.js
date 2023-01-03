@@ -12,8 +12,6 @@ function authorization(req, res, next) {
     const data = tokenVerify(req);
     if (data) {
       const decode = tokenVerify(req);
-      console.log(decode, '????>>>>>');
-
       userBlockCheck(decode.value.id).then(() => {
         next();
       })
