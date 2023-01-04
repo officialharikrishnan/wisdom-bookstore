@@ -72,7 +72,7 @@
 
     </form>
     <div id="product" style="display: none;">
-        <table class="table table-bordered " id="example">
+        <table class="table table-bordered " id="pro">
                 <thead>
                   <tr>
                     <th scope="col">Image</th>
@@ -136,11 +136,8 @@
   </div>
 </div>
 
-<div class="text-center">
-  <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
-    Modal Login Form</a>
-</div>
 </section>
+
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
     function codeGenerator() {
@@ -166,7 +163,7 @@
             document.getElementById('category').style.display = 'flex'
         } else if (selection == 'product') {
             document.getElementById('form').style.display = 'none'
-            document.getElementById('product').style.display = 'flex'
+            document.getElementById('product').style.display = 'block'
         } else if (selection == 'normal') {
             document.getElementById('normal-1').style.display = 'flex'
             document.getElementById('normal-2').style.display = 'flex'
@@ -177,4 +174,15 @@
         console.log(id,">>>>>")
         document.getElementById('proId').value = id
     }
+    
+      $(document).ready(function () {
+        $('#pro').DataTable({
+          dom: 'Pfrtip'
+        });
+    });
+
 </script>
+
+<script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.13.1/js/dataTables.bootstrap4.min.js"></script>

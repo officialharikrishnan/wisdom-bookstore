@@ -456,7 +456,6 @@ function createCoupon(coupon){
 
       });
     }else if(coupon.type == 'product'){
-      console.log("called>>>>>>>>>>>>>>.",coupon.id);
       var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
         {
           $match:{_id:coupon.id}
@@ -472,12 +471,12 @@ function createCoupon(coupon){
           }
         }
       ]).toArray()
+      console.log(samp,">>>>>>>>>>>>>>>>>>>>>>");
       db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:coupon.id},{
         $set:{
           offer:samp[0].offer
         }
       })
-      console.log(samp,">>>>>>>>>>>>>>>");
     }
 
     resolve()
@@ -511,11 +510,18 @@ function getAllCoupons(){
   })
 }
 function romoveCoupon(id){
+  console.log("called>>>>>>>>",id);
   return new Promise(async(resolve,reject)=>{
     const coupon =await  db.get().collection(collections.COUPON_COLLECTION).findOneAndDelete({_id:ObjectId(id)})
+    if(coupon.value.type == 'category'){
     db.get().collection(collections.PRODUCT_COLLECTION).updateMany({category:coupon.value.category},{
       $unset:{offer:1}
     })
+  }else if(coupon.value.type == 'product'){
+    db.get().collection(collections.PRODUCT_COLLECTION).updateMany({_id:coupon.value.id},{
+      $unset:{offer:1}
+    })    
+  }
     resolve()
   })
 } 
@@ -530,8 +536,8 @@ function editCouponSubmit(id,data){
   data.limit=parseInt(data.limit)
   data.code = data.code.toUpperCase()
   console.log(data);
-  return new Promise((resolve,reject)=>{
-    db.get().collection(collections.COUPON_COLLECTION).updateOne({_id:ObjectId(id)},{
+  return new Promise(async(resolve,reject)=>{
+    const res =await db.get().collection(collections.COUPON_COLLECTION).findOneAndUpdate({_id:ObjectId(id)},{
       $set:{
         name:data.name,
         code:data.code,
@@ -542,7 +548,55 @@ function editCouponSubmit(id,data){
         isoDateStart: new Date(data.startDate),
         isoDateEnd: new Date(data.endDate)
       }
-    })
+    },{ returnDocument: 'after'})
+      console.log(">>>>>>>>",res,"<<<<<<<<<<<");
+      if(res.value.type == 'category'){
+        var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+           {
+             $match:{category:res.value.category}
+           },
+           {
+             $project:{price:1}
+           },
+     
+           {
+             $addFields:{
+               offer:{$subtract:['$price',{$divide:[{$multiply:['$price',res.value.percentage]},100]}]}
+   
+             }
+           }
+         ]).forEach(element => {
+           db.get().collection(collections.PRODUCT_COLLECTION).updateMany({_id:element._id},{
+           $set:{
+             offer:element.offer
+           }
+         })
+   
+         });
+       }else if(res.value.type == 'product'){
+         var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+           {
+             $match:{_id:res.value.id}
+           },
+           {
+             $project:{price:1}
+           },
+     
+           {
+             $addFields:{
+               offer:{$subtract:['$price',{$divide:[{$multiply:['$price',res.value.percentage]},100]}]}
+   
+             }
+           }
+         ]).toArray()
+         db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:res.value.id},{
+           $set:{
+             offer:samp[0].offer
+           }
+         })
+       }
+    
+    
     resolve()
   })
 }

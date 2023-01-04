@@ -274,7 +274,6 @@ function deliveryStatus(req, res) {
 }
 function getCoupon(req,res){
   getAllCoupons().then((coupons)=>{
-    console.log(coupons.productCoupons);
     res.render('adminView/coupon',{admin:true,coupons})
   }).catch(()=>{
     res.render('adminView/coupon',{admin:true})
@@ -295,7 +294,6 @@ function codeGenerator(req,res){
 res.json(code[0])
 }
 function addCouponSubmit(req,res){
-  console.log(req.body,">>>>>>>");
   createCoupon(req.body).then(()=>{
     res.redirect('/admin/coupon');
   })
@@ -306,8 +304,18 @@ function deleteCoupon(req,res){
   })
 }
 function couponEdit(req,res){
+  let product
+  let catego
+  let norm
   editCoupon(req.params.id).then((coupon)=>{
-  res.render('adminView/editCoupon',{admin:true, coupon})
+    if(coupon.type == 'product'){
+      product=true
+    }else if(coupon.type == 'category'){
+      catego=true
+    }else{
+      norm=true
+    }
+  res.render('adminView/editCoupon',{admin:true, coupon,product,catego,norm})
   })
 }
 function couponEditSubmit(req,res){
