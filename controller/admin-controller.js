@@ -5,7 +5,7 @@ const {
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
   viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers,
   getDailyOrder, getDailyRevenue, weeklyOrders, yearlyOrders, getWeeklyRevenue,
-  getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons, romoveCoupon, editCoupon, editCouponSubmit,
+  getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons, romoveCoupon, editCoupon, editCouponSubmit, getSalesReport,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 const voucher_codes = require('voucher-code-generator');
@@ -87,13 +87,13 @@ async function adminDashboard(req, res) {
     }
     const users = await totalusers();
     const graph = await revenueGraph();
-    const gr1 = parseInt(graph[0].per);
-    const gr2 = parseInt(graph[1].per);
-    const gr3 = parseInt(graph[2].per);
-    const gr4 = parseInt(graph[3].per);
-    const gr5 = parseInt(graph[4].per);
-    const gr6 = parseInt(graph[5].per);
-    const gr7 = parseInt(graph[6].per);
+    const gr1 = parseInt(graph[0]?.per);
+    const gr2 = parseInt(graph[1]?.per);
+    const gr3 = parseInt(graph[2]?.per);
+    const gr4 = parseInt(graph[3]?.per);
+    const gr5 = parseInt(graph[4]?.per);
+    const gr6 = parseInt(graph[5]?.per);
+    const gr7 = parseInt(graph[6]?.per);
     const currentDate = new Date().toISOString().substring(0, 10);
     res.render('adminView/dashboard', {
       admin: true,
@@ -334,7 +334,13 @@ function pdfReport(req,res){
     () => stream.end()
   )
 }
+function salesReportPage(req,res){
+  getSalesReport().then((report)=>{
+    res.render('adminView/salesReport',{report,admin:true})
+  })
+}
 module.exports = {
+  salesReportPage,
   pdfReport,
   couponEditSubmit,
   couponEdit,

@@ -530,8 +530,35 @@ function editCouponSubmit(id,data){
     resolve()
   })
 }
-
+function getSalesReport(){
+  return new Promise(async(resolve,reject)=>{
+    const report = await db.get().collection(collections.ORDER_COLLECTION)
+    .aggregate([
+      {
+        $match:{'product.cartItem.deliveryStatus':'Delivered'}
+      },
+  
+      {
+        $lookup:{
+          from:'books',
+          localField:'product.cartItem._id',
+          foreignField:'_id',
+          as:'products'
+        }
+      },
+      {
+        $unwind:'$products'
+      },
+      {
+        $project:{deliveryDetails:1,totalPrice:1,paymentMethod:1,date:1,products:1}
+      }
+    ]).toArray()
+    console.log(">>>>>>>>>>",report);
+    resolve(report)
+  })
+}
 module.exports = {
+  getSalesReport,
   editCouponSubmit,
   editCoupon,
   romoveCoupon,

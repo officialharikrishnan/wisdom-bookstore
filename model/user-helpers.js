@@ -319,7 +319,6 @@ function getCartProducts(userId) {
   });
 }
 function placeOrder(userId, product, order, status, total) {
-  product.deliveryStatus='Preparing'
   console.log(userId, order, status);
   
   const orderObj = {
@@ -345,7 +344,7 @@ function placeOrder(userId, product, order, status, total) {
     db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj)
     .then((res) => {
       db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(res.insertedId)},{
-        $set:{'product.$[].cartItem.deliveryStatus':'Preparing'}
+        $set:{'product.$[].cartItem.deliveryStatus':'Order confirmed'}
       },{multi:true})
       resolve(res.insertedId);
     })

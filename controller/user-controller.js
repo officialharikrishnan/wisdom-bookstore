@@ -225,7 +225,7 @@ async function checkoutFormSubmit(req, res) {
     if(req.body.offerPrice == ''){
       finalPrice = total
     }else{
-      finalPrice = req.body.offerPrice
+      finalPrice = parseInt(req.body.offerPrice)
     }
     
   }
@@ -340,7 +340,7 @@ function editAccountSubmit(req, res) {
   });
 }
 async function shopBooks(req, res) {
-
+  console.log(loginStat);
   if(loginStat){
     const decode = tokenVerify(req);
   const cart = await cartBooks(req);
