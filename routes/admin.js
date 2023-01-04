@@ -42,7 +42,6 @@ router.post('/addcouponsubmit',adminAuthorization,addCouponSubmit)
 router.get('/editcoupon/:id',adminAuthorization,couponEdit)
 router.post('/deletecoupon',adminAuthorization,deleteCoupon)
 router.post('/editcouponsubmit/:id',adminAuthorization, couponEditSubmit)
-router.get('/get-report',adminAuthorization,pdfReport)
 router.get('/sales-report',adminAuthorization,salesReportPage)
 router.get('/logout', adminLogout);
 module.exports = router;

@@ -409,38 +409,10 @@ function getYearlyRevenue() {
 }
 function revenueGraph() {
   return new Promise(async (resolve, reject) => {
-    const result = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
-      {
-        $match: { date: new Date().toDateString },
-      },
-      {
-        $group: {
-          _id: null,
-          arr: { $push: '$totalPrice' },
-          tot: { $sum: '$totalPrice' },
-        },
-      },
-      {
-        $project: {
-          _id: 0,
-          arr: 1,
-          tot: 1,
-        },
-      },
-      {
-        $unwind: '$arr',
-      },
-      {
-        $project: {
-
-          per: { $multiply: [{ $divide: ['$arr', '$tot'] }, 100] },
-        },
-      }, {
-        $limit: 7,
-      },
-    ]).toArray();
-    console.log(result);
-    resolve(result);
+    const cod = await db.get().collection(collections.ORDER_COLLECTION).find({paymentMethod:'COD'}).toArray();
+    const online = await db.get().collection(collections.ORDER_COLLECTION).find({paymentMethod:'Online'}).toArray();
+    
+    resolve({cod:cod.length,online:online.length});
   });
 }
 function createCoupon(coupon){

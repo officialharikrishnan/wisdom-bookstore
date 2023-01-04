@@ -10,7 +10,7 @@ const {
 const { adminTokenGenerator } = require('../utils/token');
 const voucher_codes = require('voucher-code-generator');
 require('dotenv').config();
-const pdfService = require('../utils/pdf-service')
+
 
 let error;
 const btnstatus = {};
@@ -87,14 +87,8 @@ async function adminDashboard(req, res) {
     }
     const users = await totalusers();
     const graph = await revenueGraph();
-    const gr1 = parseInt(graph[0]?.per);
-    const gr2 = parseInt(graph[1]?.per);
-    const gr3 = parseInt(graph[2]?.per);
-    const gr4 = parseInt(graph[3]?.per);
-    const gr5 = parseInt(graph[4]?.per);
-    const gr6 = parseInt(graph[5]?.per);
-    const gr7 = parseInt(graph[6]?.per);
     const currentDate = new Date().toISOString().substring(0, 10);
+    console.log(graph.online);
     res.render('adminView/dashboard', {
       admin: true,
       report,
@@ -103,13 +97,8 @@ async function adminDashboard(req, res) {
       revenReport,
       salesTitle,
       revenueTitle,
-      gr1,
-      gr2,
-      gr3,
-      gr4,
-      gr5,
-      gr6,
-      gr7,
+      cod:graph.cod,
+      online:graph.online
     });
   } catch (err) {
     res.render('adminView/dashboard', {
@@ -324,16 +313,7 @@ function couponEditSubmit(req,res){
     res.redirect('/admin/coupon')
   })
 }
-function pdfReport(req,res){
-  const stream = res.writeHead(200,{
-    'Content-Type' : 'application/pdf',
-    'Content-Disposition' : 'attachment;filename=report.pdf'
-  })
-  pdfService.buildPdf(
-    (chunk) => stream.write(chunk),
-    () => stream.end()
-  )
-}
+
 function salesReportPage(req,res){
   getSalesReport().then((report)=>{
     res.render('adminView/salesReport',{report,admin:true})
@@ -341,7 +321,6 @@ function salesReportPage(req,res){
 }
 module.exports = {
   salesReportPage,
-  pdfReport,
   couponEditSubmit,
   couponEdit,
   deleteCoupon,
