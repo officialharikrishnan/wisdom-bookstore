@@ -416,11 +416,17 @@ function revenueGraph() {
   });
 }
 function createCoupon(coupon){
-  coupon.limit = parseInt(coupon.limit)
-  coupon.code = coupon.code.toUpperCase()
-  coupon.percentage = parseInt(coupon.percentage)
-  coupon.isoDateStart= new Date(coupon.startDate)
-  coupon.isoDateEnd= new Date(coupon.endDate)
+  if(coupon.type == 'product'){
+    coupon.percentage = parseInt(coupon.percentage)
+    coupon.isoDateEnd= new Date(coupon.endDate)
+    coupon.id= ObjectId(coupon.id)
+  }else{
+    coupon.limit = parseInt(coupon.limit)
+    coupon.code = coupon.code.toUpperCase()
+    coupon.percentage = parseInt(coupon.percentage)
+    coupon.isoDateStart= new Date(coupon.startDate)
+    coupon.isoDateEnd= new Date(coupon.endDate)
+  }
   if(coupon.type == 'category'){
     coupon.categoryOption=true
   }
@@ -449,6 +455,29 @@ function createCoupon(coupon){
       })
 
       });
+    }else if(coupon.type == 'product'){
+      console.log("called>>>>>>>>>>>>>>.",coupon.id);
+      var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+        {
+          $match:{_id:coupon.id}
+        },
+        {
+          $project:{price:1}
+        },
+  
+        {
+          $addFields:{
+            offer:{$subtract:['$price',{$divide:[{$multiply:['$price',coupon.percentage]},100]}]}
+
+          }
+        }
+      ]).toArray()
+      db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:coupon.id},{
+        $set:{
+          offer:samp[0].offer
+        }
+      })
+      console.log(samp,">>>>>>>>>>>>>>>");
     }
 
     resolve()
@@ -458,9 +487,24 @@ function getAllCoupons(){
   return new Promise(async(resolve,reject)=>{
     const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'normal'}).toArray()
     const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'category'}).toArray()
-    const productCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'product'}).toArray()
+    const productCoupons = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
+      {
+        $match:{type:'product'}
+      },
+      {
+        $lookup:{
+          from:'books',
+          localField:'id',
+          foreignField:'_id',
+          as:'product'
+        }
+      },
+      {
+        $unwind:'$product'
+      }
+    ]).toArray()
     if(normalCoupons.length !=0 || categoryCoupons.length != 0){
-      resolve({normalCoupons,categoryCoupons,productCoupons})
+      resolve({normalCoupons,categoryCoupons,productCoupons:productCoupons})
     }else{
       reject()
     }

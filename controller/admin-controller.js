@@ -274,15 +274,16 @@ function deliveryStatus(req, res) {
 }
 function getCoupon(req,res){
   getAllCoupons().then((coupons)=>{
-    console.log(coupons);
+    console.log(coupons.productCoupons);
     res.render('adminView/coupon',{admin:true,coupons})
   }).catch(()=>{
     res.render('adminView/coupon',{admin:true})
   })
 }
-function addCoupon(req,res){
+async function addCoupon(req,res){
+  const books =await getAllStocks()
   category().then((data) => {
-    res.render('adminView/addCoupon',{admin:true,data})
+    res.render('adminView/addCoupon',{admin:true,data,books})
   });
 }
 function codeGenerator(req,res){
@@ -294,6 +295,7 @@ function codeGenerator(req,res){
 res.json(code[0])
 }
 function addCouponSubmit(req,res){
+  console.log(req.body,">>>>>>>");
   createCoupon(req.body).then(()=>{
     res.redirect('/admin/coupon');
   })

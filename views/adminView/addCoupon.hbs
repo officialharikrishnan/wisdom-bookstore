@@ -1,6 +1,6 @@
 <section class="page-align" id="footer">
     <h2>Add new Coupon</h2>
-    <form action="/admin/addcouponsubmit" method="post">
+    <form action="/admin/addcouponsubmit" id="form" method="post">
         <div class="row mb-3">
             <label for="inputEmail3" class="col-sm-2 col-form-label">Offer Type</label>
             <div class="col-sm-10">
@@ -71,6 +71,75 @@
 
 
     </form>
+    <div id="product" style="display: none;">
+        <table class="table table-bordered " id="example">
+                <thead>
+                  <tr>
+                    <th scope="col">Image</th>
+                    <th scope="col">Name of the book</th>
+                    <th scope="col">Author</th>
+                    <th scope="col">Category</th>
+                    <th scope="col">Date of publish</th>
+                    <th scope="col">Price</th>
+                    <th scope="col">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                    {{#each books}}
+                  <tr >
+                    <td class="book-image"><img src="/book-image/{{this._id}}.jpg" alt="no"></td>
+                    <td>{{this.bookname}}</td>
+                    <td>{{this.authorname}}</td>
+                    <td>{{this.category}}</td>
+                    <td>{{this.dateofpublish}}</td>
+                    <td>₹{{this.price}}</td>
+                    <td class="button-set">
+                        <button class="btn btn-success"  onclick="return IdPass('{{this._id}}')" data-toggle="modal" data-target="#modalLoginForm">
+                            Create Offer
+                          </button>
+                    </td>
+                  </tr>
+                  {{/each}}
+                </tbody>
+              </table>
+    </div>
+    <div class="modal fade " id="modalLoginForm" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+  aria-hidden="true">
+  <div class="modal-dialog " role="document">
+    <div class="modal-content">
+      <div class="modal-header text-center">
+        <h4 class="modal-title w-100 font-weight-bold">Create offer</h4>
+        <button type="button" class="close pt-5" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form action="/admin/addcouponsubmit" method="post">
+      <div class="modal-body mx-3">
+        <div class="md-form mb-5">
+            <input type="text" name="type" value="product" hidden>
+            <input type="text" name="id" id="proId" hidden>
+          <input type="number" name="percentage" id="defaultForm-email" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="defaultForm-email">Percentage</label>
+        </div>
+
+        <div class="md-form mb-4">
+          <input type="date" name="endDate" id="defaultForm-pass" class="form-control validate">
+          <label data-error="wrong" data-success="right" for="defaultForm-pass">Expires</label>
+        </div>
+
+      </div>
+      <div class="modal-footer d-flex justify-content-center">
+        <button class="btn btn-default" type="submit">Create</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<div class="text-center">
+  <a href="" class="btn btn-default btn-rounded mb-4" data-toggle="modal" data-target="#modalLoginForm">Launch
+    Modal Login Form</a>
+</div>
 </section>
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script>
@@ -96,12 +165,16 @@
             document.getElementById('limit').style.display = 'none'
             document.getElementById('category').style.display = 'flex'
         } else if (selection == 'product') {
-            document.getElementById('normal-1').style.display = 'none'
-            document.getElementById('normal-2').style.display = 'none'
+            document.getElementById('form').style.display = 'none'
+            document.getElementById('product').style.display = 'flex'
         } else if (selection == 'normal') {
             document.getElementById('normal-1').style.display = 'flex'
             document.getElementById('normal-2').style.display = 'flex'
             document.getElementById('category').style.display = 'none'
         }
+    }
+    function IdPass(id){
+        console.log(id,">>>>>")
+        document.getElementById('proId').value = id
     }
 </script>

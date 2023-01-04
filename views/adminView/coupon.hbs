@@ -79,21 +79,20 @@
         <table class="table table-bordered ">
             <thead>
                 <tr>
+                    <th scope="col">Image</th>
                     <th scope="col">Product</th>
                     <th scope="col">Percentage</th>
-                    <th scope="col">Starts</th>
                     <th scope="col">Expires</th>
-                    <th scope="col">Limit Amount</th>
                     <th scope="col">Action</th>
                 </tr>
             </thead>
             <tbody>
                 {{#each coupons.productCoupons}}
                 <tr>
+                    <td><img style="width: 50px;" src="/book-image/{{this.product._id}}.jpg" alt="no"></td>
+                    <td>{{this.product.bookname}}</td>
                     <td>{{this.percentage}}%</td>
-                    <td>{{this.startDate}}</td>
                     <td>{{this.endDate}}</td>
-                    <td>₹{{this.limit}}</td>
                     <td>
                         <a href="/admin/editcoupon/{{this._id}}" class="badge badge-secondary">Edit</a>
                         <p onclick="return couponDelete('{{this._id}}')" class="badge badge-danger">Delete</p>
