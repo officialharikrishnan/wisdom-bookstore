@@ -971,3 +971,8 @@ a.store-gird span {
 .side-serach ::placeholder{
   color: #000;
 }
+.sale-filter{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
