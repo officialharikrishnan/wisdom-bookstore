@@ -26,7 +26,9 @@ footer {
 .full-view {
   z-index: 3;
 }
-
+#addto{
+  z-index: 1;
+}
 .cancel {
   color: #868686;
   cursor: pointer;
@@ -952,7 +954,6 @@ a.store-gird span {
   visibility: visible;
 }
 #card{
-  
   z-index: 9;
 }
 #error{
