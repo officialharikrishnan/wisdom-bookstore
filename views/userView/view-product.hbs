@@ -29,7 +29,12 @@
                             <span class="pl-left">(1 customer review)</span>
                         </div>
                         <div class="s-price pt-30 mb-30">
-                            <span>₹{{book.price}}</span>
+                            {{#if book.offer}}
+                            <del><h4>₹{{book.price}}</h4></del>
+                            <span>₹{{book.offer}}</span>
+                            {{else}}
+                             <del><span>₹{{book.price}}</span></del>
+                            {{/if}}
                         </div>
                         <div class="s-des">
                             <p>{{book.aboutbook}}</p>
@@ -38,7 +43,6 @@
                         <div class="viewcontent__action single_action pt-30" >
 
                             <span ><a onclick="return addtocart('{{book._id}}')">+ add to cart</a></span>
-                            <span><i class="fal fa-heart"></i></span>
                         </div>
                         {{else}}
                         <div class="viewcontent__action single_action pt-30">
