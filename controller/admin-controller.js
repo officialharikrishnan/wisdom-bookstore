@@ -77,13 +77,6 @@ async function adminDashboard(req, res) {
   console.log("dashboard called");
   const users = await totalusers();
   let graph = await revenueGraph();
-  console.log(">>>>>>>>>>user",users);
-  let currentDate;
-  let salesTitle;
-  let revenReport;
-  let revenueTitle;
-  let report;
-  
   try {
     if (!saleStatus) {
       salesTitle = 'Today';
@@ -95,19 +88,9 @@ async function adminDashboard(req, res) {
       revenueTitle = 'Today';
       revenReport = await getDailyRevenue();
     }
-
+    let graph = await revenueGraph();
     const currentDate = new Date().toISOString().substring(0, 10);
     console.log(graph.online);
-    
-  } catch (err) {
-     currentDate = null
-     salesTitle = null
-     revenReport = null
-     revenueTitle = null
-     report = null
-     
-  }finally{
-    console.log(graph);
     res.render('adminView/dashboard', {
       admin: true,
       report,
@@ -118,6 +101,12 @@ async function adminDashboard(req, res) {
       revenueTitle,
       cod:graph.cod,
       online:graph.online
+    });
+  } catch (err) {
+    res.render('adminView/dashboard', {
+      cod:graph.cod,
+      online:graph.online,
+      admin: true,
     });
   }
 }

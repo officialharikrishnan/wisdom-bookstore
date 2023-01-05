@@ -1,12 +1,11 @@
 <section class="offer">
     <div class="container blue-bg ">
   <div class="col-md-8">
-        {{#if offers}}
     <h2 class="section-heading">Latest Coupon Codes and Deals</h2>
     <div class="coupons-list">
       <div class="store-offer-item shadow-box">
-        {{#each offers}}
-            {{#if this.categoryOption}}
+            {{#if offers.categoryCoupons}}
+            {{#each offers.categoryCoupons}}
         <div class="latest-coupon mt-5">
           <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}% Off On {{this.category}}</a></h3>
            <div class="coupon-des">
@@ -20,7 +19,10 @@
           </a>
           <div class="exp-text">Expires {{this.endDate}} <a title="Save This Coupon" href="#" class="coupon-save"><i class="glyphicon glyphicon-star"></i></a></div>
         </div>
-          {{else}}
+        {{/each}}
+          {{/if}}
+          {{#if offers.normalCoupons}}
+          {{#each offers.normalCoupons}}
             <div class="latest-coupon mt-5">
           <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}% Off On Every Book</a></h3>
            <div class="coupon-des">
@@ -35,14 +37,28 @@
           </a>
           <div class="exp-text">Expires {{this.endDate}}<a title="Save This Coupon" href="#" class="coupon-save"><i class="glyphicon glyphicon-star"></i></a></div>
         </div>
+        {{/each}}
+          {{/if}}
+          {{#if offers.productCoupons}}
+          {{#each offers.productCoupons}}
+          <div class="latest-coupon mt-5">
+          <h3 class="coupon-title"><a href="#">Up To {{this.percentage}}% Off On {{this.product.bookname}}</a></h3>
+           <div class="coupon-des">
+            Save with free shipping and free returns on all orders
+          </div>
+        </div>
+        <div class="coupon-detail coupon-button-type">
+          <a href="/view-product/{{this.product._id}}" class="coupon-button coupon-code" data-aff-url="https://google.com">
+            <span class="code-text">SHOP</span>
+            <span class="get-code">Get Deal</span>
+          </a>
+          <div class="exp-text">Expires {{this.endDate}}<a title="Save This Coupon" href="#" class="coupon-save"><i class="glyphicon glyphicon-star"></i></a></div>
+        </div>
+        {{/each}}
           {{/if}}
          
-        {{/each}}
       </div>
     </div>
   </div>
-      {{else}}
-      <p class="text-center">No offers</p>
-      {{/if}}
   
 </section>

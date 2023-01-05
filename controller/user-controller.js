@@ -433,6 +433,7 @@ function getOffers(req,res){
     })
   }else{
     getAllCoupons().then((offers)=>{
+      console.log(offers);
       res.render('userView/offers',{user: 'Login',offers,page:'OFFERS'})
     }).catch(()=>{
       res.render('userView/offers',{user: 'Login',page: 'OFFERS'})

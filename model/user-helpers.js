@@ -635,9 +635,26 @@ function productReturn(orderId,proId,userId){
 }
 function getAllCoupons(){
   return new Promise(async(resolve,reject)=>{
-    const offers =await db.get().collection(collections.COUPON_COLLECTION).find().toArray()
-    if(offers.length != 0){
-      resolve(offers)
+    const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'normal'}).toArray()
+    const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'category'}).toArray()
+    const productCoupons = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
+      {
+        $match:{type:'product'}
+      },
+      {
+        $lookup:{
+          from:'books',
+          localField:'id',
+          foreignField:'_id',
+          as:'product'
+        }
+      },
+      {
+        $unwind:'$product'
+      }
+    ]).toArray()
+    if(normalCoupons.length !=0 || categoryCoupons.length != 0){
+      resolve({normalCoupons,categoryCoupons,productCoupons:productCoupons})
     }else{
       reject()
     }
