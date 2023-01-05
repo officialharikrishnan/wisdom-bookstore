@@ -8,7 +8,7 @@ const {
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
   editAddress, categoryUser, filterByCategory, generateRazorpay,
-  paymentVerification, OrderStatusChange, couponManage, productReturn, getAllCoupons,
+  paymentVerification, OrderStatusChange, couponManage, productReturn, getAllCoupons, bookSearch,
 } = require('../model/user-helpers');
 let number;
 let filterStatus = false;
@@ -440,8 +440,17 @@ function getOffers(req,res){
     })
   }
 }
-
+function searchBooks(req,res){
+  bookSearch(req.body.data).then((books)=>{
+    console.log(books);
+    res.json(books)
+  }).catch(()=>{
+    console.log("search book not found");
+    res.json(false)
+  })
+}
 module.exports = {
+  searchBooks,
   getOffers,
   returnItem,
   checkCoupon,

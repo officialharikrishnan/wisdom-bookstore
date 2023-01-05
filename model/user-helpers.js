@@ -660,8 +660,19 @@ function getAllCoupons(){
     }
   })
 }
+function bookSearch(data){
+  return new Promise(async(resolve,reject)=>{
+    const book = await db.get().collection(collections.PRODUCT_COLLECTION).find({$text: { $search: data } }).toArray()
+    if(book.length != 0){
+      resolve(book)
+    }else{
+      reject()
+    }
+  })
+}
 
 module.exports = {
+  bookSearch,
   getAllCoupons,
   productReturn,
   couponManage,

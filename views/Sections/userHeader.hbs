@@ -31,7 +31,8 @@
                                 <form action="#" class="p-rel" method="POST">
                                     <button type="submit" class="search-c-btn"><i class="far fa-search"></i></button>
                                     <!-- <a class="absoulute search" href="#"><i class="far fa-search"></i></a> -->
-                                    <input type="search" placeholder="Enter keywords to search..." />
+                                    <input type="search" placeholder="Enter keywords to search..." id="name"
+                                        onkeyup="return searchBook()" />
                                     <!-- <a class="absoulute close" href="#"><i class="fal fa-times"></i></a> -->
                                     <button class="close-times"><i class="fas fa-times"></i></button>
                                 </form>
@@ -104,7 +105,10 @@
             </div>
         </div>
     </div>
+
 </header>
+
+
 <!-- header area end -->
 <div class="fix">
     <div class="side-info">
@@ -193,3 +197,81 @@
     </div>
 </div>
 <div class="cart-offcanvas-overlay"></div>
+
+
+
+
+<div class="overlay-trigger" style="display: none;">
+    <button id="watchButton">Overlay #01</button>
+</div>
+
+<button class="overlay-close">X</button>
+
+<div class="overlay overlay01" id="card">
+    <h2 id="error"></h2>
+    <div class="card" id="result" style="width: 18rem;">
+        <img class="card-img-top" src="" id="image" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title" id="bookname"></h5>
+            <p class="card-text" id="author"></p>
+            <a href="" id="hr" class="btn btn-primary">View</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function searchBook() {
+        let name = document.getElementById('name').value
+        $.ajax({
+            url: '/search',
+            data: {
+                data: name
+            },
+            method: 'post',
+            success: (response => {
+                if(response){
+                $(function () {
+                    $('#watchButton').click();
+                });
+                document.getElementById('result').style.display='block'
+                document.getElementById('error').style.display = 'none'
+                document.getElementById('bookname').innerHTML = response[0].bookname
+                document.getElementById('author').innerHTML = response[0].authorname
+                document.getElementById('image').setAttribute('src', `/book-image/${response[0]._id}.jpg`)
+                document.getElementById('hr').setAttribute('href', `/view-product/${response[0]._id}`)
+                console.log(response)
+                }else{
+                    $(function () {
+                    $('#watchButton').click();
+                });
+                document.getElementById('result').style.display='none'
+                document.getElementById('error').innerHTML = "No books found"
+
+                }
+
+            })
+
+
+        })
+    }
+
+
+    $(function () {
+        var $overlay = $('.overlay'),
+            $overlayTrigger = $('.overlay-trigger button'),
+            $overlayClose = $('.overlay-close'),
+            openClass = 'is-open';
+
+        $overlayTrigger.on('click', function () {
+            var num = ('0' + ($(this).index() + 1)).slice(-2);
+            $('.overlay' + num).addClass(openClass);
+            $overlayClose.addClass(openClass);
+        });
+
+        $overlayClose.on('click', function () {
+            $overlayClose.removeClass(openClass);
+            $overlay.removeClass(openClass);
+        });
+    });
+
+</script>
