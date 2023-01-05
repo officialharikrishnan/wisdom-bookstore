@@ -4,7 +4,7 @@ const {
   stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook,
   bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory,
   addNewCategory, editCategory, editcategorySubmit, adminLogout, getAllOrders,
-  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport, revenueReport, getCoupon, addCoupon, codeGenerator, addCouponSubmit, deleteCoupon, couponEdit, couponEditSubmit, pdfReport, salesReportPage,
+  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport, revenueReport, getCoupon, addCoupon, codeGenerator, addCouponSubmit, deleteCoupon, couponEdit, couponEditSubmit, pdfReport, salesReportPage, saleFilter,
 } = require('../controller/admin-controller');
 const { adminAuthorization } = require('../middlewares/tokenAuthentication');
 
@@ -43,5 +43,6 @@ router.get('/editcoupon/:id',adminAuthorization,couponEdit)
 router.post('/deletecoupon',adminAuthorization,deleteCoupon)
 router.post('/editcouponsubmit/:id',adminAuthorization, couponEditSubmit)
 router.get('/sales-report',adminAuthorization,salesReportPage)
+router.post('/sale-filter',saleFilter) 
 router.get('/logout', adminLogout);
 module.exports = router;

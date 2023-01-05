@@ -5,7 +5,7 @@ const {
   removeCategory, editCategorySub, deleteByCategory, updateBookCategory, AllOrders,
   viewSingleOrder, cancelOrderAdminSubmit, deliveryStatusChange, totalusers,
   getDailyOrder, getDailyRevenue, weeklyOrders, yearlyOrders, getWeeklyRevenue,
-  getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons, romoveCoupon, editCoupon, editCouponSubmit, getSalesReport,
+  getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons, romoveCoupon, editCoupon, editCouponSubmit, getSalesReport, filterSale,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
 const voucher_codes = require('voucher-code-generator');
@@ -333,7 +333,22 @@ function salesReportPage(req,res){
     res.render('adminView/salesReport',{report,admin:true})
   })
 }
+function saleFilter(req,res){
+  console.log("called");
+  filterSale(req.body.startDate,req.body.endDate).then((report)=>{
+    let dates = {
+      start:req.body.startDate,
+      end:req.body.endDate
+    }
+    res.render('adminView/salesReport',{report,admin:true,dates})
+
+  }).catch(()=>{
+    res.render('adminView/salesReport',{admin:true})
+
+  })
+}
 module.exports = {
+  saleFilter,
   salesReportPage,
   couponEditSubmit,
   couponEdit,

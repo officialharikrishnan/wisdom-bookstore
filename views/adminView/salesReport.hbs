@@ -1,17 +1,24 @@
 <section class="page-align" id="footer">
     <h1>Sales Report</h1>
     <div class="sale-filter">
+
         <div>
+            {{#if report}}
     <button id="download-button" class="btn btn-secondary">Download</button>
+    {{/if}}
     </div>
     <div class="mt-3">
-        <form action="/admin/sale-filter" method="post"> 
-        <input type="date" name="startDate" id="">
-        <input type="date" name="endDate" id="">
+        <form action="/admin/sale-filter" method="post">
+        <input type="date" name="startDate" id="startDate">
+        <input type="date" name="endDate" id="endDate">
         <button class="badge badge-secondary ml-5" type="submit">Filter</button>
         </form>
         </div>
     </div>
+    {{#if report}}
+    {{#if dates}}
+    <p>Showing Results {{dates.start}} to {{dates.end}}</p>
+    {{/if}}
     <div id="invoice">
     <table class="table table-striped">
         <thead>
@@ -26,7 +33,7 @@
         <tbody>
             {{#each report}}
             <tr>
-                <td>{{this.date}}</td>
+                <td id="date">{{this.date}}</td>
                 <td>{{this.deliveryDetails.name}}</td>
                 <td>{{this.products.bookname}}</td>
                 <td>₹{{this.totalPrice}}</td>
@@ -38,6 +45,9 @@
         </tbody>
     </table>
     </div>
+    {{else}}
+    <p class="text-center mt-5">No Records Found</p>
+    {{/if}}
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
@@ -53,4 +63,6 @@
 			}
 
 			button.addEventListener('click', generatePDF);
-		</script>
+            
+            
+</script>

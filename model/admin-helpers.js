@@ -627,7 +627,19 @@ function getSalesReport(){
     resolve(report)
   })
 }
+function filterSale(startDate,endDate){
+  return new Promise(async(resolve,reject)=>{
+    const sales =await  db.get().collection(collections.ORDER_COLLECTION)
+    .find({$and:[{'product.cartItem.deliveryStatus':'Delivered'},{fullDate:{$lte:new Date(endDate)}},{fullDate:{$gte:new Date(startDate)}}]}).toArray()
+    if(sales.length != 0){
+      resolve(sales)
+    }else{
+      reject()
+    }
+  })
+}
 module.exports = {
+  filterSale,
   getSalesReport,
   editCouponSubmit,
   editCoupon,
