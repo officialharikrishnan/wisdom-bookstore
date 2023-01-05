@@ -955,9 +955,19 @@ a.store-gird span {
 }
 #card{
   z-index: 9;
+  margin-top: 10px;
+  padding-left: 40%;
 }
 #error{
   color: white;
-  margin-left: 20%;
+  margin-left: 5%;
   margin-top: 30%;
+}
+.side-serach{
+  background-color: #cecece;
+  border: none;
+  border-radius: 2px;
+}
+.side-serach ::placeholder{
+  color: #000;
 }
