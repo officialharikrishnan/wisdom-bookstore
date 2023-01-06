@@ -226,6 +226,9 @@ function AllOrders() {
           'user.username': 1, deliveryDetails: 1, btnStatus: 1, product: 1, totalPrice: 1, paymentMethod: 1, date: 1, status: 1, deliveryStatus: 1,
         },
       },
+      {
+        $sort:{date:1}
+      }
     ]).toArray();
     if (orders.length == 0) {
       reject();

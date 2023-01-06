@@ -22,7 +22,7 @@
                 </div>
             </div> --}}
             <div class="row mb-3">
-                <label  class="col-sm-2 col-form-label">About Book</label>
+                <label class="col-sm-2 col-form-label">About Book</label>
                 <div class="col-sm-10">
                     <textarea class="form-control" name="aboutbook" style="height: 100px"></textarea>
                 </div>
@@ -39,7 +39,7 @@
                     <select class="form-select" name="category" aria-label="Default select example">
                         <option selected>Select category</option>
                         {{#each data}}
-                        <option  value="{{this.name}}">{{this.name}}</option>
+                        <option value="{{this.name}}">{{this.name}}</option>
                         {{/each}}
                     </select>
                 </div>
@@ -56,11 +56,11 @@
                 </div>
             </div>
             <div class="row mb-3">
-                <label  class="col-sm-2 col-form-label">File Upload</label>
+                <label class="col-sm-2 col-form-label">File Upload</label>
                 <div class="col-sm-10">
                     <input class="form-control" type="file" name="Image" onchange="viewImage(event)" required>
                 </div>
-                <div class="book-image"  style="width: 100px; margin-left:40%;">
+                <div class="book-image" style="width: 100px; margin-left:40%;">
                     <img src="" id="imgView" alt="">
                 </div>
             </div>
@@ -70,8 +70,8 @@
                     <input type="date" name="dateofpublish" class="form-control">
                 </div>
             </div>
-                        <div class="row mb-3">
-                <label  class="col-sm-2 col-form-label">Price</label>
+            <div class="row mb-3">
+                <label class="col-sm-2 col-form-label">Price</label>
                 <div class="col-sm-10">
                     <input type="number" name="price" class="form-control" required>
                 </div>
@@ -87,10 +87,15 @@
     </div>
 </section>
 
+
 <script>
     const chooseFile = document.getElementById("choose-file");
-const imgPreview = document.getElementById("img-preview")
+    const imgPreview = document.getElementById("img-preview")
 
- function viewImage(event){
-       document.getElementById('imgView').src=URL.createObjectURL(event.target.files[0])}
-</script>
+    function viewImage(event) {
+        document.getElementById('imgView').src = URL.createObjectURL(event.target.files[0])
+    }
+</script> 
+
+
+

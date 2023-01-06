@@ -451,6 +451,9 @@ function userAllOrders(userId) {
       {
         $match: { user: ObjectId(userId) },
       },
+      {
+        $sort:{date:1}
+      }
 
     ]).toArray();
     console.log(orders);
