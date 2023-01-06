@@ -2,8 +2,8 @@
     <table class="table table-bordered border-primary mt-5">
         <thead>
             <tr>
-                <th scope="col">Address</th>
                 <th scope="col">Date</th>
+                <th scope="col">Address</th>
                 <th scope="col">Total Price</th>
                 <th scope="col">Method</th>
                 <th scope="col">Status</th>
@@ -13,8 +13,8 @@
         <tbody>
             {{#each products}}
             <tr>
-                <td>{{this.deliveryDetails.street}}</td>
                 <td>{{this.date}}</td>
+                <td>{{this.deliveryDetails.street}}</td>
                 <td>₹{{this.totalPrice}}</td>
                 <td>{{this.paymentMethod}}</td>
                 <td>
