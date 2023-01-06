@@ -418,11 +418,26 @@ function revenueGraph() {
     resolve({cod:cod.length,online:online.length});
   });
 }
-function createCoupon(coupon){
+async function createCoupon(coupon){
+  let applyCoupon=false;
   if(coupon.type == 'product'){
     coupon.percentage = parseInt(coupon.percentage)
     coupon.isoDateEnd= new Date(coupon.endDate)
     coupon.id= ObjectId(coupon.id)
+
+    let offerField = await db.get().collection(collections.PRODUCT_COLLECTION).findOne({$and:[{_id:coupon.id},{offer:{$exists:true}}]})
+    if(offerField){
+      let data = await db.get().collection(collections.COUPON_COLLECTION).findOne({$and:[{type:'category'},{category:offerField.category}]})
+      console.log(data);
+      if(data){
+        if(coupon.percentage > data.percentage){
+          applyCoupon = true
+        }
+      }
+    }else{
+      applyCoupon=true
+    }
+
   }else{
     coupon.limit = parseInt(coupon.limit)
     coupon.code = coupon.code.toUpperCase()
@@ -458,7 +473,7 @@ function createCoupon(coupon){
       })
 
       });
-    }else if(coupon.type == 'product'){
+    }else if(coupon.type == 'product' && applyCoupon){
       var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
         {
           $match:{_id:coupon.id}
