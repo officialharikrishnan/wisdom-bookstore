@@ -27,6 +27,7 @@ function getAllUsers() {
   return new Promise(async (resolve, reject) => {
     const users = await db.get().collection(collections.USER_COLLECTION).find().toArray();
     if (users.length !== 0) {
+      console.log(users);
       resolve(users);
     } else {
       reject();

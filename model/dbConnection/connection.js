@@ -6,7 +6,7 @@ const state = {
 
 // eslint-disable-next-line func-names
 module.exports.connect = function (done) {
-  const url = 'mongodb://localhost:27017';
+  const url = 'mongodb+srv://Harikrishnan:TeTV9IzmTa9UY1jZ@cluster0.eafyto8.mongodb.net/?retryWrites=true&w=majority';
   const dbname = 'Wisdom';
 
   // eslint-disable-next-line consistent-return
@@ -18,3 +18,4 @@ module.exports.connect = function (done) {
 };
 
 module.exports.get = () => state.db;
+ 
