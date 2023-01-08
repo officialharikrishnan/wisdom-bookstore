@@ -294,8 +294,10 @@ function deliveryStatusChange(orderId,proId, status) {
   let returnOption;
   if(status == 'Delivered'){
     returnOption = true
+    cancelOption= false
   }else{
     returnOption = false
+    cancelOption= true
   }
   return new Promise(async (resolve, reject) => {
     await db.get().collection(collections.ORDER_COLLECTION)
@@ -303,6 +305,7 @@ function deliveryStatusChange(orderId,proId, status) {
         $set: {
          'product.$.cartItem.deliveryStatus': status,
          'product.$.cartItem.returnOption':returnOption,
+         btnStatus:cancelOption,
         },
       }).then(() => {
         resolve();
