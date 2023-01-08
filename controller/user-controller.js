@@ -21,7 +21,6 @@ const jwtotpuser = { name: '', id: '' };
 
 function landingPage(req, res) {
   getAllBooks().then((data) => {
-    console.log(data);
     res.render('userView/landingPage', { data, landing: true });
   })
     .catch(() => {
@@ -87,7 +86,6 @@ function homePage(req, res) {
   });
 }
 function sendOtp(req, res) {
-  console.log(req.body.number);
   number = req.body.number;
   if (number.substring(0, 3) !== '+91') {
     number = `+91${number}`;
@@ -97,7 +95,6 @@ function sendOtp(req, res) {
     jwtotpuser.name = user.username;
     // eslint-disable-next-line no-underscore-dangle
     jwtotpuser.id = user._id;
-    console.log(user, '>>>>', process.env.SERVICE_ID, '>>>>', process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
     client.verify
       .services(process.env.SERVICE_ID)
       .verifications.create({
@@ -116,7 +113,6 @@ function sendOtp(req, res) {
     });
 }
 function veryfyOtp(req, res) {
-  console.log(req.body.otp);
   client.verify
     .services(process.env.SERVICE_ID)
     .verificationChecks.create({
@@ -160,7 +156,6 @@ async function cartPage(req, res) {
   const decode = tokenVerify(req);
   const total = await getTotalPrice(req);
   const cart = await cartBooks(req);
-  console.log(cart);
   res.render('userView/cart', {
     user: decode.value.name, cart, total, page: 'CART',
   });
@@ -171,7 +166,6 @@ function logout(req, res) {
     .redirect('/');
 }
 function cartAdd(req, res) {
-  console.log(req.body.data);
   const decode = tokenVerify(req);
   if(loginStat){
   addToCart(req.body.data, decode.value.id).then(() => {
@@ -207,7 +201,6 @@ async function currentAddress(req, res) {
     // res.render('userView/checkout', {
     //   user: decode.value.name, cart, total, address, page: 'CHECKOUT',
     // });
-    console.log(address);
     res.json(address)
   }).catch(() => {
     console.log('address getting error');
@@ -215,7 +208,6 @@ async function currentAddress(req, res) {
 }
 async function checkoutFormSubmit(req, res) {
   const decode = tokenVerify(req);
-  console.log(req.body);
   const cart = await getCartProducts(decode.value.id);
   let total;
   let product;
@@ -297,7 +289,6 @@ async function viewOrders(req, res) {
 
   console.log(total);
   userAllOrders(decode.value.id).then((products) => {
-    console.log(products);
     res.render('userView/viewAllOrder', {
       products, user: decode.value.name, total, cart, page: 'ORDERS',
     });
@@ -340,7 +331,6 @@ function editAccountSubmit(req, res) {
   });
 }
 async function shopBooks(req, res) {
-  console.log(loginStat);
   if(loginStat){
     const decode = tokenVerify(req);
   const cart = await cartBooks(req);
@@ -394,7 +384,6 @@ async function filterBook(req, res) {
       catg = 'all';
 
       books = book.all;
-      console.log(books);
       res.redirect('/shop-books');
     });
   } else {
@@ -415,7 +404,6 @@ async function checkCoupon(req,res){
 }
 function returnItem(req,res){
   const decode = tokenVerify(req);
-  console.log(req.body.data,decode.value.id);
   productReturn(req.body.order,req.body.pro,decode.value.id).then(()=>{
     res.json({status:true})
   }).catch(()=>{
@@ -433,7 +421,6 @@ function getOffers(req,res){
     })
   }else{
     getAllCoupons().then((offers)=>{
-      console.log(offers);
       res.render('userView/offers',{user: 'Login',offers,page:'OFFERS'})
     }).catch(()=>{
       res.render('userView/offers',{user: 'Login',page: 'OFFERS'})
@@ -442,7 +429,6 @@ function getOffers(req,res){
 }
 function searchBooks(req,res){
   bookSearch(req.body.data).then((books)=>{
-    console.log(books);
     res.json(books)
   }).catch(()=>{
     console.log("search book not found");

@@ -56,7 +56,6 @@ function userLogin(userData) {
               name: res.username,
               id: res._id,
             };
-            console.log(data);
             resolve(data);
           } else {
             reject({ error: 'Wrong password' });
@@ -140,11 +139,8 @@ function addToCart(proId, userId) {
     const userCart = await db.get().collection(collections.CART_COLLECTION)
       .findOne({ user: ObjectId(userId) });
     if (userCart) {
-      console.log(userCart);
       const proExist = userCart.books.findIndex((book) => book.item == proId);
-      console.log(proExist);
       if (proExist !== -1) {
-        console.log('calling');
         db.get().collection(collections.CART_COLLECTION).updateOne({ user: ObjectId(userId), 'books.item': ObjectId(proId) }, {
           $inc: { 'books.$.quantity': 1 },
         }).then(() => {
@@ -209,7 +205,6 @@ function getCart(userId) {
   });
 }
 function changeBookQuantity(details) {
-  console.log(details);
   // eslint-disable-next-line radix
   const count = parseInt(details.count);
   return new Promise(async (resolve, reject) => {
@@ -285,7 +280,6 @@ function getTotalAmount(userId) {
         },
       },
     ]).toArray();
-    console.log(total);
     if (total.length != 0) {
       resolve(total[0]?.total);
     } else {
@@ -319,7 +313,6 @@ function getCartProducts(userId) {
   });
 }
 function placeOrder(userId, product, order, status, total) {
-  console.log(userId, order, status);
   
   const orderObj = {
     user: ObjectId(userId),
@@ -408,7 +401,6 @@ function getOrderProductToOrder(userId) {
       },
     ]).toArray();
     if (product.length == 0) {
-      console.log(product);
       reject();
     } else {
       resolve(product);
@@ -456,7 +448,6 @@ function userAllOrders(userId) {
       }
 
     ]).toArray();
-    console.log(orders);
     if (orders.length == 0) {
       reject();
     } else {
@@ -492,7 +483,6 @@ function viewSingleUserOrder(orderId) {
         $unwind: '$orders',
       },
     ]).toArray();
-    console.log(singleOrder);
     if (singleOrder.length !== 0) resolve(singleOrder);
     else reject();
   });
@@ -551,7 +541,6 @@ function filterByCategory(data) {
   });
 }
 function generateRazorpay(orderId, amount) {
-  console.log(orderId, amount);
   return new Promise((resolve, reject) => {
     const options = {
       amount: amount * 100,
@@ -573,7 +562,6 @@ function generateRazorpay(orderId, amount) {
   });
 }
 function paymentVerification(details) {
-  console.log(details);
   return new Promise((resolve, reject) => {
     let hmac = crypto.createHmac('sha256', process.env.KEY_SECRET);
     hmac.update(`${details['payment[razorpay_order_id]']}|${details['payment[razorpay_payment_id]']}`);
@@ -595,7 +583,6 @@ function OrderStatusChange(orderId) {
 }
 function couponManage(C_code,total){
   C_code = C_code.toUpperCase()
-  console.log(C_code,total);
   return new Promise(async(resolve,reject)=>{
     const coupon = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
       {
@@ -613,7 +600,6 @@ function couponManage(C_code,total){
       }
       
     ]).toArray()
-    console.log('>>>>>>>>>>.',coupon);
     if(coupon.length !=0){
       resolve(coupon[0]?.offerAmount)
     }else{
@@ -624,7 +610,6 @@ function couponManage(C_code,total){
 }
 
 function productReturn(orderId,proId,userId){
-  console.log(proId,userId,orderId);
   return new Promise((resolve,reject)=>{
     db.get().collection(collections.ORDER_COLLECTION)
     .updateOne({$and:[{_id:ObjectId(orderId)},{user:ObjectId(userId)},{product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }]},{
