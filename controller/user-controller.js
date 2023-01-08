@@ -97,7 +97,7 @@ function sendOtp(req, res) {
     jwtotpuser.name = user.username;
     // eslint-disable-next-line no-underscore-dangle
     jwtotpuser.id = user._id;
-    console.log(user, '>>>>', process.env.SERVICE_ID, '>>>>', number);
+    console.log(user, '>>>>', process.env.SERVICE_ID, '>>>>', process.env.ACCOUNT_SID, process.env.AUTH_TOKEN);
     client.verify
       .services(process.env.SERVICE_ID)
       .verifications.create({

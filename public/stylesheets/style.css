@@ -11,11 +11,23 @@ body {
 
 }
 
+
 footer {
+  position: relative;
+  bottom: 0;
   width: 100%;
   background-color: black;
 }
-
+@media screen and (max-width:999px) {
+  
+footer {
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  background-color: black;
+}
+  
+}
 .shipping {
   background-color: rgb(198, 197, 197);
   border: none;

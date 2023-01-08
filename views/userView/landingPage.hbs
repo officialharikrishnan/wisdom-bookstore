@@ -29,10 +29,8 @@
                         <div class="search__input">
                             <div class="search__input-group search__input-group-c">
                                 <form action="#" class="p-rel" method="POST">
-                                    <!-- <a class="absoulute search" href="#"><i class="far fa-search"></i></a> -->
-                                    <input type="search" placeholder="Enter keywords to search..." />
-                                    <!-- <a class="absoulute close" href="#"><i class="fal fa-times"></i></a> -->
-                                    <button class="close-times"><i class="fas fa-times"></i></button>
+                                    <input type="search" placeholder="Enter keywords to search..." id="name"
+                                        onkeyup="return searchBook()" />
                                 </form>
                             </div>
                         </div>
@@ -52,7 +50,7 @@
                                         <a class="dropdown-item" href="/account">Account</a>
                                         <a class="dropdown-item" href="/view-orders">Orders</a>
                                         <a class="dropdown-item gota_cart gota_cart_3 gota_cart_4" href="/cart">Cart</a>
-                                        <a class="dropdown-item" href="/logout">Logout</a>
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -84,8 +82,7 @@
                                         </li>
                                         <li class=""><a href="#kids">Kids</a>
 
-              
-                                        <li class="user-info"><a href="/logout">logout</a>
+                                       
 
 
                                     </ul>
@@ -103,6 +100,8 @@
     <div class="side-info">
         <button class="side-info-close"><i class="fal fa-times"></i></button>
         <div class="side-info-content">
+             <input type="search" placeholder="Enter keywords to search..." id="mobile"
+             onkeyup="return searchBook()" />
             <div class="mobile-menu"></div>
             <div class="contact-infos mb-30">
                 <div class="contact-list mb-30">
@@ -121,6 +120,23 @@
     </div>
 </div>
 <div class="offcanvas-overlay"></div>
+<div class="overlay-trigger" style="display: none;">
+    <button id="watchButton">Overlay #01</button>
+</div>
+
+<button class="overlay-close">X</button>
+
+<div class="overlay overlay01" id="card">
+    <h2 id="error"></h2>
+    <div class="card" id="result" style="width: 15rem;">
+        <img class="card-img-top" src="" id="image" alt="Card image cap">
+        <div class="card-body">
+            <h5 class="card-title" id="bookname"></h5>
+            <p class="card-text" id="author"></p>
+            <a href="" id="hr" class="badge badge-primary">View</a>
+        </div>
+    </div>
+</div>
 
 <!-- slider area start -->
 <div class="slider-4" data-background="/images/bookshelf.jpeg">
@@ -141,8 +157,9 @@
                 <div class="container">
                     <div class="row">
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
+                            <a href="/shop-books">
                             <div class="fetures_3">
-                                 <div class="discount">
+                                <div class="discount">
                                     <div class="discount-text ">
                                         <span>Hot Deal</span>
                                     </div>
@@ -150,18 +167,22 @@
                                 <img src="/banners/{{data.banner.left}}.jpg" alt="">
 
                             </div>
+                            </a>
                         </div>
 
                         <div class="col-xl-6 col-lg-6 col-md-4 col-sm-12 d-md-none d-lg-block">
-                            <div class="fetures_3">
-                                <img src="/banners/{{data.banner.middle}}.jpg" alt="">
-                            </div>
+                            <a href="/shop-books">
+                                <div class="fetures_3">
+                                    <img src="/banners/{{data.banner.middle}}.jpg" alt="">
+                                </div>
+                            </a>
                         </div>
                         <div class="col-xl-3 col-lg-3 col-md-6 col-sm-12">
-
+                            <a href="/shop-books">
                             <div class="fetures_3">
                                 <img src="/banners/{{data.banner.right}}.jpg" alt="">
                             </div>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -222,8 +243,8 @@
                                                                         src="/book-image/{{this._id}}.jpg"
                                                                         alt="product_image">
                                                                 </a>
-                                                                <div class="product__update">
-                                                                    <a class="#">new</a>
+                                                                <div class="product__update text-white">
+                                                                    <a class="text-white">new</a>
                                                                 </div>
                                                                 <div class="product-info mb-10">
                                                                     <div class="product_rating">
@@ -271,7 +292,7 @@
                                                                         alt="product_image">
                                                                 </a>
                                                                 <div class="product__update">
-                                                                    <a class="#">new</a>
+                                                                    <a class="text-white">new</a>
                                                                 </div>
                                                                 <div class="product-info mb-10">
                                                                 
@@ -324,7 +345,7 @@
                                                                         alt="product_image">
                                                                 </a>
                                                                 <div class="product__update">
-                                                                    <a class="#">new</a>
+                                                                    <a class="text-white">new</a>
                                                                 </div>
                                                                 <div class="product-info mb-10">
                                                                   
@@ -376,7 +397,7 @@
                                                                         alt="product_image">
                                                                 </a>
                                                                 <div class="product__update">
-                                                                    <a class="#">new</a>
+                                                                    <a class="text-white">new</a>
                                                                 </div>
                                                                 <div class="product-info mb-10">
                                                                     
@@ -488,3 +509,68 @@
                 </div>
             </div>
         </div>
+
+
+
+<script>
+    function searchBook() {
+        
+        let name = document.getElementById('name').value
+        let data = document.getElementById('mobile').value
+        if(name == ''){
+            name = data
+        }
+        console.log(name)
+        $.ajax({
+            url: '/search',
+            data: {
+                data: name
+            },
+            method: 'post',
+            success: (response => {
+                if(response){
+                $(function () {
+                    $('#watchButton').click();
+                });
+                document.getElementById('result').style.display='block'
+                document.getElementById('error').style.display = 'none'
+                document.getElementById('bookname').innerHTML = response[0].bookname
+                document.getElementById('author').innerHTML = response[0].authorname
+                document.getElementById('image').setAttribute('src', `/book-image/${response[0]._id}.jpg`)
+                document.getElementById('hr').setAttribute('href', `/view-product/${response[0]._id}`)
+                console.log(response)
+                }else{
+                    $(function () {
+                    $('#watchButton').click();
+                });
+                document.getElementById('result').style.display='none'
+                document.getElementById('error').innerHTML = "No books found"
+
+                }
+
+            })
+
+
+        })
+    }
+
+
+    $(function () {
+        var $overlay = $('.overlay'),
+            $overlayTrigger = $('.overlay-trigger button'),
+            $overlayClose = $('.overlay-close'),
+            openClass = 'is-open';
+
+        $overlayTrigger.on('click', function () {
+            var num = ('0' + ($(this).index() + 1)).slice(-2);
+            $('.overlay' + num).addClass(openClass);
+            $overlayClose.addClass(openClass);
+        });
+
+        $overlayClose.on('click', function () {
+            $overlayClose.removeClass(openClass);
+            $overlay.removeClass(openClass);
+        });
+    });
+
+</script>
