@@ -3,7 +3,7 @@
 
         <div class="row mt-5">
             <div class="col-xl-7 col-lg-7 col-md-12">
-                <p class="error">{{error}}</p>
+                <h6 class="error">{{errors}}</h6>
                 <div class="checkout_form mb-100">
                     <form action="" method="" id="checkout-form">
                         <input type="text" id="amount" name="offerPrice" hidden>
@@ -79,7 +79,7 @@
                         <tr class="design-footer">
                             <td>
                                 <input type="text" placeholder=" Coupon Code" id="code">
-                                <p id="error" style="color: red;"></p>
+                                <p id="error" style="color: red; display:none;" >Enter valied <br> coupon code</p>
                             </td>
                             <td><input type="button" onclick="checkCoupon()"
                                     style="background-color: rgb(215, 215, 215);" value="Apply Coupon"></td>
@@ -265,7 +265,8 @@
                         document.getElementById('amount').value = response.offerPrice
                         document.getElementById('error').innerHTML = ''
                     } else {
-                        document.getElementById('error').innerHTML = 'Enter valied <br> coupon code'
+                     
+                        document.getElementById('error').style.display = 'flex'
                     }
                 })
             })

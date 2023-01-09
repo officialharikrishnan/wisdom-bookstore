@@ -145,7 +145,7 @@ function viewProduct(req, res) {
  }else{
   viewBook(req.params.id).then(async (book) => {
     res.render('userView/view-product', {
-       book,user:'Login'
+       book,user:'Login',guest:true
     });
   }).catch(() => {
     console.log('failed to load viewbook');
@@ -223,11 +223,11 @@ async function checkoutFormSubmit(req, res) {
   }
   if (!req.body.name || !req.body.street || !req.body.postcode) {
     res.render('userView/checkout', {
-      user: decode.value.name, cart, total, page: 'CHECKOUT', error: 'Fill Details',
+      user: decode.value.name, cart, total, page: 'CHECKOUT', errors: 'Fill Details',
     });
   } else if (!cart) {
     res.render('userView/checkout', {
-      user: decode.value.name, cart, total, page: 'CHECKOUT', error: 'No items in cart',
+      user: decode.value.name, cart, total, page: 'CHECKOUT', errors: 'No items in cart',
     });
   } else {
     const status = req.body.payment === 'COD' ? 'Order Placed' : 'pending';
@@ -362,7 +362,7 @@ async function shopBooks(req, res) {
     if (filterStatus) {
       catg = books[0].category;
       res.render('userView/shopbook', {
-        user:'Login', books, catg, category, page: 'SHOP',
+        user:'Login',guest:true, books, catg, category, page: 'SHOP',
       });
     } else {
       getAllBooks().then((book) => {
@@ -370,7 +370,7 @@ async function shopBooks(req, res) {
   
         books = book.all;
         res.render('userView/shopbook', {
-          user: 'Login', catg, books, category, page: 'SHOP',
+          user: 'Login',guest:true, catg, books, category, page: 'SHOP',
         });
       });
   }
@@ -421,9 +421,9 @@ function getOffers(req,res){
     })
   }else{
     getAllCoupons().then((offers)=>{
-      res.render('userView/offers',{user: 'Login',offers,page:'OFFERS'})
+      res.render('userView/offers',{user: 'Login',guest:true,offers,page:'OFFERS'})
     }).catch(()=>{
-      res.render('userView/offers',{user: 'Login',page: 'OFFERS'})
+      res.render('userView/offers',{user: 'Login',guest:true,page: 'OFFERS'})
     })
   }
 }
