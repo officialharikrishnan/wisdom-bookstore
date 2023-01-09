@@ -442,9 +442,6 @@ function userAllOrders(userId) {
     const orders = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
       {
         $match: { user: ObjectId(userId) },
-      },
-      {
-        $sort:{date:1}
       }
 
     ]).toArray();
