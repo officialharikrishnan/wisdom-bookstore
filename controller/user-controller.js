@@ -16,7 +16,7 @@ let books;
 let catg;
 let mode;
 let successAmount;
-let loginStat = false;
+let loginStat = true;
 const jwtotpuser = { name: '', id: '' };
 
 function landingPage(req, res) {
