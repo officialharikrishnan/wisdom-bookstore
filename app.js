@@ -32,7 +32,8 @@ app.use('/', usersRouter);
 
 // catch 404 and forward to error handler
 app.use((req, res, next) => {
-  next(createError(404));
+  res.render('error')
+  // next(createError(404));
 });
 
 // error handler
