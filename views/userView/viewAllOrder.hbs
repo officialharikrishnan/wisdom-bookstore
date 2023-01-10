@@ -1,4 +1,5 @@
 <div class="container" id="">
+    {{#if products}}
     <table class="table table-bordered border-primary mt-5">
         <thead>
             <tr>
@@ -28,5 +29,10 @@
             {{/each}}
         </tbody>
     </table>
+    {{else}}
+    <div class="text-center mt-5">
+        <p>No Orders</p>
+    </div>
+    {{/if}}
 
 </div>

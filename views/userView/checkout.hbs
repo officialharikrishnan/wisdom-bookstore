@@ -54,6 +54,7 @@
 
                         <div class="checkout__wrap-2 pt-20">
                             <button type="button" onclick="return getCurrentAddress()">Use Existing Address</button>
+                            <p class="error" id="error-3"></p>
                         </div>
 
 
@@ -275,8 +276,8 @@
             $.ajax({
                 url:'/get-current-address',
                 method:'get',
-                success:(response =>{
-                    console.log(response)
+                success:(response =>{   
+                    if(response){
                     document.getElementById('name').value = response.name
                     document.getElementById('street1').value = response.street
                     document.getElementById('street2').value = response.street2
@@ -284,6 +285,9 @@
                     document.getElementById('postcode').value = response.postcode
                     document.getElementById('phone').value = response.phone ?? ''
                     document.getElementById('email').value = response.email ?? ''
+                    }else{
+                        document.getElementById('error-3').innerHTML = 'No existing address found'
+                    }
                 })
             })
         }

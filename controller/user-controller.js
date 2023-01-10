@@ -203,6 +203,7 @@ async function currentAddress(req, res) {
     // });
     res.json(address)
   }).catch(() => {
+    res.json(false)
     console.log('address getting error');
   });
 }
@@ -293,8 +294,8 @@ async function viewOrders(req, res) {
       products, user: decode.value.name, total, cart, page: 'ORDERS',
     });
   }).catch(() => {
-    res.render('userView/view-orders', {
-      user: decode.value.name, total, cart, page: 'ORDERS',
+    res.render('userView/viewAllOrder', {
+      user: decode.value.name, total, cart, page: 'ORDERS'
     });
   });
 }
