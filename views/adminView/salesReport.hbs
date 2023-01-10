@@ -4,7 +4,9 @@
 
         <div>
             {{#if report}}
-    <button id="download-button" class="btn btn-secondary">Download</button>
+    <button id="download-button" class="btn btn-secondary">Download As PDF</button>
+    <button type="button" class="btn btn-secondary" onclick="export_data()"
+                    value="Export to excel">Download As Excel</button>
     {{/if}}
     </div>
     <div class="mt-3">
@@ -50,7 +52,7 @@
     {{/if}}
 </section>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.9.3/html2pdf.bundle.min.js" integrity="sha512-YcsIPGdhPK4P/uRW6/sruonlYj+Q7UHWeKfTAkBW+g83NKM+jMJFJ4iAPfSnVp7BKD4dKMHmVSvICUbE/V1sSw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.17.0/xlsx.full.min.js"></script>
 <script>
 			const button = document.getElementById('download-button');
 
@@ -64,5 +66,13 @@
 
 			button.addEventListener('click', generatePDF);
             
-            
+            function export_data() {
+        let data = document.getElementById('invoice');
+        var fp = XLSX.utils.table_to_book(data, { sheet: 'wisdom' });
+        XLSX.write(fp, {
+            bookType: 'xlsx',
+            type: 'base64'
+        });
+        XLSX.writeFile(fp, 'report.xlsx');
+    }
 </script>
