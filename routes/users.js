@@ -19,7 +19,7 @@ router.post('/login-submit', loginSubmit);
 router.get('/home', authorization, homePage);
 router.post('/number-submit', sendOtp);
 router.post('/verify', veryfyOtp);
-router.get('/view-product/:id', authorization,viewProduct);
+router.get('/view-product/:id',viewProduct);
 router.post('/add-to-cart', authorization, cartAdd);
 router.get('/cart', authorization, cartPage);
 router.post('/change-product-quantity', authorization, changeQuantity);

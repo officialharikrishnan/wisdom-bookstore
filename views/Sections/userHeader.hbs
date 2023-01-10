@@ -29,7 +29,7 @@
                         <div class="search__input">
                             <div class="search__input-group search__input-group-c">
                                     <!-- <a class="absoulute search" href="#"><i class="far fa-search"></i></a> -->
-                                    <input type="search" placeholder="Enter keywords to search..." id="name"
+                                    <input type="search" placeholder="Enter book name to search..." id="name"
                                         onkeyup="return searchBook()" />
                                     <!-- <a class="absoulute close" href="#"><i class="fal fa-times"></i></a> -->
                             </div>
@@ -63,6 +63,32 @@
                         </div>
                     </div>
                 </div>
+                {{#if guest}}
+                <div class="c-border">
+                    <div class="row align-items-center">
+
+                        <div class="nav-category col-xl-8 col-lg-8 col-md-4 col-sm-4">
+                            <div class="main-menu main-menu-3">
+                                <nav id="mobile-menu">
+                                    <ul>
+                                        <li class="user-info"><a href="">
+                                                <h3 class="text-white">{{user}}</h3>
+                                            </a>
+                                        <li class=""><a href="/shop-books">Shop</a>
+
+                                        </li>
+                                        <li class=""><a href="/offers">Special offers</a></li>
+                                        <li class=""><a href="#kids">Kids</a>
+                                        <li class=""><a href="/login">Login</a>
+
+
+                                    </ul>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                {{else}}
                 <div class="c-border">
                     <div class="row align-items-center">
 
@@ -93,6 +119,7 @@
                         </div>
                     </div>
                 </div>
+                {{/if}}
             </div>
         </div>
     </div>
@@ -105,7 +132,7 @@
     <div class="side-info">
         <button class="side-info-close"><i class="fal fa-times"></i></button>
         <div class="side-info-content">
-        <input type="search" placeholder="Enter keywords to search..." id="mobile"
+        <input type="search" placeholder="Enter book name to search..." id="mobile"
              onkeyup="return searchBook()" />
             <div class="mobile-menu">
             </div>
