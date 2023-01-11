@@ -334,7 +334,6 @@ function salesReportPage(req,res){
   })
 }
 function saleFilter(req,res){
-  console.log("called");
   filterSale(req.body.startDate,req.body.endDate).then((report)=>{
     let dates = {
       start:req.body.startDate,
