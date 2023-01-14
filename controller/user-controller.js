@@ -180,10 +180,7 @@ function changeQuantity(req, res) {
     res.redirect('/cart');
   });
 }
-// function totalPrice(req, res) {
-//   const decode = tokenVerify(req);
-//   getTotalAmount(decode.value.id);
-// }
+
 async function checkoutForm(req, res) {
   const decode = tokenVerify(req);
   const total = await getTotalPrice(req);
