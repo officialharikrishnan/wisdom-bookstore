@@ -5,6 +5,7 @@ const { ObjectId } = require('mongodb');
 const collections = require('./dbConnection/collection');
 const db = require('./dbConnection/connection');
 const { deliveryStatus } = require('../controller/admin-controller');
+
 const instance = new Razorpay({
   key_id: process.env.KEY_ID,
   key_secret: process.env.KEY_SECRET,
@@ -258,21 +259,25 @@ function getTotalAmount(userId) {
         },
       },
       {
-        "$set":{
-          "final":{
-            "$switch":{
-              "branches":
-              [{"case":{"$and":["$book.offer",{"$ne":["$book.price",""]}]},
-              "then":"$book.offer"},
-              {"case":{"$and":["$book.price",{"$ne":["$book.offer",""]}]},
-              "then":"$book.price"}
-            ],
-            "default":""
-            }
-          }
-        }
+        $set: {
+          final: {
+            $switch: {
+              branches:
+              [{
+                case: { $and: ['$book.offer', { $ne: ['$book.price', ''] }] },
+                then: '$book.offer',
+              },
+              {
+                case: { $and: ['$book.price', { $ne: ['$book.offer', ''] }] },
+                then: '$book.price',
+              },
+              ],
+              default: '',
+            },
+          },
+        },
       },
- 
+
       {
         $group: {
           _id: null,
@@ -313,7 +318,6 @@ function getCartProducts(userId) {
   });
 }
 function placeOrder(userId, product, order, status, total) {
-  
   const orderObj = {
     user: ObjectId(userId),
     deliveryDetails: {
@@ -335,12 +339,12 @@ function placeOrder(userId, product, order, status, total) {
   };
   return new Promise((resolve, reject) => {
     db.get().collection(collections.ORDER_COLLECTION).insertOne(orderObj)
-    .then((res) => {
-      db.get().collection(collections.ORDER_COLLECTION).updateOne({_id:ObjectId(res.insertedId)},{
-        $set:{'product.$[].cartItem.deliveryStatus':'Order confirmed'}
-      },{multi:true})
-      resolve(res.insertedId);
-    })
+      .then((res) => {
+        db.get().collection(collections.ORDER_COLLECTION).updateOne({ _id: ObjectId(res.insertedId) }, {
+          $set: { 'product.$[].cartItem.deliveryStatus': 'Order confirmed' },
+        }, { multi: true });
+        resolve(res.insertedId);
+      })
       .catch(() => {
         reject();
       });
@@ -442,7 +446,7 @@ function userAllOrders(userId) {
     const orders = await db.get().collection(collections.ORDER_COLLECTION).aggregate([
       {
         $match: { user: ObjectId(userId) },
-      }
+      },
 
     ]).toArray();
     if (orders.length == 0) {
@@ -462,7 +466,7 @@ function viewSingleUserOrder(orderId) {
         $project: {
           product: 1,
           deliveryDetails: 1,
-          returnOption:1
+          returnOption: 1,
         },
       },
       {
@@ -578,82 +582,83 @@ function OrderStatusChange(orderId) {
     resolve();
   });
 }
-function couponManage(C_code,total){
-  C_code = C_code.toUpperCase()
-  return new Promise(async(resolve,reject)=>{
+function couponManage(C_code, total) {
+  C_code = C_code.toUpperCase();
+  return new Promise(async (resolve, reject) => {
     const coupon = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
       {
-        $match:{$and:[{code:C_code},
-          {limit:{$gte:total}},
-          {isoDateStart:{$lte: new Date()}},
-          {isoDateEnd:{$gte: new Date()}}
-        ]}
+        $match: {
+          $and: [{ code: C_code },
+            { limit: { $gte: total } },
+            { isoDateStart: { $lte: new Date() } },
+            { isoDateEnd: { $gte: new Date() } },
+          ],
+        },
       },
       {
-        $project:{
-          _id:null,
-          offerAmount:{$subtract:[total,{$divide:[{$multiply:[total,'$percentage']},100]}]}
-        }
-      }
-      
-    ]).toArray()
-    if(coupon.length !=0){
-      resolve(coupon[0]?.offerAmount)
-    }else{
-      reject()
+        $project: {
+          _id: null,
+          offerAmount: { $subtract: [total, { $divide: [{ $multiply: [total, '$percentage'] }, 100] }] },
+        },
+      },
+
+    ]).toArray();
+    if (coupon.length != 0) {
+      resolve(coupon[0]?.offerAmount);
+    } else {
+      reject();
     }
-    
-  })
+  });
 }
 
-function productReturn(orderId,proId,userId){
-  return new Promise((resolve,reject)=>{
+function productReturn(orderId, proId, userId) {
+  return new Promise((resolve, reject) => {
     db.get().collection(collections.ORDER_COLLECTION)
-    .updateOne({$and:[{_id:ObjectId(orderId)},{user:ObjectId(userId)},{product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }]},{
-     $set:{
-      'product.$.cartItem.deliveryStatus':'Return',
-      'product.$.cartItem.returnOption':false,
-     }
-    })
-    resolve()
-  })
+      .updateOne({ $and: [{ _id: ObjectId(orderId) }, { user: ObjectId(userId) }, { product: { $elemMatch: { 'cartItem._id': ObjectId(proId) } } }] }, {
+        $set: {
+          'product.$.cartItem.deliveryStatus': 'Return',
+          'product.$.cartItem.returnOption': false,
+        },
+      });
+    resolve();
+  });
 }
-function getAllCoupons(){
-  return new Promise(async(resolve,reject)=>{
-    const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'normal'}).toArray()
-    const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'category'}).toArray()
+function getAllCoupons() {
+  return new Promise(async (resolve, reject) => {
+    const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({ type: 'normal' }).toArray();
+    const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({ type: 'category' }).toArray();
     const productCoupons = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
       {
-        $match:{type:'product'}
+        $match: { type: 'product' },
       },
       {
-        $lookup:{
-          from:'books',
-          localField:'id',
-          foreignField:'_id',
-          as:'product'
-        }
+        $lookup: {
+          from: 'books',
+          localField: 'id',
+          foreignField: '_id',
+          as: 'product',
+        },
       },
       {
-        $unwind:'$product'
-      }
-    ]).toArray()
-    if(normalCoupons.length !=0 || categoryCoupons.length != 0){
-      resolve({normalCoupons,categoryCoupons,productCoupons:productCoupons})
-    }else{
-      reject()
+        $unwind: '$product',
+      },
+    ]).toArray();
+    if (normalCoupons.length != 0 || categoryCoupons.length != 0) {
+      resolve({ normalCoupons, categoryCoupons, productCoupons });
+    } else {
+      reject();
     }
-  })
+  });
 }
-function bookSearch(data){
-  return new Promise(async(resolve,reject)=>{
-    const book = await db.get().collection(collections.PRODUCT_COLLECTION).find({$text: { $search: data } }).toArray()
-    if(book.length != 0){
-      resolve(book)
-    }else{
-      reject()
+function bookSearch(data) {
+  return new Promise(async (resolve, reject) => {
+    const book = await db.get().collection(collections.PRODUCT_COLLECTION).find({ $text: { $search: data } }).toArray();
+    if (book.length != 0) {
+      resolve(book);
+    } else {
+      reject();
     }
-  })
+  });
 }
 
 module.exports = {
@@ -666,7 +671,7 @@ module.exports = {
   categoryUser,
   viewSingleUserOrder,
   userAllOrders,
-  cancelOrderSubmit, 
+  cancelOrderSubmit,
   OrderHistory,
   getOrderProductToOrder,
   removeCartAfterOrder,

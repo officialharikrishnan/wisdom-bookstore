@@ -4,7 +4,9 @@ const {
   stocks, addStockPage, addStockSubmit, editBook, editBookSubmit, deleteBook,
   bannerEditPage, editBannerImage, bannerEditForm, viewCategory, deleteCategory,
   addNewCategory, editCategory, editcategorySubmit, adminLogout, getAllOrders,
-  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport, revenueReport, getCoupon, addCoupon, codeGenerator, addCouponSubmit, deleteCoupon, couponEdit, couponEditSubmit, pdfReport, salesReportPage, saleFilter,
+  viewOrderProduct, cancelOrderAdmin, deliveryStatus, salesReport, revenueReport,
+  getCoupon, addCoupon, codeGenerator, addCouponSubmit, deleteCoupon, couponEdit,
+  couponEditSubmit, salesReportPage, saleFilter,
 } = require('../controller/admin-controller');
 const { adminAuthorization } = require('../middlewares/tokenAuthentication');
 
@@ -32,17 +34,17 @@ router.get('/edit-category/:id', adminAuthorization, editCategory);
 router.post('/edit-category-submit/:id', adminAuthorization, editcategorySubmit);
 router.post('/delete-category/', adminAuthorization, deleteCategory);
 router.get('/getallorders', adminAuthorization, getAllOrders);
-router.get('/view-order-product/:id', adminAuthorization,viewOrderProduct);
-router.post('/delivery-status', adminAuthorization,deliveryStatus);
+router.get('/view-order-product/:id', adminAuthorization, viewOrderProduct);
+router.post('/delivery-status', adminAuthorization, deliveryStatus);
 router.get('/cancel-order/:id', cancelOrderAdmin);
-router.get('/coupon',adminAuthorization,getCoupon)
-router.get('/addcoupon',adminAuthorization,addCoupon)
-router.get('/generatecode',adminAuthorization,codeGenerator)
-router.post('/addcouponsubmit',adminAuthorization,addCouponSubmit)
-router.get('/editcoupon/:id',adminAuthorization,couponEdit)
-router.post('/deletecoupon',adminAuthorization,deleteCoupon)
-router.post('/editcouponsubmit/:id',adminAuthorization, couponEditSubmit)
-router.get('/sales-report',adminAuthorization,salesReportPage)
-router.post('/sale-filter',saleFilter) 
+router.get('/coupon', adminAuthorization, getCoupon);
+router.get('/addcoupon', adminAuthorization, addCoupon);
+router.get('/generatecode', adminAuthorization, codeGenerator);
+router.post('/addcouponsubmit', adminAuthorization, addCouponSubmit);
+router.get('/editcoupon/:id', adminAuthorization, couponEdit);
+router.post('/deletecoupon', adminAuthorization, deleteCoupon);
+router.post('/editcouponsubmit/:id', adminAuthorization, couponEditSubmit);
+router.get('/sales-report', adminAuthorization, salesReportPage);
+router.post('/sale-filter', saleFilter);
 router.get('/logout', adminLogout);
 module.exports = router;

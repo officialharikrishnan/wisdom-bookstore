@@ -166,7 +166,7 @@ function addCategory(datas) {
     }
   }).catch((err) => {
     console.log(err);
-    reject()
+    reject();
   });
 }
 function removeCategory(id) {
@@ -226,7 +226,7 @@ function AllOrders() {
         $project: {
           'user.username': 1, deliveryDetails: 1, btnStatus: 1, product: 1, totalPrice: 1, paymentMethod: 1, date: 1, status: 1, deliveryStatus: 1,
         },
-      }
+      },
     ]).toArray();
     if (orders.length == 0) {
       reject();
@@ -243,10 +243,10 @@ function viewSingleOrder(orderId) {
       },
       {
         $project: {
-          _id:1,
+          _id: 1,
           product: 1,
           deliveryDetails: 1,
-          deliveryStatus:1,
+          deliveryStatus: 1,
         },
       },
       {
@@ -264,7 +264,7 @@ function viewSingleOrder(orderId) {
         $unwind: '$orders',
       },
     ]).toArray();
-    console.log(singleOrder,">>>>>>single<<<<<<<<<<");
+    console.log(singleOrder, '>>>>>>single<<<<<<<<<<');
     resolve(singleOrder);
   });
 }
@@ -286,23 +286,23 @@ function cancelOrderAdminSubmit(orderId) {
       });
   });
 }
-function deliveryStatusChange(orderId,proId, status) {
-  console.log(orderId,proId , status);
+function deliveryStatusChange(orderId, proId, status) {
+  console.log(orderId, proId, status);
   let returnOption;
-  if(status == 'Delivered'){
-    returnOption = true
-    cancelOption= false
-  }else{
-    returnOption = false
-    cancelOption= true
+  if (status == 'Delivered') {
+    returnOption = true;
+    cancelOption = false;
+  } else {
+    returnOption = false;
+    cancelOption = true;
   }
   return new Promise(async (resolve, reject) => {
     await db.get().collection(collections.ORDER_COLLECTION)
-      .updateOne({ _id: ObjectId(orderId),product:{$elemMatch:{'cartItem._id':ObjectId(proId)}} }, {
+      .updateOne({ _id: ObjectId(orderId), product: { $elemMatch: { 'cartItem._id': ObjectId(proId) } } }, {
         $set: {
-         'product.$.cartItem.deliveryStatus': status,
-         'product.$.cartItem.returnOption':returnOption,
-         btnStatus:cancelOption,
+          'product.$.cartItem.deliveryStatus': status,
+          'product.$.cartItem.returnOption': returnOption,
+          btnStatus: cancelOption,
         },
       }).then(() => {
         resolve();
@@ -413,249 +413,247 @@ function getYearlyRevenue() {
 }
 function revenueGraph() {
   return new Promise(async (resolve, reject) => {
-    const cod = await db.get().collection(collections.ORDER_COLLECTION).find({paymentMethod:'COD'}).toArray();
-    const online = await db.get().collection(collections.ORDER_COLLECTION).find({paymentMethod:'Online'}).toArray();
-    
-    resolve({cod:cod.length,online:online.length});
+    const cod = await db.get().collection(collections.ORDER_COLLECTION).find({ paymentMethod: 'COD' }).toArray();
+    const online = await db.get().collection(collections.ORDER_COLLECTION).find({ paymentMethod: 'Online' }).toArray();
+
+    resolve({ cod: cod.length, online: online.length });
   });
 }
-async function createCoupon(coupon){
-  let applyCoupon=false;
-  if(coupon.type == 'product'){
-    coupon.percentage = parseInt(coupon.percentage)
-    coupon.isoDateEnd= new Date(coupon.endDate)
-    coupon.id= ObjectId(coupon.id)
+async function createCoupon(coupon) {
+  let applyCoupon = false;
+  if (coupon.type == 'product') {
+    coupon.percentage = parseInt(coupon.percentage);
+    coupon.isoDateEnd = new Date(coupon.endDate);
+    coupon.id = ObjectId(coupon.id);
 
-    let offerField = await db.get().collection(collections.PRODUCT_COLLECTION).findOne({$and:[{_id:coupon.id},{offer:{$exists:true}}]})
-    if(offerField){
-      let data = await db.get().collection(collections.COUPON_COLLECTION).findOne({$and:[{type:'category'},{category:offerField.category}]})
+    const offerField = await db.get().collection(collections.PRODUCT_COLLECTION).findOne({ $and: [{ _id: coupon.id }, { offer: { $exists: true } }] });
+    if (offerField) {
+      const data = await db.get().collection(collections.COUPON_COLLECTION).findOne({ $and: [{ type: 'category' }, { category: offerField.category }] });
       console.log(data);
-      if(data){
-        if(coupon.percentage > data.percentage){
-          applyCoupon = true
+      if (data) {
+        if (coupon.percentage > data.percentage) {
+          applyCoupon = true;
         }
       }
-    }else{
-      applyCoupon=true
+    } else {
+      applyCoupon = true;
     }
-
-  }else{
-    coupon.limit = parseInt(coupon.limit)
-    coupon.code = coupon.code.toUpperCase()
-    coupon.percentage = parseInt(coupon.percentage)
-    coupon.isoDateStart= new Date(coupon.startDate)
-    coupon.isoDateEnd= new Date(coupon.endDate)
+  } else {
+    coupon.limit = parseInt(coupon.limit);
+    coupon.code = coupon.code.toUpperCase();
+    coupon.percentage = parseInt(coupon.percentage);
+    coupon.isoDateStart = new Date(coupon.startDate);
+    coupon.isoDateEnd = new Date(coupon.endDate);
   }
-  if(coupon.type == 'category'){
-    coupon.categoryOption=true
+  if (coupon.type == 'category') {
+    coupon.categoryOption = true;
   }
-  return new Promise(async(resolve, reject)=>{
-    db.get().collection(collections.COUPON_COLLECTION).insertOne(coupon)
-    if(coupon.type == 'category'){
-     var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+  return new Promise(async (resolve, reject) => {
+    db.get().collection(collections.COUPON_COLLECTION).insertOne(coupon);
+    if (coupon.type == 'category') {
+      var samp = await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
         {
-          $match:{category:coupon.category}
+          $match: { category: coupon.category },
         },
         {
-          $project:{price:1}
+          $project: { price: 1 },
         },
-  
+
         {
-          $addFields:{
-            offer:{$subtract:['$price',{$divide:[{$multiply:['$price',coupon.percentage]},100]}]}
+          $addFields: {
+            offer: { $subtract: ['$price', { $divide: [{ $multiply: ['$price', coupon.percentage] }, 100] }] },
 
-          }
-        }
-      ]).forEach(element => {
-        db.get().collection(collections.PRODUCT_COLLECTION).updateMany({_id:element._id},{
-        $set:{
-          offer:element.offer
-        }
-      })
-
+          },
+        },
+      ]).forEach((element) => {
+        db.get().collection(collections.PRODUCT_COLLECTION).updateMany({ _id: element._id }, {
+          $set: {
+            offer: element.offer,
+          },
+        });
       });
-    }else if(coupon.type == 'product' && applyCoupon){
-      var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+    } else if (coupon.type == 'product' && applyCoupon) {
+      var samp = await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
         {
-          $match:{_id:coupon.id}
+          $match: { _id: coupon.id },
         },
         {
-          $project:{price:1}
+          $project: { price: 1 },
         },
-  
-        {
-          $addFields:{
-            offer:{$subtract:['$price',{$divide:[{$multiply:['$price',coupon.percentage]},100]}]}
 
-          }
-        }
-      ]).toArray()
-      console.log(samp,">>>>>>>>>>>>>>>>>>>>>>");
-      db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:coupon.id},{
-        $set:{
-          offer:samp[0].offer
-        }
-      })
+        {
+          $addFields: {
+            offer: { $subtract: ['$price', { $divide: [{ $multiply: ['$price', coupon.percentage] }, 100] }] },
+
+          },
+        },
+      ]).toArray();
+      console.log(samp, '>>>>>>>>>>>>>>>>>>>>>>');
+      db.get().collection(collections.PRODUCT_COLLECTION).updateOne({ _id: coupon.id }, {
+        $set: {
+          offer: samp[0].offer,
+        },
+      });
     }
 
-    resolve()
-  })
+    resolve();
+  });
 }
-function getAllCoupons(){
-  return new Promise(async(resolve,reject)=>{
-    const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'normal'}).toArray()
-    const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({type:'category'}).toArray()
+function getAllCoupons() {
+  return new Promise(async (resolve, reject) => {
+    const normalCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({ type: 'normal' }).toArray();
+    const categoryCoupons = await db.get().collection(collections.COUPON_COLLECTION).find({ type: 'category' }).toArray();
     const productCoupons = await db.get().collection(collections.COUPON_COLLECTION).aggregate([
       {
-        $match:{type:'product'}
+        $match: { type: 'product' },
       },
       {
-        $lookup:{
-          from:'books',
-          localField:'id',
-          foreignField:'_id',
-          as:'product'
-        }
+        $lookup: {
+          from: 'books',
+          localField: 'id',
+          foreignField: '_id',
+          as: 'product',
+        },
       },
       {
-        $unwind:'$product'
-      }
-    ]).toArray()
-    if(normalCoupons.length !=0 || categoryCoupons.length != 0){
-      resolve({normalCoupons,categoryCoupons,productCoupons:productCoupons})
-    }else{
-      reject()
+        $unwind: '$product',
+      },
+    ]).toArray();
+    if (normalCoupons.length != 0 || categoryCoupons.length != 0) {
+      resolve({ normalCoupons, categoryCoupons, productCoupons });
+    } else {
+      reject();
     }
-  })
+  });
 }
-function romoveCoupon(id){
-  console.log("called>>>>>>>>",id);
-  return new Promise(async(resolve,reject)=>{
-    const coupon =await  db.get().collection(collections.COUPON_COLLECTION).findOneAndDelete({_id:ObjectId(id)})
-    if(coupon.value.type == 'category'){
-    db.get().collection(collections.PRODUCT_COLLECTION).updateMany({category:coupon.value.category},{
-      $unset:{offer:1}
-    })
-  }else if(coupon.value.type == 'product'){
-    db.get().collection(collections.PRODUCT_COLLECTION).updateMany({_id:coupon.value.id},{
-      $unset:{offer:1}
-    })    
-  }
-    resolve()
-  })
-} 
-function editCoupon(id){
-  return new Promise(async(resolve,reject)=>{
-    const coupon = await db.get().collection(collections.COUPON_COLLECTION).findOne({_id:ObjectId(id)})
-    resolve(coupon)
-  })
+function romoveCoupon(id) {
+  console.log('called>>>>>>>>', id);
+  return new Promise(async (resolve, reject) => {
+    const coupon = await db.get().collection(collections.COUPON_COLLECTION).findOneAndDelete({ _id: ObjectId(id) });
+    if (coupon.value.type == 'category') {
+      db.get().collection(collections.PRODUCT_COLLECTION).updateMany({ category: coupon.value.category }, {
+        $unset: { offer: 1 },
+      });
+    } else if (coupon.value.type == 'product') {
+      db.get().collection(collections.PRODUCT_COLLECTION).updateMany({ _id: coupon.value.id }, {
+        $unset: { offer: 1 },
+      });
+    }
+    resolve();
+  });
 }
-function editCouponSubmit(id,data){
-  data.percentage=parseInt(data.percentage)
-  data.limit=parseInt(data.limit)
-  data.code = data.code.toUpperCase()
+function editCoupon(id) {
+  return new Promise(async (resolve, reject) => {
+    const coupon = await db.get().collection(collections.COUPON_COLLECTION).findOne({ _id: ObjectId(id) });
+    resolve(coupon);
+  });
+}
+function editCouponSubmit(id, data) {
+  data.percentage = parseInt(data.percentage);
+  data.limit = parseInt(data.limit);
+  data.code = data.code.toUpperCase();
   console.log(data);
-  return new Promise(async(resolve,reject)=>{
-    const res =await db.get().collection(collections.COUPON_COLLECTION).findOneAndUpdate({_id:ObjectId(id)},{
-      $set:{
-        name:data.name,
-        code:data.code,
-        startDate:data.startDate,
-        endDate:data.endDate,
-        percentage:data.percentage,
-        limit:data.limit,
+  return new Promise(async (resolve, reject) => {
+    const res = await db.get().collection(collections.COUPON_COLLECTION).findOneAndUpdate({ _id: ObjectId(id) }, {
+      $set: {
+        name: data.name,
+        code: data.code,
+        startDate: data.startDate,
+        endDate: data.endDate,
+        percentage: data.percentage,
+        limit: data.limit,
         isoDateStart: new Date(data.startDate),
-        isoDateEnd: new Date(data.endDate)
-      }
-    },{ returnDocument: 'after'})
-      console.log(">>>>>>>>",res,"<<<<<<<<<<<");
-      if(res.value.type == 'category'){
-        var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
-           {
-             $match:{category:res.value.category}
-           },
-           {
-             $project:{price:1}
-           },
-     
-           {
-             $addFields:{
-               offer:{$subtract:['$price',{$divide:[{$multiply:['$price',res.value.percentage]},100]}]}
-   
-             }
-           }
-         ]).forEach(element => {
-           db.get().collection(collections.PRODUCT_COLLECTION).updateMany({_id:element._id},{
-           $set:{
-             offer:element.offer
-           }
-         })
-   
-         });
-       }else if(res.value.type == 'product'){
-         var samp =await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
-           {
-             $match:{_id:res.value.id}
-           },
-           {
-             $project:{price:1}
-           },
-     
-           {
-             $addFields:{
-               offer:{$subtract:['$price',{$divide:[{$multiply:['$price',res.value.percentage]},100]}]}
-   
-             }
-           }
-         ]).toArray()
-         db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:res.value.id},{
-           $set:{
-             offer:samp[0].offer
-           }
-         })
-       }
-    
-    
-    resolve()
-  })
-}
-function getSalesReport(){
-  return new Promise(async(resolve,reject)=>{
-    const report = await db.get().collection(collections.ORDER_COLLECTION)
-    .aggregate([
-      {
-        $match:{'product.cartItem.deliveryStatus':'Delivered'}
+        isoDateEnd: new Date(data.endDate),
       },
-  
-      {
-        $lookup:{
-          from:'books',
-          localField:'product.cartItem._id',
-          foreignField:'_id',
-          as:'products'
-        }
-      },
-      {
-        $unwind:'$products'
-      },
-      {
-        $project:{deliveryDetails:1,totalPrice:1,paymentMethod:1,date:1,products:1}
-      }
-    ]).toArray()
-    console.log(">>>>>>>>>>",report);
-    resolve(report)
-  })
-}
-function filterSale(startDate,endDate){
-  return new Promise(async(resolve,reject)=>{
-    const sales =await  db.get().collection(collections.ORDER_COLLECTION)
-    .find({$and:[{'product.cartItem.deliveryStatus':'Delivered'},{fullDate:{$lte:new Date(endDate)}},{fullDate:{$gte:new Date(startDate)}}]}).toArray()
-    if(sales.length != 0){
-      resolve(sales)
-    }else{
-      reject()
+    }, { returnDocument: 'after' });
+    console.log('>>>>>>>>', res, '<<<<<<<<<<<');
+    if (res.value.type == 'category') {
+      var samp = await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+        {
+          $match: { category: res.value.category },
+        },
+        {
+          $project: { price: 1 },
+        },
+
+        {
+          $addFields: {
+            offer: { $subtract: ['$price', { $divide: [{ $multiply: ['$price', res.value.percentage] }, 100] }] },
+
+          },
+        },
+      ]).forEach((element) => {
+        db.get().collection(collections.PRODUCT_COLLECTION).updateMany({ _id: element._id }, {
+          $set: {
+            offer: element.offer,
+          },
+        });
+      });
+    } else if (res.value.type == 'product') {
+      var samp = await db.get().collection(collections.PRODUCT_COLLECTION).aggregate([
+        {
+          $match: { _id: res.value.id },
+        },
+        {
+          $project: { price: 1 },
+        },
+
+        {
+          $addFields: {
+            offer: { $subtract: ['$price', { $divide: [{ $multiply: ['$price', res.value.percentage] }, 100] }] },
+
+          },
+        },
+      ]).toArray();
+      db.get().collection(collections.PRODUCT_COLLECTION).updateOne({ _id: res.value.id }, {
+        $set: {
+          offer: samp[0].offer,
+        },
+      });
     }
-  })
+
+    resolve();
+  });
+}
+function getSalesReport() {
+  return new Promise(async (resolve, reject) => {
+    const report = await db.get().collection(collections.ORDER_COLLECTION)
+      .aggregate([
+        {
+          $match: { 'product.cartItem.deliveryStatus': 'Delivered' },
+        },
+
+        {
+          $lookup: {
+            from: 'books',
+            localField: 'product.cartItem._id',
+            foreignField: '_id',
+            as: 'products',
+          },
+        },
+        {
+          $unwind: '$products',
+        },
+        {
+          $project: {
+            deliveryDetails: 1, totalPrice: 1, paymentMethod: 1, date: 1, products: 1,
+          },
+        },
+      ]).toArray();
+    console.log('>>>>>>>>>>', report);
+    resolve(report);
+  });
+}
+function filterSale(startDate, endDate) {
+  return new Promise(async (resolve, reject) => {
+    const sales = await db.get().collection(collections.ORDER_COLLECTION)
+      .find({ $and: [{ 'product.cartItem.deliveryStatus': 'Delivered' }, { fullDate: { $lte: new Date(endDate) } }, { fullDate: { $gte: new Date(startDate) } }] }).toArray();
+    if (sales.length != 0) {
+      resolve(sales);
+    } else {
+      reject();
+    }
+  });
 }
 module.exports = {
   filterSale,

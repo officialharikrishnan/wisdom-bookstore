@@ -10,6 +10,7 @@ const {
   editAddress, categoryUser, filterByCategory, generateRazorpay,
   paymentVerification, OrderStatusChange, couponManage, productReturn, getAllCoupons, bookSearch,
 } = require('../model/user-helpers');
+
 let number;
 let filterStatus = false;
 let books;
@@ -47,7 +48,7 @@ function signUpSubmit(req, res) {
     };
     userSignup(userData)
       .then(async (response) => {
-        loginStat = true
+        loginStat = true;
         const token = await tockenGenerator(response);
         res.cookie('wisdom', token, {
           httpOnly: true,
@@ -63,7 +64,7 @@ function otpManager(req, res) {
 function loginSubmit(req, res) {
   userLogin(req.body)
     .then(async (response) => {
-      loginStat = true
+      loginStat = true;
       const token = await tockenGenerator(response);
       res.cookie('wisdom', token, {
         httpOnly: true,
@@ -131,26 +132,26 @@ function veryfyOtp(req, res) {
     });
 }
 function viewProduct(req, res) {
- if(loginStat){
-  const decode = tokenVerify(req);
-  viewBook(req.params.id).then(async (book) => {
-    const cart = await cartBooks(req);
-    const total = await getTotalPrice(req);
-    res.render('userView/view-product', {
-      user: decode.value.name, book, cart, total,
+  if (loginStat) {
+    const decode = tokenVerify(req);
+    viewBook(req.params.id).then(async (book) => {
+      const cart = await cartBooks(req);
+      const total = await getTotalPrice(req);
+      res.render('userView/view-product', {
+        user: decode.value.name, book, cart, total,
+      });
+    }).catch(() => {
+      console.log('failed to load viewbook');
     });
-  }).catch(() => {
-    console.log('failed to load viewbook');
-  });
- }else{
-  viewBook(req.params.id).then(async (book) => {
-    res.render('userView/view-product', {
-       book,user:'Login',guest:true
+  } else {
+    viewBook(req.params.id).then(async (book) => {
+      res.render('userView/view-product', {
+        book, user: 'Login', guest: true,
+      });
+    }).catch(() => {
+      console.log('failed to load viewbook');
     });
-  }).catch(() => {
-    console.log('failed to load viewbook');
-  });
- }
+  }
 }
 async function cartPage(req, res) {
   const decode = tokenVerify(req);
@@ -161,19 +162,19 @@ async function cartPage(req, res) {
   });
 }
 function logout(req, res) {
-  loginStat = false
+  loginStat = false;
   res.cookie('wisdom', '', { expiresIn: '0.1s' })
     .redirect('/');
 }
 function cartAdd(req, res) {
   const decode = tokenVerify(req);
-  if(loginStat){
-  addToCart(req.body.data, decode.value.id).then(() => {
-    res.json({status:true})
-  });
-}else{
-  res.redirect('/login')
-}
+  if (loginStat) {
+    addToCart(req.body.data, decode.value.id).then(() => {
+      res.json({ status: true });
+    });
+  } else {
+    res.redirect('/login');
+  }
 }
 function changeQuantity(req, res) {
   changeBookQuantity(req.body).then(() => {
@@ -198,9 +199,9 @@ async function currentAddress(req, res) {
     // res.render('userView/checkout', {
     //   user: decode.value.name, cart, total, address, page: 'CHECKOUT',
     // });
-    res.json(address)
+    res.json(address);
   }).catch(() => {
-    res.json(false)
+    res.json(false);
     console.log('address getting error');
   });
 }
@@ -212,12 +213,11 @@ async function checkoutFormSubmit(req, res) {
   if (cart) {
     total = await getTotalPrice(req);
     product = await getOrderProductToOrder(decode.value.id);
-    if(req.body.offerPrice == ''){
-      finalPrice = total
-    }else{
-      finalPrice = parseInt(req.body.offerPrice)
+    if (req.body.offerPrice == '') {
+      finalPrice = total;
+    } else {
+      finalPrice = parseInt(req.body.offerPrice);
     }
-    
   }
   if (!req.body.name || !req.body.street || !req.body.postcode) {
     res.render('userView/checkout', {
@@ -232,18 +232,17 @@ async function checkoutFormSubmit(req, res) {
     placeOrder(decode.value.id, product, req.body, status, finalPrice).then((orderId) => {
       removeCartAfterOrder(decode.value.id);
       if (req.body.payment === 'COD') {
-
-          successAmount = finalPrice;
+        successAmount = finalPrice;
         mode = 'Order placed successfully';
         res.json({ cod: true });
       } else {
       // code for online payment
-      let finalPrice;
-      if(req.body.offerPrice == ''){
-        finalPrice = total
-      }else{
-        finalPrice = req.body.offerPrice
-      }
+        let finalPrice;
+        if (req.body.offerPrice == '') {
+          finalPrice = total;
+        } else {
+          finalPrice = req.body.offerPrice;
+        }
         successAmount = finalPrice;
         generateRazorpay(orderId, finalPrice).then((order) => [
           res.json({ cod: false, order }),
@@ -292,7 +291,7 @@ async function viewOrders(req, res) {
     });
   }).catch(() => {
     res.render('userView/viewAllOrder', {
-      user: decode.value.name, total, cart, page: 'ORDERS'
+      user: decode.value.name, total, cart, page: 'ORDERS',
     });
   });
 }
@@ -329,30 +328,30 @@ function editAccountSubmit(req, res) {
   });
 }
 async function shopBooks(req, res) {
-  if(loginStat){
+  if (loginStat) {
     const decode = tokenVerify(req);
-  const cart = await cartBooks(req);
-  let category;
-  await categoryUser().then((data) => {
-    category = data;
-  });
-  const total = await getTotalPrice(req);
-  if (filterStatus) {
-    catg = books[0].category;
-    res.render('userView/shopbook', {
-      user: decode.value.name, books, catg, cart, total, category, page: 'SHOP',
+    const cart = await cartBooks(req);
+    let category;
+    await categoryUser().then((data) => {
+      category = data;
     });
-  } else {
-    getAllBooks().then((book) => {
-      catg = 'all';
-
-      books = book.all;
+    const total = await getTotalPrice(req);
+    if (filterStatus) {
+      catg = books[0].category;
       res.render('userView/shopbook', {
-        user: decode.value.name, catg, books, cart, total, category, page: 'SHOP',
+        user: decode.value.name, books, catg, cart, total, category, page: 'SHOP',
       });
-    });
-  }
-  }else{
+    } else {
+      getAllBooks().then((book) => {
+        catg = 'all';
+
+        books = book.all;
+        res.render('userView/shopbook', {
+          user: decode.value.name, catg, books, cart, total, category, page: 'SHOP',
+        });
+      });
+    }
+  } else {
     let category;
     await categoryUser().then((data) => {
       category = data;
@@ -360,19 +359,19 @@ async function shopBooks(req, res) {
     if (filterStatus) {
       catg = books[0].category;
       res.render('userView/shopbook', {
-        user:'Login',guest:true, books, catg, category, page: 'SHOP',
+        user: 'Login', guest: true, books, catg, category, page: 'SHOP',
       });
     } else {
       getAllBooks().then((book) => {
         catg = 'all';
-  
+
         books = book.all;
         res.render('userView/shopbook', {
-          user: 'Login',guest:true, catg, books, category, page: 'SHOP',
+          user: 'Login', guest: true, catg, books, category, page: 'SHOP',
         });
       });
+    }
   }
-}
 }
 async function filterBook(req, res) {
   // eslint-disable-next-line eqeqeq
@@ -392,46 +391,47 @@ async function filterBook(req, res) {
     });
   }
 }
-async function checkCoupon(req,res){
+async function checkCoupon(req, res) {
   const total = await getTotalPrice(req);
-  couponManage(req.body.data,total).then((offerPrice)=>{
-    res.json({offerPrice,status:true})
-  }).catch((err)=>{
-    res.json({status:false})
-  })
+  couponManage(req.body.data, total).then((offerPrice) => {
+    res.json({ offerPrice, status: true });
+  }).catch((err) => {
+    res.json({ status: false });
+  });
 }
-function returnItem(req,res){
+function returnItem(req, res) {
   const decode = tokenVerify(req);
-  productReturn(req.body.order,req.body.pro,decode.value.id).then(()=>{
-    res.json({status:true})
-  }).catch(()=>{
-    res.json({status:false})
-  })
+  productReturn(req.body.order, req.body.pro, decode.value.id).then(() => {
+    res.json({ status: true });
+  }).catch(() => {
+    res.json({ status: false });
+  });
 }
-function getOffers(req,res){
-  if(loginStat){
-
+function getOffers(req, res) {
+  if (loginStat) {
     const decode = tokenVerify(req);
-    getAllCoupons().then((offers)=>{
-      res.render('userView/offers',{user: decode.value.name,offers,page:'OFFERS'})
-    }).catch(()=>{
-      res.render('userView/offers',{user: decode.value.name,page: 'OFFERS'})
-    })
-  }else{
-    getAllCoupons().then((offers)=>{
-      res.render('userView/offers',{user: 'Login',guest:true,offers,page:'OFFERS'})
-    }).catch(()=>{
-      res.render('userView/offers',{user: 'Login',guest:true,page: 'OFFERS'})
-    })
+    getAllCoupons().then((offers) => {
+      res.render('userView/offers', { user: decode.value.name, offers, page: 'OFFERS' });
+    }).catch(() => {
+      res.render('userView/offers', { user: decode.value.name, page: 'OFFERS' });
+    });
+  } else {
+    getAllCoupons().then((offers) => {
+      res.render('userView/offers', {
+        user: 'Login', guest: true, offers, page: 'OFFERS',
+      });
+    }).catch(() => {
+      res.render('userView/offers', { user: 'Login', guest: true, page: 'OFFERS' });
+    });
   }
 }
-function searchBooks(req,res){
-  bookSearch(req.body.data).then((books)=>{
-    res.json(books)
-  }).catch(()=>{
-    console.log("search book not found");
-    res.json(false)
-  })
+function searchBooks(req, res) {
+  bookSearch(req.body.data).then((books) => {
+    res.json(books);
+  }).catch(() => {
+    console.log('search book not found');
+    res.json(false);
+  });
 }
 
 module.exports = {

@@ -1,4 +1,5 @@
 /* eslint-disable radix */
+const voucher_codes = require('voucher-code-generator');
 const {
   adminDoLogin, getAllUsers, userBlockManage, addStock, getAllStocks, getBook,
   doEditBook, removeBook, getBanner, category, addCategory,
@@ -8,9 +9,7 @@ const {
   getYearlyRevenue, revenueGraph, createCoupon, getAllCoupons, romoveCoupon, editCoupon, editCouponSubmit, getSalesReport, filterSale,
 } = require('../model/admin-helpers');
 const { adminTokenGenerator } = require('../utils/token');
-const voucher_codes = require('voucher-code-generator');
 require('dotenv').config();
-
 
 let error;
 const btnstatus = {};
@@ -74,21 +73,20 @@ function adminLogin(req, res) {
   });
 }
 async function adminDashboard(req, res) {
-  console.log("dashboard called");
+  console.log('dashboard called');
   const users = await totalusers();
-  let graph = await revenueGraph();
+  const graph = await revenueGraph();
   try {
     if (!saleStatus) {
       salesTitle = 'Today';
       reports = await getDailyOrder();
       report = reports.length;
-      
     }
     if (!revenueStatus) {
       revenueTitle = 'Today';
       revenReport = await getDailyRevenue();
     }
-    let graph = await revenueGraph();
+    const graph = await revenueGraph();
     const currentDate = new Date().toISOString().substring(0, 10);
     console.log(graph.online);
     res.render('adminView/dashboard', {
@@ -99,13 +97,13 @@ async function adminDashboard(req, res) {
       revenReport,
       salesTitle,
       revenueTitle,
-      cod:graph.cod,
-      online:graph.online
+      cod: graph.cod,
+      online: graph.online,
     });
   } catch (err) {
     res.render('adminView/dashboard', {
-      cod:graph.cod,
-      online:graph.online,
+      cod: graph.cod,
+      online: graph.online,
       admin: true,
     });
   }
@@ -206,8 +204,11 @@ function viewCategory(req, res) {
     btnstatus.text = 'Add new Category';
     btnstatus.route = 'add-category';
     res.render('adminView/viewCategory', {
-      admin: true, categorydata, error, btnstatus,
-      edit:true
+      admin: true,
+      categorydata,
+      error,
+      btnstatus,
+      edit: true,
     });
   });
 }
@@ -270,81 +271,81 @@ function cancelOrderAdmin(req, res) {
 }
 function deliveryStatus(req, res) {
   console.log('called');
-  deliveryStatusChange(req.body.orderid,req.body.id, req.body.status).then(() => {
+  deliveryStatusChange(req.body.orderid, req.body.id, req.body.status).then(() => {
     res.redirect(req.get('referer'));
   }).catch(() => {
     console.log('failed to change delivery status');
   });
 }
-function getCoupon(req,res){
-  getAllCoupons().then((coupons)=>{
-    res.render('adminView/coupon',{admin:true,coupons})
-  }).catch(()=>{
-    res.render('adminView/coupon',{admin:true})
-  })
-}
-async function addCoupon(req,res){
-  const books =await getAllStocks()
-  category().then((data) => {
-    res.render('adminView/addCoupon',{admin:true,data,books})
+function getCoupon(req, res) {
+  getAllCoupons().then((coupons) => {
+    res.render('adminView/coupon', { admin: true, coupons });
+  }).catch(() => {
+    res.render('adminView/coupon', { admin: true });
   });
 }
-function codeGenerator(req,res){
-   var code = voucher_codes.generate({
+async function addCoupon(req, res) {
+  const books = await getAllStocks();
+  category().then((data) => {
+    res.render('adminView/addCoupon', { admin: true, data, books });
+  });
+}
+function codeGenerator(req, res) {
+  const code = voucher_codes.generate({
     length: 6,
     count: 1,
-    charset: "012345ABCDE"
-});
-res.json(code[0])
+    charset: '012345ABCDE',
+  });
+  res.json(code[0]);
 }
-function addCouponSubmit(req,res){
-  createCoupon(req.body).then(()=>{
+function addCouponSubmit(req, res) {
+  createCoupon(req.body).then(() => {
     res.redirect('/admin/coupon');
-  })
+  });
 }
-function deleteCoupon(req,res){
-  romoveCoupon(req.body.id).then(()=>{
-    res.json({status:true})
-  })
+function deleteCoupon(req, res) {
+  romoveCoupon(req.body.id).then(() => {
+    res.json({ status: true });
+  });
 }
-function couponEdit(req,res){
-  let product
-  let catego
-  let norm
-  editCoupon(req.params.id).then((coupon)=>{
-    if(coupon.type == 'product'){
-      product=true
-    }else if(coupon.type == 'category'){
-      catego=true
-    }else{
-      norm=true
+function couponEdit(req, res) {
+  let product;
+  let catego;
+  let norm;
+  editCoupon(req.params.id).then((coupon) => {
+    if (coupon.type == 'product') {
+      product = true;
+    } else if (coupon.type == 'category') {
+      catego = true;
+    } else {
+      norm = true;
     }
-  res.render('adminView/editCoupon',{admin:true, coupon,product,catego,norm})
-  })
+    res.render('adminView/editCoupon', {
+      admin: true, coupon, product, catego, norm,
+    });
+  });
 }
-function couponEditSubmit(req,res){
-  editCouponSubmit(req.params.id,req.body).then(()=>{
-    res.redirect('/admin/coupon')
-  })
+function couponEditSubmit(req, res) {
+  editCouponSubmit(req.params.id, req.body).then(() => {
+    res.redirect('/admin/coupon');
+  });
 }
 
-function salesReportPage(req,res){
-  getSalesReport().then((report)=>{
-    res.render('adminView/salesReport',{report,admin:true})
-  })
+function salesReportPage(req, res) {
+  getSalesReport().then((report) => {
+    res.render('adminView/salesReport', { report, admin: true });
+  });
 }
-function saleFilter(req,res){
-  filterSale(req.body.startDate,req.body.endDate).then((report)=>{
-    let dates = {
-      start:req.body.startDate,
-      end:req.body.endDate
-    }
-    res.render('adminView/salesReport',{report,admin:true,dates})
-
-  }).catch(()=>{
-    res.render('adminView/salesReport',{admin:true})
-
-  })
+function saleFilter(req, res) {
+  filterSale(req.body.startDate, req.body.endDate).then((report) => {
+    const dates = {
+      start: req.body.startDate,
+      end: req.body.endDate,
+    };
+    res.render('adminView/salesReport', { report, admin: true, dates });
+  }).catch(() => {
+    res.render('adminView/salesReport', { admin: true });
+  });
 }
 module.exports = {
   saleFilter,
