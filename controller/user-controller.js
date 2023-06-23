@@ -8,7 +8,7 @@ const {
   getCartProducts, placeOrder, removeCartAfterOrder, getOrderProductToOrder,
   cancelOrderSubmit, userAllOrders, viewSingleUserOrder,
   editAddress, categoryUser, filterByCategory, generateRazorpay,
-  paymentVerification, OrderStatusChange, couponManage, productReturn, getAllCoupons, bookSearch,
+  paymentVerification, OrderStatusChange, couponManage, productReturn, getAllCoupons, bookSearch, changeStock, getCancelProducts,
 } = require('../model/user-helpers');
 
 let number;
@@ -186,6 +186,14 @@ async function checkoutForm(req, res) {
   const decode = tokenVerify(req);
   const total = await getTotalPrice(req);
   const cart = await cartBooks(req);
+  cart.map((item)=>{
+    console.log(item)
+    if(item.quantity > item.book.qty){
+      res.render('userView/cart', {
+        user: decode.value.name, cart,error:`${item.book.bookname} is outoff stock`, total, page: 'CART',
+      });
+    }
+  })
   res.render('userView/checkout', {
     user: decode.value.name, cart, total, page: 'CHECKOUT',
   });
@@ -229,8 +237,13 @@ async function checkoutFormSubmit(req, res) {
     });
   } else {
     const status = req.body.payment === 'COD' ? 'Order Placed' : 'pending';
+    console.log(">>>>>",product)
     placeOrder(decode.value.id, product, req.body, status, finalPrice).then((orderId) => {
       removeCartAfterOrder(decode.value.id);
+      product.map((item)=>{
+        let qty=parseInt("-"+item.quantity)
+        changeStock(item.cartItem._id,qty)
+      })
       if (req.body.payment === 'COD') {
         successAmount = finalPrice;
         mode = 'Order placed successfully';
@@ -305,8 +318,14 @@ async function viewOrderProduct(req, res) {
     });
   });
 }
-function cancelOrder(req, res) {
-  cancelOrderSubmit(req.body.data).then(() => {
+async function cancelOrder(req, res) {
+  console.log(req.body)
+  cancelOrderSubmit(req.body.data).then(async() => {
+   const products =await getCancelProducts(req.body.data)
+   products.map((item)=>{
+    console.log(item.product)
+    changeStock(item.product.cartItem._id,item.product.quantity)
+   })
     res.redirect('/view-orders');
   });
 }

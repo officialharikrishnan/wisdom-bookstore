@@ -361,6 +361,15 @@ function removeCartAfterOrder(userId) {
       });
   });
 }
+function changeStock(product,data){
+  return new Promise((resolve,reject)=>{
+    db.get().collection(collections.PRODUCT_COLLECTION).updateOne({_id:product},{
+          $inc:{
+            qty:data
+          }
+    })
+  })
+}
 function getOrderProductToOrder(userId) {
   return new Promise(async (resolve, reject) => {
     const product = await db.get().collection(collections.CART_COLLECTION).aggregate([
@@ -504,6 +513,25 @@ function cancelOrderSubmit(orderId) {
         reject();
       });
   });
+}
+async function getCancelProducts(orderId){
+  return new Promise(async (resolve,reject)=>{
+    const products =await db.get().collection(collections.ORDER_COLLECTION).aggregate([
+      {
+        $match:{
+          _id:ObjectId(orderId)
+        }
+      },
+      {
+        $unwind:"$product"
+      },
+      {
+        $project:{product:1}
+      }
+      
+    ]).toArray()
+    resolve(products)
+  })
 }
 function editAddress(userId, data) {
   return new Promise((resolve, reject) => {
@@ -692,4 +720,6 @@ module.exports = {
   generateRazorpay,
   paymentVerification,
   OrderStatusChange,
+  changeStock,
+  getCancelProducts
 };

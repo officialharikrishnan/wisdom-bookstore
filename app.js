@@ -47,6 +47,6 @@ app.use((err, req, res) => {
   res.render('error');
 });
 
-app.listen(3000, () => {
+app.listen(8000, () => {
   console.log('server started');
 });

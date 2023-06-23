@@ -15,6 +15,7 @@
                     <th scope="col">Category</th>
                     <th scope="col">Date of publish</th>
                     <th scope="col">Price</th>
+                    <th scope="col">Qty</th>
                     <th scope="col">Action</th>
                   </tr>
                 </thead>
@@ -27,6 +28,7 @@
                     <td>{{this.category}}</td>
                     <td>{{this.dateofpublish}}</td>
                     <td>₹{{this.price}}</td>
+                    <td>{{this.qty}}</td>
                     <td class="button-set">
                         <a href="/admin/edit-book/{{this._id}}"><button class="btn btn-secondary">Edit</button></a><br>
                         <form action="/admin/delete-book/{{this.availability}}" method="post">

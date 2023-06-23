@@ -57,6 +57,7 @@ function userBlockManage(userId, status) {
 function addStock(product) {
   // eslint-disable-next-line
   product.price = parseInt(product.price);
+  product.qty = parseInt(product.qty);
   // eslint-disable-next-line
   product.availability = true;
   return new Promise(async (resolve, reject) => {
@@ -104,6 +105,7 @@ function doEditBook(bookdata, bookId) {
         dateofpublish: bookdata.dateofpublish,
         // eslint-disable-next-line radix
         price: parseInt(bookdata.price),
+        qty: parseInt(bookdata.qty),
       },
     });
     resolve(bookdata.category);
